@@ -1,0 +1,6 @@
+framework module Pods_AigensSdkCore_Tests {
+  umbrella header "Pods-AigensSdkCore_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

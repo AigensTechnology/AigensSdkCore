@@ -1,0 +1,16 @@
+PODS:
+  - AigensSdkCore (0.1.0)
+
+DEPENDENCIES:
+  - AigensSdkCore (from `../`)
+
+EXTERNAL SOURCES:
+  AigensSdkCore:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  AigensSdkCore: 7992c7c05c8af068b8c502e77a24296ae3abf78d
+
+PODFILE CHECKSUM: 584142e6eb922cee6c0718ca506e95c0c05157d4
+
+COCOAPODS: 1.11.2
