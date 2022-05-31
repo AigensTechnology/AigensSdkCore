@@ -8,4 +8,5 @@ CAP_PLUGIN(CorePlugin, "Core",
            CAP_PLUGIN_METHOD(finish, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(openBrowser, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(scan, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getMember, CAPPluginReturnPromise);
 )

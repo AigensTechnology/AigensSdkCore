@@ -68,14 +68,20 @@ public class CorePlugin: CAPPlugin, AVCaptureMetadataOutputObjectsDelegate {
         if(url == nil){
             return
         }
-
+        
+        let member = call.getObject("member")
+        
         DispatchQueue.main.async {
 
             let bridgeVC = WebContainerViewController()
 
             var options = [String: AnyObject]()
             options["url"] = url as AnyObject;
-
+            
+            if(member != nil){
+                options["member"] = member as AnyObject;
+            }
+            
             bridgeVC.options = options;
 
             bridgeVC.modalPresentationStyle = .fullScreen
