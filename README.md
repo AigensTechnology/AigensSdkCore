@@ -4,13 +4,13 @@ Aigens SDK enable native IOS/Android app to embed Aigens universal UX into the a
 
 ## Requirement
 
-IOS - Swift 4.2+
-Android - API Level 21+
+- IOS - Swift 4.2+
+- Android - API Level 21+
 
 ## IOS Installation
 
 
-aigens-sdk-core is available through [CocoaPods](https://cocoapods.org). To install
+AigensSdkCore is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 Initialize pod file, if not already enabled: 
@@ -19,8 +19,16 @@ Initialize pod file, if not already enabled:
 pod init
 ```
 
+Add AigensSdkCore into Podfile:
+
 ```ruby
-pod 'aigens-sdk-core'
+pod 'AigensSdkCore', '0.0.6'
+```
+
+Run pod install to download the dependency.
+
+```ruby
+pod install
 ```
 
 Add permissions required in "Info.plist" depending on features.
@@ -43,12 +51,22 @@ Add permissions required in "Info.plist" depending on features.
 Make sure jcenter() is part of reporsitory in the "settings.gradle" config.
 Newer Android projects might not automatically include this repository.
 
-```ruby
+```gradle
     repositories {
         google()
         mavenCentral()
         jcenter()
     }
+```
+
+Include the aigens-sdk-core dependency in "build.gradle".
+
+```gradle
+dependencies {
+
+    implementation 'com.aigens:aigens-sdk-core:0.0.6'
+
+}
 ```
 
 Include the actvity in "AndroidManifest.xml".
@@ -148,6 +166,15 @@ import com.aigens.sdk.WebContainerActivity;
     }
 ```
 
+## Member Data
+
+Optionally, pass a member object to automatucally login the customer.
+
+Member Data:
+- memberCode - The unique identifier of the member in CRM backend
+- source - A merchant brand name string to indicate which brand the member belongs to
+- sessionId - Member's current session key for CRM access
+
 
 ## Plugins
 
@@ -157,6 +184,8 @@ TBA
 ## Author
 
 Aigens Technology Limited
+
+Contact the corresponding project manager for additional support.
 
 ## License
 
