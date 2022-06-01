@@ -29,7 +29,7 @@ Aigens SDK for embedding web based UX.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '12.0'
-  spec.swift_version = '4.2'
+  s.swift_version = '4.2'
 
   s.source_files = 'AigensSdkCore/Classes/**/*'
   
