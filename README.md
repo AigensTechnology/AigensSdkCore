@@ -90,7 +90,7 @@ Add permissions required in "AndroidManifest.xml" depending on features.
 ```
 ## IOS Example
 
-Sample Project: TBA
+Sample Project: https://github.com/AigensTechnology/AigensSdkDemo
 
 The SDK open a URL for the web UI. The URL can be a predefined URL or scan from an QR code. Developer can use a scanner to obtain the URL and use the following code to open the UI within native app.
 
@@ -137,7 +137,8 @@ class ViewController: UIViewController {
 
 ## Android Example
 
-Member information can be passed as input to automatically login the current user.
+Sample Project: https://github.com/AigensTechnology/AigensSdkDemo
+
 
 ```java
 
