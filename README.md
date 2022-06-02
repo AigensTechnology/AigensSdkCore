@@ -5,7 +5,7 @@ Aigens SDK enable native IOS/Android app to embed Aigens universal UX into the a
 ## Requirement
 
 - IOS - Swift 4.2+
-- Android - API Level 21+
+- Android - API Level 22+
 
 ## IOS Installation
 
