@@ -19,8 +19,27 @@ import Capacitor
 
         self.becomeFirstResponder()
         loadWebViewCustom()
-        //loadWebView()
+        initView()
     }
+    
+    private func initView(){
+        
+        print("VC initView")
+        
+        let bundle = Bundle(for: WebContainerViewController.self)
+        //let containerView = WebContainerView()
+        let containerView = bundle.loadNibNamed("WebContainerView", owner: self, options: nil)?.first as! UIView
+
+        containerView.backgroundColor = UIColor.red
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        
+        
+        self.view = containerView
+        
+    }
+    
 
     //this method overwrite parent to return a desc with custom config.json
     override open func instanceDescriptor() -> InstanceDescriptor {
