@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AigensSdkCore
 
 class ViewController: UIViewController {
 
@@ -18,6 +19,33 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func openClicked(_ sender: Any) {
+        
+        var url = "https://scantest.aigens.com/scan?code=c3RvcmU9NTAwJnNwb3Q9MSZwYWdlPWJ5b2Q="
+        
+        
+        let bridgeVC = WebContainerViewController()
+        
+        var options = [String: Any]()
+        options["url"] = url
+        
+        let member:Dictionary<String, Any> = [
+        
+            "memberCode" : "<crmMemberId>",
+            "source" : "<merchant>",
+            "sessionId" : "<sessionId>"
+            
+        ]
+        
+        options["member"] = member
+        
+        bridgeVC.options = options;
+        
+        bridgeVC.modalPresentationStyle = .fullScreen
+        self.present(bridgeVC, animated: true);
+        
     }
 
 }

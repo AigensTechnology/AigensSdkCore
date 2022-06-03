@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		134DDBCC94431FBD4C6DE481A7BDB67C /* Pods-AigensSdkCore_Tests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 66F339FFB8E2F71C28640BD6B20E7466 /* Pods-AigensSdkCore_Tests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		23D66CAD8074FFEBB9D9F1FC7D884865 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		3A765F3CFD594B2B105857FD4F86022B /* ReplaceMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B80BBD2E9E40B8B01D2EDB438F3712 /* ReplaceMe.swift */; };
 		3F6BE1CBD650A6A82E03BA2B0BDD9377 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 		7367BB0F3FC1236C47AB185ECF8BE903 /* Pods-AigensSdkCore_Example-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 62E74792DFC8CD1DC156467F6044E19A /* Pods-AigensSdkCore_Example-dummy.m */; };
 		A33FD6C66447CFF3E44172DC0ACC1C5A /* AigensSdkCore-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 54D0A96EDCE19FC79AEBDA0E9AE2233A /* AigensSdkCore-dummy.m */; };
@@ -56,16 +55,15 @@
 		70A418F8255309439C8A3CECDE15C539 /* Pods-AigensSdkCore_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AigensSdkCore_Example.release.xcconfig"; sourceTree = "<group>"; };
 		73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS14.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		7CC136CBBCD44092DAA38C09A09D3903 /* Pods-AigensSdkCore_Example-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AigensSdkCore_Example-frameworks.sh"; sourceTree = "<group>"; };
-		852D55481F01127FC07E4B7BE150075D /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; path = LICENSE; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		852D55481F01127FC07E4B7BE150075D /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A28C2EB527C6D6593F7489B572A02AE5 /* Pods-AigensSdkCore_Tests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AigensSdkCore_Tests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		A5B80BBD2E9E40B8B01D2EDB438F3712 /* ReplaceMe.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ReplaceMe.swift; path = AigensSdkCore/Classes/ReplaceMe.swift; sourceTree = "<group>"; };
 		AEECEB5030ECA7A5D944E8CB8ACD5659 /* Pods-AigensSdkCore_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AigensSdkCore_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		BEBD5BEBDC88ABF31B58555D49E3B46F /* Pods-AigensSdkCore_Example */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-AigensSdkCore_Example"; path = Pods_AigensSdkCore_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C777F4C413415AD3978A8B8124DD18AF /* Pods-AigensSdkCore_Tests */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-AigensSdkCore_Tests"; path = Pods_AigensSdkCore_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C881AE8F2785A9B19EA4036D7D4ADF80 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; path = README.md; sourceTree = "<group>"; };
+		C881AE8F2785A9B19EA4036D7D4ADF80 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		D521ED72E3F1998A3729A0E80076DA7E /* AigensSdkCore.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = AigensSdkCore.debug.xcconfig; sourceTree = "<group>"; };
-		F5E105ED97B04E5708A68E87ADA78933 /* AigensSdkCore.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = AigensSdkCore.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		F5E105ED97B04E5708A68E87ADA78933 /* AigensSdkCore.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = AigensSdkCore.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FB33FAAFE9450CBB2EF34C53792A35E6 /* Pods-AigensSdkCore_Example.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AigensSdkCore_Example.modulemap"; sourceTree = "<group>"; };
 		FD56A684F56D85BAE5317D7CE78505BB /* Pods-AigensSdkCore_Example-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AigensSdkCore_Example-umbrella.h"; sourceTree = "<group>"; };
 		FF1A3576C264E3760991260712218E93 /* Pods-AigensSdkCore_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AigensSdkCore_Tests.modulemap"; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 		D7A4119F68A7A94E529B6D166DB801C3 /* AigensSdkCore */ = {
 			isa = PBXGroup;
 			children = (
-				A5B80BBD2E9E40B8B01D2EDB438F3712 /* ReplaceMe.swift */,
 				CC6FC840DE36DAF0440F04218BFA5E78 /* Pod */,
 				1A5B60284FF432F5A3CF9239F3395E79 /* Support Files */,
 			);
@@ -368,7 +365,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A33FD6C66447CFF3E44172DC0ACC1C5A /* AigensSdkCore-dummy.m in Sources */,
-				3A765F3CFD594B2B105857FD4F86022B /* ReplaceMe.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,8 +684,7 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
 				SYMROOT = "${SRCROOT}/../build";
 			};
