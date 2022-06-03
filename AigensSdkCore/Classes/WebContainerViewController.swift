@@ -26,10 +26,13 @@ import Capacitor
         
         print("VC initView")
         
-        let bundle = Bundle(for: WebContainerViewController.self)
+        //let bundle = Bundle(for: WebContainerViewController.self)
         //let containerView = WebContainerView()
-        let containerView = bundle.loadNibNamed("WebContainerView", owner: self, options: nil)?.first as! UIView
+        //let containerView = bundle.loadNibNamed("WebContainerView", owner: self, options: nil)?.first as! UIView
 
+        let containerView = WebContainerView()
+        
+        
         containerView.backgroundColor = UIColor.red
         containerView.translatesAutoresizingMaskIntoConstraints = false
         

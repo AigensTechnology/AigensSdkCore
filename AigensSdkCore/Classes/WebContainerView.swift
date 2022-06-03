@@ -9,16 +9,7 @@ import UIKit
 
 class WebContainerView: UIView {
 
-    @IBOutlet weak var infoArea: UIView!
-    @IBOutlet weak var errorArea: UIView!
-    @IBOutlet weak var webArea: UIView!
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
+
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -27,17 +18,28 @@ class WebContainerView: UIView {
     
     required init?(coder decoder: NSCoder){
         super.init(coder: decoder)
-        initRaw()
+        //initRaw()
     }
     
     private func initRaw(){
         print("WebContainerView init")
+        
+        let bundle = Bundle(for: WebContainerView.self)
+        let view = bundle.loadNibNamed("WebContainerView", owner: self, options: nil)?.first as? UIView
+        
+        view?.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        view?.frame = bounds
+        addSubview(view!)
+        
+        
     }
 
     @IBAction func reloadClicked(_ sender: Any) {
+        print("reloadClicked")
     }
     
     
     @IBAction func dismissClicked(_ sender: Any) {
+        print("dismissClicked")
     }
 }
