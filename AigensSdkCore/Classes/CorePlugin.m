@@ -5,7 +5,8 @@
 // each method the plugin supports using the CAP_PLUGIN_METHOD macro.
 CAP_PLUGIN(CorePlugin, "Core",
            CAP_PLUGIN_METHOD(echo, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(dismiss, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(finish, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(openBrowser, CAPPluginReturnPromise);
-           CAP_PLUGIN_METHOD(scan, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(getMember, CAPPluginReturnPromise);
 )
