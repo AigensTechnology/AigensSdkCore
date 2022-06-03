@@ -9,6 +9,9 @@ import UIKit
 
 class WebContainerView: UIView {
 
+    @IBOutlet weak var infoArea: UIView!
+    @IBOutlet weak var errorArea: UIView!
+    @IBOutlet weak var webArea: UIView!
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -31,4 +34,10 @@ class WebContainerView: UIView {
         print("WebContainerView init")
     }
 
+    @IBAction func reloadClicked(_ sender: Any) {
+    }
+    
+    
+    @IBAction func dismissClicked(_ sender: Any) {
+    }
 }
