@@ -10,6 +10,11 @@ import UIKit
 class WebContainerView: UIView {
 
 
+    @IBOutlet weak var webArea: UIView!
+    @IBOutlet weak var errorArea: UIView!
+    @IBOutlet weak var infoArea: UIView!
+    
+    public var vc: WebContainerViewController?
     
     override init(frame: CGRect){
         super.init(frame: frame)
@@ -36,10 +41,14 @@ class WebContainerView: UIView {
 
     @IBAction func reloadClicked(_ sender: Any) {
         print("reloadClicked")
+        
+        self.vc?.webView?.reload()
     }
     
     
     @IBAction func dismissClicked(_ sender: Any) {
         print("dismissClicked")
+        
+        self.vc?.dismiss(animated: true);
     }
 }

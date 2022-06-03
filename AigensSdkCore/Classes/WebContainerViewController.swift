@@ -36,10 +36,14 @@ import Capacitor
         containerView.backgroundColor = UIColor.red
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
+        let webview = self.webView
+        webview?.frame = containerView.webArea!.bounds
+        containerView.webArea.addSubview(self.webView!)
         
-        
+        containerView.vc = self
         
         self.view = containerView
+        
         
     }
     
