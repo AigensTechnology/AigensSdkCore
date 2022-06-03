@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "CorePlugin.h"
 
 FOUNDATION_EXPORT double AigensSdkCoreVersionNumber;
 FOUNDATION_EXPORT const unsigned char AigensSdkCoreVersionString[];

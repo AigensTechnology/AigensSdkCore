@@ -177,9 +177,37 @@ code_sign_if_enabled() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AigensSdkCore/AigensSdkCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Capacitor/Capacitor.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorApp/CapacitorApp.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorBrowser/CapacitorBrowser.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorCamera/CapacitorCamera.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorCordova/Cordova.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorDevice/CapacitorDevice.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorGeolocation/CapacitorGeolocation.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorKeyboard/CapacitorKeyboard.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorNetwork/CapacitorNetwork.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorPushNotifications/CapacitorPushNotifications.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorShare/CapacitorShare.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorStorage/CapacitorStorage.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorToast/CapacitorToast.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AigensSdkCore/AigensSdkCore.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/Capacitor/Capacitor.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorApp/CapacitorApp.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorBrowser/CapacitorBrowser.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorCamera/CapacitorCamera.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorCordova/Cordova.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorDevice/CapacitorDevice.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorGeolocation/CapacitorGeolocation.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorKeyboard/CapacitorKeyboard.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorNetwork/CapacitorNetwork.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorPushNotifications/CapacitorPushNotifications.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorShare/CapacitorShare.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorStorage/CapacitorStorage.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CapacitorToast/CapacitorToast.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/ReachabilitySwift/Reachability.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

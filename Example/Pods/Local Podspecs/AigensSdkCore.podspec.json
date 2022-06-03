@@ -1,6 +1,6 @@
 {
   "name": "AigensSdkCore",
-  "version": "0.0.4",
+  "version": "0.0.6",
   "summary": "AigensSdkCore",
   "description": "Aigens SDK for embedding web based UX.",
   "homepage": "https://github.com/AigensTechnology/AigensSdkCore",
@@ -13,11 +13,12 @@
   },
   "source": {
     "git": "https://github.com/AigensTechnology/AigensSdkCore.git",
-    "tag": "0.0.4"
+    "tag": "0.0.6"
   },
   "platforms": {
     "ios": "12.0"
   },
+  "swift_versions": "4.2",
   "source_files": "AigensSdkCore/Classes/**/*",
   "dependencies": {
     "Capacitor": [
@@ -57,5 +58,6 @@
       "~> 1.0.8"
     ]
   },
-  "resources": "AigensSdkCore/Assets/*.{json}"
+  "resources": "AigensSdkCore/Assets/*.{json}",
+  "swift_version": "4.2"
 }
