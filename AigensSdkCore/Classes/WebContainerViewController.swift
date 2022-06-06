@@ -32,7 +32,7 @@ import Capacitor
 
         let containerView = WebContainerView()
         
-        
+        //containerView.frame = self.view!.bounds
         containerView.backgroundColor = UIColor.red
         containerView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -41,6 +41,7 @@ import Capacitor
         containerView.webArea.addSubview(self.webView!)
         
         containerView.vc = self
+        
         
         self.view = containerView
         
