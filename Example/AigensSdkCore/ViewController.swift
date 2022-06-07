@@ -36,10 +36,10 @@ class ViewController: UIViewController {
             "memberCode" : "<crmMemberId>",
             "source" : "<merchant>",
             "sessionId" : "<sessionId>"
-            
         ]
         
         options["member"] = member
+        options["themeColor"] = "#144372"
         
         bridgeVC.options = options;
         

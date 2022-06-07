@@ -11,8 +11,13 @@ import Capacitor
 
 @objc open class WebContainerViewController: CAPBridgeViewController {
 
+    // {themeColor: "#xxxxxx"}
     public var options: Dictionary<String, Any>?
-
+    
+    let containerView = WebContainer.webContainer()
+    var webContainerView: WebContainer {
+            return containerView
+    }
     override open func viewDidLoad() {
 
         print("WebContainerViewController viewDidLoad")
@@ -20,6 +25,7 @@ import Capacitor
         self.becomeFirstResponder()
         loadWebViewCustom()
         initView()
+        
     }
     
     private func initView(){
@@ -29,25 +35,68 @@ import Capacitor
         //let bundle = Bundle(for: WebContainerViewController.self)
         //let containerView = WebContainerView()
         //let containerView = bundle.loadNibNamed("WebContainerView", owner: self, options: nil)?.first as! UIView
+        
+        self.view.addSubview(webContainerView)
+        webContainerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+        setupOptions(webContainerView)
+        
+//
+//
 
-        let containerView = WebContainerView()
-        
-        //containerView.frame = self.view!.bounds
-        containerView.backgroundColor = UIColor.red
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let webview = self.webView
-        webview?.frame = containerView.webArea!.bounds
-        containerView.webArea.addSubview(self.webView!)
-        
-        containerView.vc = self
-        
-        
-        self.view = containerView
-        
+
+//        let containerView = WebContainerView()
+//        self.view = containerView
+//
+//        //containerView.frame = self.view!.bounds
+//        containerView.backgroundColor = UIColor.red
+//        containerView.translatesAutoresizingMaskIntoConstraints = false
+//
+//        let webview = self.webView
+//        webview?.frame = containerView.webArea!.bounds
+//        webview?.frame.size = containerView.webArea.frame.size
+//        containerView.webArea.addSubview(self.webView!)
+//
+//        containerView.vc = self
         
     }
     
+    open override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        webContainerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
+    }
+    
+    private func setupOptions(_ view: WebContainer) {
+        if let theme = self.options?["themeColor"] as? String, let color = UIColor.getHex(hex: theme) {
+            self.view.backgroundColor = color
+            self.webView?.backgroundColor = color
+            self.webView?.scrollView.backgroundColor = color
+            view.setTheme(theme)
+        }
+    }
+    
+    public final func loadWebViewCustom() {
+
+        //let bridge = self.bridge
+        //let plugins = self.bridge["plugins"]
+
+
+        let urlString = self.options?["url"] as? String;
+
+        if(urlString == nil){
+            return;
+        }
+
+        let url = URL(string: urlString!)
+        
+        let member = self.options?["member"] as? Dictionary<String, Any>
+        
+        CorePlugin.member = member
+        
+        //bridge.webViewDelegationHandler.willLoadWebview(webView)
+        _ = webView?.load(URLRequest(url: url!))
+        webView?.navigationDelegate = self
+
+    }
 
     //this method overwrite parent to return a desc with custom config.json
     override open func instanceDescriptor() -> InstanceDescriptor {
@@ -75,29 +124,132 @@ import Capacitor
 
         return descriptor
     }
+    
+    deinit {
+        print("WebContainerViewController deinit")
+    }
 
-    public final func loadWebViewCustom() {
+    
+}
 
-        //let bridge = self.bridge
-        //let plugins = self.bridge["plugins"]
+extension WebContainerViewController: WKNavigationDelegate {
+    // The force unwrap is part of the protocol declaration, so we should keep it.
+    // swiftlint:disable:next implicitly_unwrapped_optional
+    public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        // Reset the bridge on each navigation
+//        self.bridge?.reset()
+    }
+    
+    public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
+        webContainerView.showError(false)
+        webContainerView.showLoading(true)
+    }
+    
+    public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        // post a notification for any listeners
+        NotificationCenter.default.post(name: .capacitorDecidePolicyForNavigationAction, object: navigationAction)
 
-
-        let urlString = self.options?["url"] as? String;
-
-        if(urlString == nil){
-            return;
+        // sanity check, these shouldn't ever be nil in practice
+        guard let bridge = bridge, let navURL = navigationAction.request.url else {
+            decisionHandler(.allow)
+            return
         }
 
-        let url = URL(string: urlString!)
-        
-        let member = self.options?["member"] as? Dictionary<String, Any>
-        
-        CorePlugin.member = member
-        
-        
-        //bridge.webViewDelegationHandler.willLoadWebview(webView)
-        _ = webView?.load(URLRequest(url: url!))
+        // first, give plugins the chance to handle the decision
+//        for pluginObject in bridge.plugins {
+//            let plugin = pluginObject.value
+//            let selector = NSSelectorFromString("shouldOverrideLoad:")
+//            if plugin.responds(to: selector) {
+//                let shouldOverrideLoad = plugin.shouldOverrideLoad(navigationAction)
+//                if shouldOverrideLoad != nil {
+//                    if shouldOverrideLoad == true {
+//                        decisionHandler(.cancel)
+//                        return
+//                    } else if shouldOverrideLoad == false {
+//                        decisionHandler(.allow)
+//                        return
+//                    }
+//                }
+//            }
+//        }
 
+        // next, check if this is covered by the allowedNavigation configuration
+        if let host = navURL.host, bridge.config.shouldAllowNavigation(to: host) {
+            decisionHandler(.allow)
+            return
+        }
 
+        // otherwise, is this a new window or a main frame navigation but to an outside source
+        let toplevelNavigation = (navigationAction.targetFrame == nil || navigationAction.targetFrame?.isMainFrame == true)
+        if navURL.absoluteString.contains(bridge.config.serverURL.absoluteString) == false, toplevelNavigation {
+            // disallow and let the system handle it
+            if UIApplication.shared.applicationState == .active {
+                UIApplication.shared.open(navURL, options: [:], completionHandler: nil)
+            }
+            decisionHandler(.cancel)
+            return
+        }
+
+        // fallthrough to allowing it
+        decisionHandler(.allow)
+    }
+    
+    
+    // The force unwrap is part of the protocol declaration, so we should keep it.
+    // swiftlint:disable:next implicitly_unwrapped_optional
+    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+//        if case .initialLoad(let isOpaque) = webViewLoadingState {
+//            webView.isOpaque = isOpaque
+//            webViewLoadingState = .subsequentLoad
+//        }
+        webContainerView.showLoading(false)
+        webContainerView.showError(false)
+        CAPLog.print("⚡️  WebView loaded")
+    }
+    
+    // The force unwrap is part of the protocol declaration, so we should keep it.
+    // swiftlint:disable:next implicitly_unwrapped_optional
+    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+//        if case .initialLoad(let isOpaque) = webViewLoadingState {
+//            webView.isOpaque = isOpaque
+//            webViewLoadingState = .subsequentLoad
+//        }
+        webContainerView.showLoading(false)
+        
+        webContainerView.showError(true, error.localizedDescription)
+        CAPLog.print("⚡️  WebView failed to load")
+        CAPLog.print("⚡️  Error: " + error.localizedDescription)
+    }
+    
+    // The force unwrap is part of the protocol declaration, so we should keep it.
+    // swiftlint:disable:next implicitly_unwrapped_optional
+    public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        webContainerView.showLoading(false)
+        // cancel
+        let e = error as NSError
+        if (e.code == NSURLErrorCancelled || e.code == -999) {
+            webContainerView.showError(false)
+        }
+        CAPLog.print("⚡️  WebView failed provisional navigation")
+        CAPLog.print("⚡️  Error: " + error.localizedDescription)
+        webContainerView.showError(true, error.localizedDescription)
+    }
+    
+    public func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+        webView.reload()
+    }
+}
+
+extension UIColor {
+    static func getHex(hex: String, _ alpha: CGFloat = 1.0) -> UIColor? {
+        guard !hex.isEmpty && hex.hasPrefix("#") else { return nil }
+        var rgbValue: UInt32 = 0
+        let scanner = Scanner(string: hex)
+        scanner.scanLocation = 1
+        guard scanner.scanHexInt32(&rgbValue) else { return nil }
+        return UIColor(red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
+            green: CGFloat((rgbValue & 0xFF00) >> 8) / 255.0,
+            blue: CGFloat((rgbValue & 0xFF)) / 255.0,
+            alpha: alpha);
     }
 }
