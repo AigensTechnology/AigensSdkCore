@@ -22,7 +22,7 @@ pod init
 Add AigensSdkCore into Podfile:
 
 ```ruby
-pod 'AigensSdkCore', '0.0.6'
+pod 'AigensSdkCore', '0.0.8'
 ```
 
 Run pod install to download the dependency.
