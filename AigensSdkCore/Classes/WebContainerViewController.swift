@@ -39,6 +39,7 @@ import Capacitor
         self.view.addSubview(webContainerView)
         webContainerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         setupOptions(webContainerView)
+        containerView.vc = self
         
 //
 //
@@ -56,7 +57,7 @@ import Capacitor
 //        webview?.frame.size = containerView.webArea.frame.size
 //        containerView.webArea.addSubview(self.webView!)
 //
-//        containerView.vc = self
+
         
     }
     
