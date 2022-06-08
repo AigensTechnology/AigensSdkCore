@@ -1,6 +1,6 @@
 {
   "name": "AigensSdkCore",
-  "version": "0.0.6",
+  "version": "0.0.8",
   "summary": "AigensSdkCore",
   "description": "Aigens SDK for embedding web based UX.",
   "homepage": "https://github.com/AigensTechnology/AigensSdkCore",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "https://github.com/AigensTechnology/AigensSdkCore.git",
-    "tag": "0.0.6"
+    "tag": "0.0.8"
   },
   "platforms": {
     "ios": "12.0"

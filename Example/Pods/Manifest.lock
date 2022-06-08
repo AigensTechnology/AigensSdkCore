@@ -1,5 +1,5 @@
 PODS:
-  - AigensSdkCore (0.0.6):
+  - AigensSdkCore (0.0.8):
     - Capacitor (~> 3.5.1)
     - CapacitorApp (~> 1.1.1)
     - CapacitorBrowser (~> 1.0.7)
@@ -65,7 +65,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AigensSdkCore: c6fc383e57157a0fc1b86f40333eec3e14a927e1
+  AigensSdkCore: 5e43cf05806ddbcc0114aac19ecbd1afe161895b
   Capacitor: c1b2bffd379c546d3aa1cec58a388592353a509c
   CapacitorApp: 6539a37b671391147dd0180e1483c051077254bf
   CapacitorBrowser: b4ee622a4003e0360b2cbcbd17550b3b1f56203e
