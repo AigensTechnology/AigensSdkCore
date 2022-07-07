@@ -119,7 +119,8 @@ class ViewController: UIViewController {
         
             "memberCode" : "<crmMemberId>",
             "source" : "<merchant>",
-            "sessionId" : "<sessionId>"
+            "sessionId" : "<sessionId>",
+            "pushId" : "<googlePushToken>"
             
         ]
         
@@ -159,6 +160,7 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("memberCode", "<crmMemberId>");
         member.put("source", "<merchant>");
         member.put("sessionId", "<sessionId>");
+        member.put("pushId", "<googlePushToken>");
 
         intent.putExtra("member", (Serializable) member);
 
@@ -175,6 +177,7 @@ Member Data:
 - memberCode - The unique identifier of the member in CRM backend
 - source - A merchant brand name string to indicate which brand the member belongs to
 - sessionId - Member's current session key for CRM access
+- pushId - Provide the push token registered with Google's push service. You can set pushId without other member detail for anonymous user.
 
 
 ## Plugins
