@@ -23,6 +23,9 @@ Add AigensSdkCore into Podfile:
 
 ```ruby
 pod 'AigensSdkCore', '0.0.8'
+
+# if have applepay
+pod 'AigensSdkApplepay', '0.0.8'
 ```
 
 Run pod install to download the dependency.
@@ -119,7 +122,8 @@ class ViewController: UIViewController {
         
             "memberCode" : "<crmMemberId>",
             "source" : "<merchant>",
-            "sessionId" : "<sessionId>"
+            "sessionId" : "<sessionId>",
+            "pushId": "applePushToken"
             
         ]
         
@@ -159,6 +163,7 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("memberCode", "<crmMemberId>");
         member.put("source", "<merchant>");
         member.put("sessionId", "<sessionId>");
+        member.put("pushId", "<googlePushToken>");
 
         intent.putExtra("member", (Serializable) member);
 
