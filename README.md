@@ -23,6 +23,9 @@ Add AigensSdkCore into Podfile:
 
 ```ruby
 pod 'AigensSdkCore', '0.0.8'
+
+# If have applepay
+pod 'AigensSdkApplepay', '0.0.8'
 ```
 
 Run pod install to download the dependency.
@@ -64,8 +67,10 @@ Include the aigens-sdk-core dependency in "build.gradle".
 ```gradle
 dependencies {
 
-    implementation 'com.aigens:aigens-sdk-core:0.0.6'
+    implementation 'com.aigens:aigens-sdk-core:0.0.8'
 
+    # If have googlepay
+    implementation 'com.aigens:aigens-sdk-googlepay:0.0.1'
 }
 ```
 
@@ -120,7 +125,7 @@ class ViewController: UIViewController {
             "memberCode" : "<crmMemberId>",
             "source" : "<merchant>",
             "sessionId" : "<sessionId>",
-            "pushId" : "<googlePushToken>"
+            "pushId": "<applePushToken>"
             
         ]
 
@@ -172,12 +177,20 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("sessionId", "<sessionId>");
         member.put("pushId", "<googlePushToken>");
 
+
         Map<String, String> deeplink = new HashMap<String, String>();
         member.put("addItemId", "<itemId>");
         member.put("addDiscountCode", "<discountCode>");
         member.put("addOfferId", "<offerId>");
 
         intent.putExtra("member", (Serializable) member);
+        intent.putExtra("deeplink", (Serializable) deeplink);
+
+        // If hava googlepay, Please add
+        String[] extraClasspaths = new String[] {
+            "com.aigens.googlepay.GooglePayPlugin",
+        };
+        intent.putExtra("extraClasspaths", extraClasspaths);
 
         activity.startActivity(intent);
 
