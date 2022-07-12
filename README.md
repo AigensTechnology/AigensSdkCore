@@ -123,13 +123,23 @@ class ViewController: UIViewController {
             "pushId" : "<googlePushToken>"
             
         ]
+
+
+        let deeplink:Dictionary<String, Any> = [
+        
+            "addItemId" : "<itemId>",
+            "addDiscountCode" : "<discountCode>",
+            "addOfferId" : "<offerId>"
+            
+        ]
         
         options["member"] = member
+        options["deeplink"] = deeplink
         
-        bridgeVC.options = options;
+        bridgeVC.options = options
         
         bridgeVC.modalPresentationStyle = .fullScreen
-        self.present(bridgeVC, animated: true);
+        self.present(bridgeVC, animated: true)
         
     }
     
@@ -162,6 +172,11 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("sessionId", "<sessionId>");
         member.put("pushId", "<googlePushToken>");
 
+        Map<String, String> deeplink = new HashMap<String, String>();
+        member.put("addItemId", "<itemId>");
+        member.put("addDiscountCode", "<discountCode>");
+        member.put("addOfferId", "<offerId>");
+
         intent.putExtra("member", (Serializable) member);
 
         activity.startActivity(intent);
@@ -179,6 +194,10 @@ Member Data:
 - sessionId - Member's current session key for CRM access
 - pushId - Provide the push token registered with Google's push service. You can set pushId without other member detail for anonymous user.
 
+Deeplink Data:
+- addItemId - Item to be added when user navigate to order page.
+- addDiscountCode - Discount code to be added automatically.
+- addOfferId - Apply the offer that belong to the user when user checkout.
 
 ## Plugins
 
