@@ -14,6 +14,9 @@ import Capacitor
     // {themeColor: "#xxxxxx"}
     public var options: Dictionary<String, Any>?
     
+    var externalProtocols: [String] = [
+        "octopus://", "alipay://", "alipays://", "alipayhk://", "https://itunes.apple.com", "tel:", "mailto:", "itms-apps://itunes.apple.com", "https://apps.apple.com", "payme://"
+    ]
     let containerView = WebContainer.webContainer()
     var webContainerView: WebContainer {
             return containerView
@@ -73,6 +76,10 @@ import Capacitor
             self.webView?.scrollView.backgroundColor = color
             view.setTheme(theme)
         }
+        if let externalProtocols = options?["externalProtocols"] as? [String] {
+            self.externalProtocols.append(contentsOf: externalProtocols)
+        }
+        
     }
     
     public final func loadWebViewCustom() {
@@ -155,6 +162,27 @@ extension WebContainerViewController: WKNavigationDelegate {
             decisionHandler(.allow)
             return
         }
+        
+        var isCanOpen = false
+        if externalProtocols.count > 0 {
+            externalProtocols.forEach { (url) in
+                if (navURL.absoluteString.starts(with: url)) {
+                    isCanOpen = UIApplication.shared.canOpenURL(navURL) ;
+                    return;
+                }
+            }
+        }
+        
+        if isCanOpen {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(navURL, options: [:], completionHandler: nil);
+            } else {
+                UIApplication.shared.openURL(navURL)
+            }
+            decisionHandler(.cancel)
+            return;
+        }
+        
 
         // first, give plugins the chance to handle the decision
 //        for pluginObject in bridge.plugins {

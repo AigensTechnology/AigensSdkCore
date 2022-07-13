@@ -78,6 +78,7 @@ public class CorePlugin: CAPPlugin {
         }
         
         let member = call.getObject("member")
+        let externalProtocols = call.getArray("externalProtocols")
         
         DispatchQueue.main.async {
 
@@ -88,6 +89,9 @@ public class CorePlugin: CAPPlugin {
             
             if(member != nil){
                 options["member"] = member as AnyObject;
+            }
+            if (externalProtocols != nil) {
+                options["externalProtocols"] = externalProtocols as AnyObject
             }
             
             bridgeVC.options = options;
@@ -104,6 +108,39 @@ public class CorePlugin: CAPPlugin {
         ])
     }
 
+    @objc func isInstalledApp(_ call: CAPPluginCall) {
+        if let url = call.getString("key"), let URL_ = URL(string: url) {
+            let can = UIApplication.shared.canOpenURL(URL_)
+            call.resolve([
+                "install": can
+            ])
+        }else {
+            call.reject("key is missing or is invaild key")
+            return
+        }
+    }
+    
+    @objc func openExternalUrl(_ call: CAPPluginCall) {
+        if let url = call.getString("url"), let URL_ = URL(string: url) {
+            let can = UIApplication.shared.canOpenURL(URL_)
+            if !can {
+                call.reject("cannot open the url:\(url)")
+                return;
+            }
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(URL_, options: [:], completionHandler: nil)
+            } else {
+                UIApplication.shared.openURL(URL_)
+            }
+            call.resolve([
+                "open": true
+            ])
+            
+        }else {
+            call.reject("url is missing or is invaild url")
+            return
+        }
+    }
 
 
 
