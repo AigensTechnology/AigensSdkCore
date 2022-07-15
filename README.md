@@ -67,10 +67,10 @@ Include the aigens-sdk-core dependency in "build.gradle".
 ```gradle
 dependencies {
 
-    implementation 'com.aigens:aigens-sdk-core:0.0.9'
+    implementation 'com.aigens:aigens-sdk-core:0.0.10'
 
     # If have googlepay
-    implementation 'com.aigens:aigens-sdk-googlepay:0.0.1'
+    implementation 'com.aigens:aigens-sdk-googlepay:0.0.2'
 }
 ```
 
@@ -186,6 +186,10 @@ import com.aigens.sdk.WebContainerActivity;
         intent.putExtra("member", (Serializable) member);
         intent.putExtra("deeplink", (Serializable) deeplink);
 
+        
+        intent.putExtra("ENVIRONMENT_PRODUCTION", true);
+        // intent.putExtra("ENVIRONMENT_PRODUCTION", false);
+
         activity.startActivity(intent);
 
     }
@@ -205,6 +209,9 @@ Deeplink Data:
 - addItemId - Item to be added when user navigate to order page.
 - addDiscountCode - Discount code to be added automatically.
 - addOfferId - Apply the offer that belong to the user when user checkout.
+
+ENVIRONMENT_PRODUCTION
+- default: true, set environment for google pay
 
 ## Plugins
 
