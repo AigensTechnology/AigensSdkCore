@@ -99,6 +99,8 @@ import Capacitor
         let member = self.options?["member"] as? Dictionary<String, Any>
         
         CorePlugin.member = member
+        let deeplink = self.options?["deeplink"] as? Dictionary<String, Any>
+        CorePlugin.deeplink = deeplink
         
         //bridge.webViewDelegationHandler.willLoadWebview(webView)
         _ = webView?.load(URLRequest(url: url!))

@@ -8,24 +8,25 @@ import UIKit
  */
 @objc(CorePlugin)
 public class CorePlugin: CAPPlugin {
-    
+
     private let implementation = Core()
     public static var member: Dictionary<String, Any>?
-    
+    public static var deeplink: Dictionary<String, Any>?
+
     @objc func echo(_ call: CAPPluginCall) {
 
         print("CorePlugin echo")
-        
+
         let value = call.getString("value") ?? ""
         call.resolve([
             "value": implementation.echo(value)
         ])
-        
-       
+
+
     }
-    
+
     @objc func dismiss(_ call: CAPPluginCall) {
-        
+
         print("CorePlugin dismiss")
 
         DispatchQueue.main.async {
@@ -38,21 +39,27 @@ public class CorePlugin: CAPPlugin {
             "success": true
             //"value": implementation.echo(value)
         ])
-        
-       
+
+
     }
 
     @objc func getMember(_ call: CAPPluginCall) {
 
         call.resolve([
-            "member": CorePlugin.member!
+            "member": CorePlugin.member ?? nil
+        ])
+    }
+    @objc func getDeeplink(_ call: CAPPluginCall) {
+
+        call.resolve([
+            "deeplink": CorePlugin.deeplink ?? nil
         ])
     }
 
     @objc func finish(_ call: CAPPluginCall) {
 
         print("CorePlugin finish")
-        
+
         DispatchQueue.main.async {
             self.bridge?.viewController?.dismiss(animated: true);
         }
@@ -69,31 +76,35 @@ public class CorePlugin: CAPPlugin {
     @objc func openBrowser(_ call: CAPPluginCall) {
 
         print("CorePlugin openBrowser")
-        
+
         let url = call.getString("url")
 
 
         if(url == nil){
             return
         }
-        
+
         let member = call.getObject("member")
+        let deeplink = call.getObject("deeplink")
         let externalProtocols = call.getArray("externalProtocols")
-        
+
         DispatchQueue.main.async {
 
             let bridgeVC = WebContainerViewController()
 
             var options = [String: AnyObject]()
             options["url"] = url as AnyObject;
-            
+
             if(member != nil){
                 options["member"] = member as AnyObject;
+            }
+            if(deeplink != nil){
+                options["deeplink"] = deeplink as AnyObject;
             }
             if (externalProtocols != nil) {
                 options["externalProtocols"] = externalProtocols as AnyObject
             }
-            
+
             bridgeVC.options = options;
 
             bridgeVC.modalPresentationStyle = .fullScreen
@@ -119,7 +130,12 @@ public class CorePlugin: CAPPlugin {
             return
         }
     }
-    
+    @objc func getIsProductionEnvironment(_ call: CAPPluginCall) {
+        call.resolve([
+            "isPrd": true
+        ])
+    }
+
     @objc func openExternalUrl(_ call: CAPPluginCall) {
         if let url = call.getString("url"), let URL_ = URL(string: url) {
             let can = UIApplication.shared.canOpenURL(URL_)
@@ -135,7 +151,7 @@ public class CorePlugin: CAPPlugin {
             call.resolve([
                 "open": true
             ])
-            
+
         }else {
             call.reject("url is missing or is invaild url")
             return

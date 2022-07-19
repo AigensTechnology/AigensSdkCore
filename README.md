@@ -22,7 +22,7 @@ pod init
 Add AigensSdkCore into Podfile:
 
 ```ruby
-pod 'AigensSdkCore', '0.0.9'
+pod 'AigensSdkCore', '0.0.10'
 
 # If have applepay
 pod 'AigensSdkApplepay', '0.0.8'
@@ -67,10 +67,10 @@ Include the aigens-sdk-core dependency in "build.gradle".
 ```gradle
 dependencies {
 
-    implementation 'com.aigens:aigens-sdk-core:0.0.10'
+    implementation 'com.aigens:aigens-sdk-core:0.0.11'
 
     # If have googlepay
-    implementation 'com.aigens:aigens-sdk-googlepay:0.0.2'
+    implementation 'com.aigens:aigens-sdk-googlepay:0.0.4'
 }
 ```
 
@@ -125,7 +125,8 @@ class ViewController: UIViewController {
             "memberCode" : "<crmMemberId>",
             "source" : "<merchant>",
             "sessionId" : "<sessionId>",
-            "pushId": "<applePushToken>"
+            "pushId": "<applePushToken>",
+            "deviceId": "<deviceId>"
             
         ]
 
@@ -176,6 +177,7 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("source", "<merchant>");
         member.put("sessionId", "<sessionId>");
         member.put("pushId", "<googlePushToken>");
+        member.put("deviceId", "<deviceId>");
 
 
         Map<String, String> deeplink = new HashMap<String, String>();
@@ -204,6 +206,7 @@ Member Data:
 - source - A merchant brand name string to indicate which brand the member belongs to
 - sessionId - Member's current session key for CRM access
 - pushId - Provide the push token registered with Google's push service. You can set pushId without other member detail for anonymous user.
+- deviceId - Each device is unique, each device is the same value.
 
 Deeplink Data:
 - addItemId - Item to be added when user navigate to order page.
