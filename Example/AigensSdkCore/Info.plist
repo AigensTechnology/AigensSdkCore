@@ -34,5 +34,16 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>weixinULAPI</string>
+		<string>weixin</string>
+		<string>octopus</string>
+		<string>wechat</string>
+		<string>hsbcpaymepay</string>
+		<string>alipay</string>
+		<string>alipays</string>
+		<string>alipayhk</string>
+	</array>
 </dict>
 </plist>

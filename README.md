@@ -47,6 +47,25 @@ Add permissions required in "Info.plist" depending on features.
  - NSPhotoLibraryAddUsageDescription (Privacy - Photo Library Additions Usage Description)
  - NSPhotoLibraryUsageDescription (Privacy - Photo Library Usage Description)
 
+
+ # add schemes in info.plist
+
+<key>LSApplicationQueriesSchemes</key>
+<array>
+	<string>weixinULAPI</string>
+	<string>weixin</string>
+	<string>octopus</string>
+	<string>wechat</string>
+	<string>hsbcpaymepay</string>
+	<string>alipay</string>
+	<string>alipays</string>
+	<string>alipayhk</string>
+</array>
+
+
+![Image](ios_schemes.png)
+
+
 ```
 
 ## Android Installation
