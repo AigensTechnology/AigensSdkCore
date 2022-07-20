@@ -63,7 +63,7 @@ Add permissions required in "Info.plist" depending on features.
 </array>
 
 
-![Image](https://github.com/AigensTechnology/AigensSdkCore/blob/main/ios_schemes.png)
+![image](https://github.com/AigensTechnology/AigensSdkCore/blob/main/ios_schemes.png)
 
 
 ```
