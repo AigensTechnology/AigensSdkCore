@@ -22,7 +22,7 @@ pod init
 Add AigensSdkCore into Podfile:
 
 ```ruby
-pod 'AigensSdkCore', '0.0.11'
+pod 'AigensSdkCore', '0.0.12'
 
 # If have applepay
 pod 'AigensSdkApplepay', '0.0.8'
@@ -67,7 +67,7 @@ Include the aigens-sdk-core dependency in "build.gradle".
 ```gradle
 dependencies {
 
-    implementation 'com.aigens:aigens-sdk-core:0.0.11'
+    implementation 'com.aigens:aigens-sdk-core:0.0.13'
 
     # If have googlepay
     implementation 'com.aigens:aigens-sdk-googlepay:0.0.4'
@@ -85,6 +85,7 @@ Include the actvity in "AndroidManifest.xml".
 Add permissions required in "AndroidManifest.xml" depending on features. 
 
 ```xml
+<manifest>
     <application>
         ......
         
@@ -93,6 +94,12 @@ Add permissions required in "AndroidManifest.xml" depending on features.
             android:value="true" />
     </application>
 
+    <queries>
+        <package android:name="com.tencent.mm" />   // for wechat
+        <package android:name="com.octopuscards.nfc_reader" />   // for octopus
+        <package android:name="hk.com.hsbc.paymefromhsbc" />   // for payme
+    </queries>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -100,6 +107,8 @@ Add permissions required in "AndroidManifest.xml" depending on features.
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
+ </manifest>
 ```
 ## IOS Example
 

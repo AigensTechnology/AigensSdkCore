@@ -15,7 +15,7 @@ import Capacitor
     public var options: Dictionary<String, Any>?
     
     var externalProtocols: [String] = [
-        "octopus://", "alipay://", "alipays://", "alipayhk://", "https://itunes.apple.com", "tel:", "mailto:", "itms-apps://itunes.apple.com", "https://apps.apple.com", "payme://", "weixin://"
+        "octopus://", "alipay://", "alipays://", "alipayhk://", "https://itunes.apple.com", "tel:", "mailto:", "itms-apps://itunes.apple.com", "https://apps.apple.com", "payme://", "weixin://", "hsbcpaymepay://"
     ]
     let containerView = WebContainer.webContainer()
     var webContainerView: WebContainer {
