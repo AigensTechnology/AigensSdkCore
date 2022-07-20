@@ -85,6 +85,14 @@ Include the actvity in "AndroidManifest.xml".
 Add permissions required in "AndroidManifest.xml" depending on features. 
 
 ```xml
+    <application>
+        ......
+        
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
+    </application>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
