@@ -22,7 +22,7 @@ pod init
 Add AigensSdkCore into Podfile:
 
 ```ruby
-pod 'AigensSdkCore', '0.0.10'
+pod 'AigensSdkCore', '0.0.11'
 
 # If have applepay
 pod 'AigensSdkApplepay', '0.0.8'
