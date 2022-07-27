@@ -41,13 +41,14 @@ class ViewController: UIViewController {
         var options = [String: Any]()
         options["url"] = url
         
+//        yoshinoyaapp.aigens.com
         let member:Dictionary<String, Any> = [
         
             "memberCode" : "<crmMemberId>",
             "source" : "<merchant>",
             "sessionId" : "sessionId",
             "deviceId":"peijue-test-iphone",
-            "universalLink": "https://yoshinoyaapp.aigens.com/yoshinoyaapp/wechatpay/*",
+            "universalLink": "https://xxxxx.xx.xx/yoshinoyaapp/wechatpay/*",
             "appleMerchantId": ""
         ]
         
