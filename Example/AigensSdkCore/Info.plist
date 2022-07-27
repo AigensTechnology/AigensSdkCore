@@ -20,6 +20,17 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>weixinULAPI</string>
+		<string>weixin</string>
+		<string>octopus</string>
+		<string>wechat</string>
+		<string>hsbcpaymepay</string>
+		<string>alipay</string>
+		<string>alipays</string>
+		<string>alipayhk</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -33,17 +44,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>weixinULAPI</string>
-		<string>weixin</string>
-		<string>octopus</string>
-		<string>wechat</string>
-		<string>hsbcpaymepay</string>
-		<string>alipay</string>
-		<string>alipays</string>
-		<string>alipayhk</string>
 	</array>
 </dict>
 </plist>

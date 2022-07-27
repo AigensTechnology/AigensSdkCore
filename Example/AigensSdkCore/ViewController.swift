@@ -24,6 +24,16 @@ class ViewController: UIViewController {
     @IBAction func openClicked(_ sender: Any) {
         
         var url = "https://scantest.aigens.com/scan?code=c3RvcmU9NTAwJnNwb3Q9MSZwYWdlPWJ5b2Q="
+        
+        url = "https://fairwood-uat-v4.order.place/order/store/600002/mode/catering?nocache=true"
+//        url = "https://fairwood-uat-v4.order.place/order/brand/600001/order-history"
+        
+//        url = "https://test-sdk-1234.firebaseapp.com/crm/brand/600001/home?nocache=true&mode=takeaway&storeId=600002&back=false&t=3"
+        
+        
+//        url = "https://test-sdk-1234.firebaseapp.com/order/store/60288/mode/takeaway?nocache=true"
+        
+//        url = "https://fairwood-uat-v4.order.place/crm/brand/600001/home?nocache=true&mode=takeaway&storeId=600002&back=false"
         // url = "https://fdsfefs/fsef"
         
         let bridgeVC = WebContainerViewController()
@@ -35,11 +45,23 @@ class ViewController: UIViewController {
         
             "memberCode" : "<crmMemberId>",
             "source" : "<merchant>",
-            "sessionId" : "<sessionId>"
+            "sessionId" : "sessionId",
+            "deviceId":"peijue-test-iphone",
+            "universalLink": "https://yoshinoyaapp.aigens.com/yoshinoyaapp/wechatpay/*",
+            "appleMerchantId": ""
+        ]
+        
+        let deeplink:Dictionary<String, Any> = [
+            
+            "addItemId" : "<itemId>",
+            "addDiscountCode" : "<discountCode>",
+            "addOfferId" : "<offerId>"
+            
         ]
         
         options["member"] = member
-        options["themeColor"] = "#144372"
+        options["deeplink"] = deeplink
+//        options["themeColor"] = "#144372"
         
         bridgeVC.options = options;
         

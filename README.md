@@ -22,7 +22,7 @@ pod init
 Add AigensSdkCore into Podfile:
 
 ```ruby
-pod 'AigensSdkCore', '0.0.12'
+pod 'AigensSdkCore', '0.0.13'
 
 # If have applepay
 pod 'AigensSdkApplepay', '0.0.8'
@@ -162,7 +162,9 @@ class ViewController: UIViewController {
             "source" : "<merchant>",
             "sessionId" : "<sessionId>",
             "pushId": "<applePushToken>",
-            "deviceId": "<deviceId>"
+            "deviceId": "<deviceId>",
+            "universalLink": "<start with https://xxxx>",
+            "appleMerchantId": "<YourAppleMerchantId>"
             
         ]
 
@@ -243,6 +245,9 @@ Member Data:
 - sessionId - Member's current session key for CRM access
 - pushId - Provide the push token registered with Google's push service. You can set pushId without other member detail for anonymous user.
 - deviceId - Each device is unique, each device is the same value.
+- universalLink - Use it to return to the app
+  - [document](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html#//apple_ref/doc/uid/TP40016308-CH12-SW1)
+- appleMerchantId - If you has applepay need to set.
 
 Deeplink Data:
 - addItemId - Item to be added when user navigate to order page.

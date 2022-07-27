@@ -1,5 +1,7 @@
 PODS:
-  - AigensSdkCore (0.0.8):
+  - AigensSdkApplepay (0.0.8):
+    - Capacitor (~> 3.5.1)
+  - AigensSdkCore (0.0.12):
     - Capacitor (~> 3.5.1)
     - CapacitorApp (~> 1.1.1)
     - CapacitorBrowser (~> 1.0.7)
@@ -41,10 +43,12 @@ PODS:
   - ReachabilitySwift (5.0.0)
 
 DEPENDENCIES:
+  - AigensSdkApplepay (= 0.0.8)
   - AigensSdkCore (from `../`)
 
 SPEC REPOS:
   trunk:
+    - AigensSdkApplepay
     - Capacitor
     - CapacitorApp
     - CapacitorBrowser
@@ -65,7 +69,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  AigensSdkCore: 5e43cf05806ddbcc0114aac19ecbd1afe161895b
+  AigensSdkApplepay: 925ff985e7c891c75b36a59a684b90a6164a80dd
+  AigensSdkCore: 101b32d83a6fa3e4155ba147799154a389aac349
   Capacitor: c1b2bffd379c546d3aa1cec58a388592353a509c
   CapacitorApp: 6539a37b671391147dd0180e1483c051077254bf
   CapacitorBrowser: b4ee622a4003e0360b2cbcbd17550b3b1f56203e
@@ -81,6 +86,6 @@ SPEC CHECKSUMS:
   CapacitorToast: 25dc5a07d70f1467495e846fc3d985d7d6cf242d
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
 
-PODFILE CHECKSUM: a1260805ca8f6cd0ce650d030127ffe202d99ab5
+PODFILE CHECKSUM: 95d0ff992fe36606eda5de229c7d50b24cbf9f10
 
 COCOAPODS: 1.11.3

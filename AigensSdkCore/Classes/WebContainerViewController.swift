@@ -14,6 +14,8 @@ import Capacitor
     // {themeColor: "#xxxxxx"}
     public var options: Dictionary<String, Any>?
     
+    private var redirectLink = ""
+    private var universalLink = ""
     var externalProtocols: [String] = [
         "octopus://", "alipay://", "alipays://", "alipayhk://", "https://itunes.apple.com", "tel:", "mailto:", "itms-apps://itunes.apple.com", "https://apps.apple.com", "payme://", "weixin://", "hsbcpaymepay://"
     ]
@@ -97,6 +99,7 @@ import Capacitor
         let url = URL(string: urlString!)
         
         let member = self.options?["member"] as? Dictionary<String, Any>
+        self.universalLink = member?["universalLink"] as? String ?? ""
         
         CorePlugin.member = member
         let deeplink = self.options?["deeplink"] as? Dictionary<String, Any>
@@ -163,6 +166,22 @@ extension WebContainerViewController: WKNavigationDelegate {
         guard let bridge = bridge, let navURL = navigationAction.request.url else {
             decisionHandler(.allow)
             return
+        }
+        
+        print("navURL--:\(navURL)")
+        
+        if !universalLink.isEmpty && navURL.absoluteString.starts(with: universalLink) {
+            
+            if navURL.absoluteString.range(of: "redirect=") != nil, let redirect = navURL.absoluteString.components(separatedBy:"redirect=").last, let redirectUrl = URL(string: redirect) {
+                self.redirectLink = redirect
+                print("navURL-- redirect:\(redirect)")
+                webContainerView.showLoading(true)
+                webContainerView.showError(false)
+                let rUrl = URLRequest(url: redirectUrl)
+                webView.load(rUrl)
+            }
+            decisionHandler(.cancel)
+            return;
         }
         
         var isCanOpen = false
@@ -263,7 +282,20 @@ extension WebContainerViewController: WKNavigationDelegate {
         }
         CAPLog.print("⚡️  WebView failed provisional navigation")
         CAPLog.print("⚡️  Error: " + error.localizedDescription)
-        webContainerView.showError(true, error.localizedDescription)
+        
+        if let errorUrl = webView.url?.absoluteString {
+            print("navURL-- errorUrl: \(errorUrl)")
+            if (!self.redirectLink.isEmpty && errorUrl.starts(with: self.redirectLink)) {
+                self.redirectLink = ""
+                webContainerView.showError(false)
+                webContainerView.showLoading(true)
+            }else {
+                webContainerView.showError(true, error.localizedDescription)
+            }
+        }else {
+            webContainerView.showError(true, error.localizedDescription)
+        }
+        
     }
     
     public func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
