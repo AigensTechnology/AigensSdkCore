@@ -4,11 +4,10 @@ Aigens SDK enable native IOS/Android app to embed Aigens universal UX into the a
 
 ## Requirement
 
-- IOS - Swift 4.2+
-- Android - API Level 22+
+* IOS - Swift 4.2+
+* Android - API Level 22+
 
 ## IOS Installation
-
 
 AigensSdkCore is available through [CocoaPods](https://cocoapods.org). To install
 it, simply add the following line to your Podfile:
@@ -47,7 +46,6 @@ Add permissions required in "Info.plist" depending on features.
  - NSPhotoLibraryAddUsageDescription (Privacy - Photo Library Additions Usage Description)
  - NSPhotoLibraryUsageDescription (Privacy - Photo Library Usage Description)
 
-
  # add schemes in info.plist
 
 <key>LSApplicationQueriesSchemes</key>
@@ -62,9 +60,7 @@ Add permissions required in "Info.plist" depending on features.
 	<string>alipayhk</string>
 </array>
 
-
 ![image](https://github.com/AigensTechnology/AigensSdkCore/blob/main/ios_schemes.png)
-
 
 ```
 
@@ -86,7 +82,7 @@ Include the aigens-sdk-core dependency in "build.gradle".
 ```gradle
 dependencies {
 
-    implementation 'com.aigens:aigens-sdk-core:0.0.13'
+    implementation 'com.aigens:aigens-sdk-core:0.0.14'
 
     # If have googlepay
     implementation 'com.aigens:aigens-sdk-googlepay:0.0.4'
@@ -95,28 +91,34 @@ dependencies {
 
 Include the actvity in "AndroidManifest.xml".
 
-```xml
-    <activity
-        android:name="com.aigens.sdk.WebContainerActivity"
-        android:screenOrientation="portrait" />
-```
-
 Add permissions required in "AndroidManifest.xml" depending on features. 
 
 ```xml
 <manifest>
     <application>
-        ......
+
+        <activity
+            android:name="com.aigens.sdk.WebContainerActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="fairwoodsdk" />
+            </intent-filter>
+        </activity>
         
         <meta-data
-            android:name="com.google.android.gms.wallet.api.enabled"
+            android:name="com.google.android.gms.walletapi.enabled"
             android:value="true" />
     </application>
 
     <queries>
-        <package android:name="com.tencent.mm" />   // for wechat
-        <package android:name="com.octopuscards.nfc_reader" />   // for octopus
-        <package android:name="hk.com.hsbc.paymefromhsbc" />   // for payme
+        <package android:name="com.tencent.mm" />
+        <package android:name="com.octopuscards.nfc_reader" /> 
+        <package android:name="hk.com.hsbc.paymefromhsbc" />
     </queries>
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -129,12 +131,12 @@ Add permissions required in "AndroidManifest.xml" depending on features.
 
  </manifest>
 ```
+
 ## IOS Example
 
 Sample Project: https://github.com/AigensTechnology/AigensSdkDemo
 
 The SDK open a URL for the web UI. The URL can be a predefined URL or scan from an QR code. Developer can use a scanner to obtain the URL and use the following code to open the UI within native app.
-
 
 ```swift
 import UIKit
@@ -168,7 +170,6 @@ class ViewController: UIViewController {
             
         ]
 
-
         let deeplink:Dictionary<String, Any> = [
         
             "addItemId" : "<itemId>",
@@ -194,7 +195,6 @@ class ViewController: UIViewController {
 
 Sample Project: https://github.com/AigensTechnology/AigensSdkDemo
 
-
 ```java
 
 import com.aigens.sdk.WebContainerActivity;
@@ -216,9 +216,9 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("sessionId", "<sessionId>");
         member.put("pushId", "<googlePushToken>");
         member.put("deviceId", "<deviceId>");
-        member.put("universalLink", "<start with https://xxxx>");
 
-
+        // fairwoodsdk from : <data android:scheme="fairwoodsdk" />
+        member.put("universalLink", "fairwoodsdk://toapp");
 
         Map<String, String> deeplink = new HashMap<String, String>();
         deeplink.put("addItemId", "<itemId>");
@@ -242,28 +242,27 @@ import com.aigens.sdk.WebContainerActivity;
 Optionally, pass a member object to automatucally login the customer.
 
 Member Data:
-- memberCode - The unique identifier of the member in CRM backend
-- source - A merchant brand name string to indicate which brand the member belongs to
-- sessionId - Member's current session key for CRM access
-- pushId - Provide the push token registered with Google's push service. You can set pushId without other member detail for anonymous user.
-- deviceId - Each device is unique, each device is the same value.
-- universalLink - Use it to return to the app
-  - [ios document](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html#//apple_ref/doc/uid/TP40016308-CH12-SW1)
-  - [android document](https://developer.android.com/training/app-links)
-- appleMerchantId - If you has applepay need to set.
+* memberCode - The unique identifier of the member in CRM backend
+* source - A merchant brand name string to indicate which brand the member belongs to
+* sessionId - Member's current session key for CRM access
+* pushId - Provide the push token registered with Google's push service. You can set pushId without other member detail for anonymous user.
+* deviceId - Each device is unique, each device is the same value.
+* universalLink - Use it to return to the app
+  + [ios document](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html#//apple_ref/doc/uid/TP40016308-CH12-SW1)
+  + [android document](https://developer.android.com/training/app-links)
+* appleMerchantId - If you has applepay need to set.
 
 Deeplink Data:
-- addItemId - Item to be added when user navigate to order page.
-- addDiscountCode - Discount code to be added automatically.
-- addOfferId - Apply the offer that belong to the user when user checkout.
+* addItemId - Item to be added when user navigate to order page.
+* addDiscountCode - Discount code to be added automatically.
+* addOfferId - Apply the offer that belong to the user when user checkout.
 
 ENVIRONMENT_PRODUCTION
-- default: true, set environment for google pay
+* default: true, set environment for google pay
 
 ## Plugins
 
 TBA
-
 
 ## Author
 
