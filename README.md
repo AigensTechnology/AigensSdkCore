@@ -106,7 +106,8 @@ Add permissions required in "AndroidManifest.xml" depending on features.
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="fairwoodsdk" />
+                <!--     set your app link           -->
+                <data android:scheme="https" android:host="xxx.xx.com" android:pathPrefix="/toapp" />
             </intent-filter>
         </activity>
         
@@ -216,9 +217,9 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("sessionId", "<sessionId>");
         member.put("pushId", "<googlePushToken>");
         member.put("deviceId", "<deviceId>");
-
-        // fairwoodsdk from : <data android:scheme="fairwoodsdk" />
-        member.put("universalLink", "fairwoodsdk://toapp");
+        
+        // from :  <data android:scheme="https" android:host="xxx.xx.com" android:pathPrefix="/toapp" />
+        member.put("universalLink", "<https://xxx.xx.com/toapp>");
 
         Map<String, String> deeplink = new HashMap<String, String>();
         deeplink.put("addItemId", "<itemId>");
