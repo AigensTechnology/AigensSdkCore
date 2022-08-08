@@ -323,7 +323,6 @@ extension WebContainerViewController: WKNavigationDelegate {
         if let errorUrl = webView.url?.absoluteString {
             print("navURL-- errorUrl: \(errorUrl)")
             if (!self.redirectLink.isEmpty && errorUrl.starts(with: self.redirectLink)) {
-                self.redirectLink = ""
                 webContainerView.showError(false)
                 webContainerView.showLoading(true)
             }else {
