@@ -26,6 +26,7 @@ class ViewController: UIViewController {
         var url = "https://scantest.aigens.com/scan?code=c3RvcmU9NTAwJnNwb3Q9MSZwYWdlPWJ5b2Q="
         
         url = "https://fairwood-uat-v4.order.place/order/store/600002/mode/catering?nocache=true"
+        url = "https://fairwood-uat-v4.order.place/crm/brand/600001/home?nocache=true&mode=takeaway&storeId=600002"
 //        url = "https://fairwood-uat-v4.order.place/order/brand/600001/order-history"
         
 //        url = "https://test-sdk-1234.firebaseapp.com/crm/brand/600001/home?nocache=true&mode=takeaway&storeId=600002&back=false&t=3"
@@ -35,6 +36,15 @@ class ViewController: UIViewController {
         
 //        url = "https://fairwood-uat-v4.order.place/crm/brand/600001/home?nocache=true&mode=takeaway&storeId=600002&back=false"
         // url = "https://fdsfefs/fsef"
+//        url = "https://fairwood-uat-v4.order.place/home/store/60288?mode=catering"
+        
+//        url = "https://fairwood-uat-v4.order.place/order/store/60288/mode/takeaway"
+        
+        
+//        url = "http://localhost:4200/home/store/600002?mode=catering"
+        
+//        url = "http://localhost:4200/order/store/80039/mode/takeaway"
+//        url = "http://localhost:4200/home/store/5669108628586496(modal:directory/popup)?mode=dinein&advertisement=true"
         
         let bridgeVC = WebContainerViewController()
         
@@ -48,7 +58,8 @@ class ViewController: UIViewController {
             "source" : "<merchant>",
             "sessionId" : "sessionId",
             "deviceId":"peijue-test-iphone",
-            "universalLink": "https://xxxxx.xx.xx/yoshinoyaapp/wechatpay/*",
+            "universalLink": "https://yoshinoyaapp.aigens.com/yoshinoyaapp/wechatpay/*",
+//            "universalLink":"fairwoodtestapp://test",
             "appleMerchantId": ""
         ]
         

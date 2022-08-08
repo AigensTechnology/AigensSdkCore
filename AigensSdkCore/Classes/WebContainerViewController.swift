@@ -31,8 +31,45 @@ import Capacitor
         loadWebViewCustom()
         initView()
         
+        handleOpenUrl()
+        
     }
     
+    private func handleOpenUrl() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleUniversalLink(notification:)), name: Notification.Name.capacitorOpenUniversalLink, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleUrlOpened(notification:)), name: Notification.Name.capacitorOpenURL, object: nil)
+    }
+    
+    @objc func handleUrlOpened(notification: NSNotification) {
+        guard let object = notification.object as? [String: Any?] else {
+            return
+        }
+
+        print("handleUrlOpened url:\(object)")
+        guard let url = object["url"] as? URL else {
+            return
+        }
+        
+        let rUrl = URLRequest(url: url)
+        webView?.load(rUrl)
+    }
+    
+    @objc func handleUniversalLink(notification: NSNotification) {
+        guard let object = notification.object as? [String: Any?] else {
+            return
+        }
+
+        print("handleUniversalLink url:\(object)")
+        guard let url = object["url"] as? URL else {
+            return
+        }
+
+        
+        let rUrl = URLRequest(url: url)
+        webView?.load(rUrl)
+        
+    }
     private func initView(){
         
         print("VC initView")
