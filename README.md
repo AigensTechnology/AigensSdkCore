@@ -139,6 +139,32 @@ Sample Project: https://github.com/AigensTechnology/AigensSdkDemo
 
 The SDK open a URL for the web UI. The URL can be a predefined URL or scan from an QR code. Developer can use a scanner to obtain the URL and use the following code to open the UI within native app.
 
+* AppDelegate.m
+
+```objc
+
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options
+{
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CapacitorOpenURLNotification" object:[NSDictionary dictionaryWithObject: url forKey:@"url"]];
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application willContinueUserActivityWithType:(NSString *)userActivityType {
+    return YES;
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *restorableObjects))restorationHandler {
+
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"CapacitorOpenUniversalLinkNotification" object:[NSDictionary dictionaryWithObject: userActivity.webpageURL forKey:@"url"]];
+        
+    return YES;
+}
+
+
+```
+
 * AppDelegate.swift
 
 ```swift

@@ -51,6 +51,10 @@ import Capacitor
             return
         }
         
+        if universalLink.isEmpty || !url.absoluteString.starts(with: universalLink) {
+            return;
+        }
+        
         let rUrl = URLRequest(url: url)
         webView?.load(rUrl)
     }
@@ -63,6 +67,10 @@ import Capacitor
         print("handleUniversalLink url:\(object)")
         guard let url = object["url"] as? URL else {
             return
+        }
+        
+        if universalLink.isEmpty || !url.absoluteString.starts(with: universalLink) {
+            return;
         }
 
         
