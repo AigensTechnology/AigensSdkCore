@@ -219,7 +219,8 @@ class ViewController: UIViewController {
             "pushId": "<applePushToken>",
             "deviceId": "<deviceId>",
             "universalLink": "<start with https://xxxx>",
-            "appleMerchantId": "<YourAppleMerchantId>"
+            "appleMerchantId": "<YourAppleMerchantId>",
+            "language": "en"  // en/zh
             
         ]
 
@@ -269,6 +270,7 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("sessionId", "<sessionId>");
         member.put("pushId", "<googlePushToken>");
         member.put("deviceId", "<deviceId>");
+        member.put("language", "en");  // en / zh
         
         // from :  <data android:scheme="https" android:host="xxx.xx.com" android:pathPrefix="/toapp" />
         member.put("universalLink", "<https://xxx.xx.com/toapp>");
@@ -304,6 +306,7 @@ Member Data:
   + [ios document](https://developer.apple.com/library/archive/documentation/General/Conceptual/AppSearch/UniversalLinks.html#//apple_ref/doc/uid/TP40016308-CH12-SW1)
   + [android document](https://developer.android.com/training/app-links)
 * appleMerchantId - If you has applepay need to set.
+* language - en/zh
 
 Deeplink Data:
 * addItemId - Item to be added when user navigate to order page.
