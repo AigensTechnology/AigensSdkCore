@@ -27,6 +27,10 @@ class ViewController: UIViewController {
         
         url = "https://fairwood-uat-v4.order.place/order/store/600002/mode/catering?nocache=true"
         url = "https://fairwood-uat-v4.order.place/crm/brand/600001/home?nocache=true&mode=takeaway&storeId=600002"
+        
+        url = "https://fairwood-uat-v4.order.place/order/store/60288/mode/dinein"
+        
+        url = "https://test.order.place/crm/brand/500001/directory"
 //        url = "https://fairwood-uat-v4.order.place/order/brand/600001/order-history"
         
 //        url = "https://test-sdk-1234.firebaseapp.com/crm/brand/600001/home?nocache=true&mode=takeaway&storeId=600002&back=false&t=3"
@@ -46,18 +50,23 @@ class ViewController: UIViewController {
 //        url = "http://localhost:4200/order/store/80039/mode/takeaway"
 //        url = "http://localhost:4200/home/store/5669108628586496(modal:directory/popup)?mode=dinein&advertisement=true"
         
+        url = "http://192.168.100.138:4200/order/store/600002/mode/catering"
+        
         let bridgeVC = WebContainerViewController()
         
         var options = [String: Any]()
         options["url"] = url
         
 //        yoshinoyaapp.aigens.com
+        
+//        {memberCode=MEM-42244-6X4H2Q, phone=92808724, universalLink=https://app2uat.club100.hk/app, name=Garyon Wong, language=zh, source=cdc, sessionId=MEM-42244-6X4H2Q, deviceId=8395bd1d63319b9f, email=garyon.wong@aigens.com, age=0, memberId=MEM-42244-6X4H2Q}
+        
         let member:Dictionary<String, Any> = [
         
-            "memberCode" : "<crmMemberId>",
-            "source" : "<merchant>",
-            "sessionId" : "sessionId",
-            "deviceId":"peijue-test-iphone",
+            "memberCode" : "MEM-42244-6X4H2Q",
+            "source" : "cdc",
+            "sessionId" : "MEM-42244-6X4H2Q",
+            "deviceId":"peijue-test-iphone2-cdc",
             "universalLink": "https://yoshinoyaapp.aigens.com/yoshinoyaapp/wechatpay/*",
 //            "universalLink":"fairwoodtestapp://test",
             "appleMerchantId": ""
