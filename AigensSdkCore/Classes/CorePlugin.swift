@@ -121,10 +121,12 @@ public class CorePlugin: CAPPlugin {
 
     @objc func isInstalledApp(_ call: CAPPluginCall) {
         if let url = call.getString("key"), let URL_ = URL(string: url) {
-            let can = UIApplication.shared.canOpenURL(URL_)
-            call.resolve([
-                "install": can
-            ])
+            DispatchQueue.main.async {
+                let can = UIApplication.shared.canOpenURL(URL_)
+                call.resolve([
+                    "install": can
+                ])
+            }
         }else {
             call.reject("key is missing or is invaild key")
             return
