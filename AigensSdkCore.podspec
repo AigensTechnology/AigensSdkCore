@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AigensSdkCore'
-  s.version          = '0.0.17'
+  s.version          = '0.0.18'
   s.summary          = 'AigensSdkCore'
 
 # This description is used to generate tags and improve search results.
@@ -41,7 +41,7 @@ Aigens SDK for embedding web based UX.
   s.dependency 'CapacitorGeolocation', '~> 1.3.1'
   s.dependency 'CapacitorKeyboard', '~> 1.2.2'
   s.dependency 'CapacitorNetwork', '~> 1.0.7'
-  s.dependency 'CapacitorPushNotifications', '~> 1.0.9'
+  # s.dependency 'CapacitorPushNotifications', '~> 1.0.9'
   s.dependency 'CapacitorShare', '~> 1.1.2'
   s.dependency 'CapacitorStorage', '~> 1.2.5'
   s.dependency 'CapacitorToast', '~> 1.0.8'
