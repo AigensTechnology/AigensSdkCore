@@ -9,10 +9,32 @@ import UIKit
 @objc(CorePlugin)
 public class CorePlugin: CAPPlugin {
 
+    public static let shared = CorePlugin()
     private let implementation = Core()
     public static var member: Dictionary<String, Any>?
     public static var deeplink: Dictionary<String, Any>?
 
+    @objc public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        NotificationCenter.default.post(name: .capacitorOpenURL, object: [
+            "url": url,
+            "options": options
+        ])
+        NotificationCenter.default.post(name: NSNotification.Name.CDVPluginHandleOpenURL, object: url)
+        return true
+    }
+
+    @objc public func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        // TODO: Support other types, emit to rest of plugins
+        if userActivity.activityType != NSUserActivityTypeBrowsingWeb || userActivity.webpageURL == nil {
+            return false
+        }
+        let url = userActivity.webpageURL
+        NotificationCenter.default.post(name: .capacitorOpenUniversalLink, object: [
+            "url": url
+        ])
+        return true
+    }
+    
     @objc func echo(_ call: CAPPluginCall) {
 
         print("CorePlugin echo")
