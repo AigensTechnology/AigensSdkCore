@@ -13,7 +13,7 @@ import Capacitor
 
     // {themeColor: "#xxxxxx"}
     public var options: Dictionary<String, Any>?
-    
+
     private var redirectLink = ""
     private var universalLink = ""
     var externalProtocols: [String] = [
@@ -30,17 +30,17 @@ import Capacitor
         self.becomeFirstResponder()
         loadWebViewCustom()
         initView()
-        
+
         handleOpenUrl()
-        
+
     }
-    
+
     private func handleOpenUrl() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUniversalLink(notification:)), name: Notification.Name.capacitorOpenUniversalLink, object: nil)
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUrlOpened(notification:)), name: Notification.Name.capacitorOpenURL, object: nil)
     }
-    
+
     @objc func handleUrlOpened(notification: NSNotification) {
         guard let object = notification.object as? [String: Any?] else {
             return
@@ -50,15 +50,15 @@ import Capacitor
         guard let url = object["url"] as? URL else {
             return
         }
-        
+
         if universalLink.isEmpty || !url.absoluteString.starts(with: universalLink) {
             return;
         }
-        
+
         let rUrl = URLRequest(url: url)
         webView?.load(rUrl)
     }
-    
+
     @objc func handleUniversalLink(notification: NSNotification) {
         guard let object = notification.object as? [String: Any?] else {
             return
@@ -68,29 +68,29 @@ import Capacitor
         guard let url = object["url"] as? URL else {
             return
         }
-        
+
         if universalLink.isEmpty || !url.absoluteString.starts(with: universalLink) {
             return;
         }
 
-        
+
         let rUrl = URLRequest(url: url)
         webView?.load(rUrl)
-        
+
     }
     private func initView(){
-        
+
         print("VC initView")
-        
+
         //let bundle = Bundle(for: WebContainerViewController.self)
         //let containerView = WebContainerView()
         //let containerView = bundle.loadNibNamed("WebContainerView", owner: self, options: nil)?.first as! UIView
-        
+
         self.view.addSubview(webContainerView)
         webContainerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
         setupOptions(webContainerView)
         containerView.vc = self
-        
+
 //
 //
 
@@ -108,14 +108,14 @@ import Capacitor
 //        containerView.webArea.addSubview(self.webView!)
 //
 
-        
+
     }
-    
+
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         webContainerView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
     }
-    
+
     private func setupOptions(_ view: WebContainer) {
         if let theme = self.options?["themeColor"] as? String, let color = UIColor.getHex(hex: theme) {
             self.view.backgroundColor = color
@@ -126,9 +126,9 @@ import Capacitor
         if let externalProtocols = options?["externalProtocols"] as? [String] {
             self.externalProtocols.append(contentsOf: externalProtocols)
         }
-        
+
     }
-    
+
     public final func loadWebViewCustom() {
 
         //let bridge = self.bridge
@@ -142,14 +142,14 @@ import Capacitor
         }
 
         let url = URL(string: urlString!)
-        
+
         let member = self.options?["member"] as? Dictionary<String, Any>
         self.universalLink = member?["universalLink"] as? String ?? ""
-        
+
         CorePlugin.member = member
         let deeplink = self.options?["deeplink"] as? Dictionary<String, Any>
         CorePlugin.deeplink = deeplink
-        
+
         //bridge.webViewDelegationHandler.willLoadWebview(webView)
         _ = webView?.load(URLRequest(url: url!))
         webView?.navigationDelegate = self
@@ -182,12 +182,12 @@ import Capacitor
 
         return descriptor
     }
-    
+
     deinit {
         print("WebContainerViewController deinit")
     }
 
-    
+
 }
 
 extension WebContainerViewController: WKNavigationDelegate {
@@ -197,12 +197,12 @@ extension WebContainerViewController: WKNavigationDelegate {
         // Reset the bridge on each navigation
 //        self.bridge?.reset()
     }
-    
+
     public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         webContainerView.showError(false)
         webContainerView.showLoading(true)
     }
-    
+
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         // post a notification for any listeners
         NotificationCenter.default.post(name: .capacitorDecidePolicyForNavigationAction, object: navigationAction)
@@ -212,11 +212,11 @@ extension WebContainerViewController: WKNavigationDelegate {
             decisionHandler(.allow)
             return
         }
-        
+
         print("navURL--:\(navURL)")
-        
+
         if !universalLink.isEmpty && navURL.absoluteString.starts(with: universalLink) {
-            
+
             if navURL.absoluteString.range(of: "redirect=") != nil, let redirect = navURL.absoluteString.components(separatedBy:"redirect=").last, let redirectUrl = URL(string: redirect) {
                 self.redirectLink = redirect
                 print("navURL-- redirect:\(redirect)")
@@ -228,7 +228,7 @@ extension WebContainerViewController: WKNavigationDelegate {
             decisionHandler(.cancel)
             return;
         }
-        
+
         var isCanOpen = false
         if externalProtocols.count > 0 {
             externalProtocols.forEach { (url) in
@@ -238,7 +238,7 @@ extension WebContainerViewController: WKNavigationDelegate {
                 }
             }
         }
-        
+
         if isCanOpen {
             if #available(iOS 10.0, *) {
                 UIApplication.shared.open(navURL, options: [:], completionHandler: nil);
@@ -248,7 +248,7 @@ extension WebContainerViewController: WKNavigationDelegate {
             decisionHandler(.cancel)
             return;
         }
-        
+
 
         // first, give plugins the chance to handle the decision
 //        for pluginObject in bridge.plugins {
@@ -275,21 +275,21 @@ extension WebContainerViewController: WKNavigationDelegate {
         }
 
         // otherwise, is this a new window or a main frame navigation but to an outside source
-        let toplevelNavigation = (navigationAction.targetFrame == nil || navigationAction.targetFrame?.isMainFrame == true)
-        if navURL.absoluteString.contains(bridge.config.serverURL.absoluteString) == false, toplevelNavigation {
-            // disallow and let the system handle it
-            if UIApplication.shared.applicationState == .active {
-                UIApplication.shared.open(navURL, options: [:], completionHandler: nil)
-            }
-            decisionHandler(.cancel)
-            return
-        }
+//        let toplevelNavigation = (navigationAction.targetFrame == nil || navigationAction.targetFrame?.isMainFrame == true)
+//        if navURL.absoluteString.contains(bridge.config.serverURL.absoluteString) == false, toplevelNavigation {
+//            // disallow and let the system handle it
+//            if UIApplication.shared.applicationState == .active {
+//                UIApplication.shared.open(navURL, options: [:], completionHandler: nil)
+//            }
+//            decisionHandler(.cancel)
+//            return
+//        }
 
         // fallthrough to allowing it
         decisionHandler(.allow)
     }
-    
-    
+
+
     // The force unwrap is part of the protocol declaration, so we should keep it.
     // swiftlint:disable:next implicitly_unwrapped_optional
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
@@ -301,7 +301,7 @@ extension WebContainerViewController: WKNavigationDelegate {
         webContainerView.showError(false)
         CAPLog.print("⚡️  WebView loaded")
     }
-    
+
     // The force unwrap is part of the protocol declaration, so we should keep it.
     // swiftlint:disable:next implicitly_unwrapped_optional
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
@@ -310,38 +310,38 @@ extension WebContainerViewController: WKNavigationDelegate {
 //            webViewLoadingState = .subsequentLoad
 //        }
         webContainerView.showLoading(false)
-        
+
         webContainerView.showError(true, error.localizedDescription)
         CAPLog.print("⚡️  WebView failed to load")
         CAPLog.print("⚡️  Error: " + error.localizedDescription)
     }
-    
-    // The force unwrap is part of the protocol declaration, so we should keep it.
-    // swiftlint:disable:next implicitly_unwrapped_optional
-    public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        webContainerView.showLoading(false)
-        // cancel
-        let e = error as NSError
-        if (e.code == NSURLErrorCancelled || e.code == -999) {
-            webContainerView.showError(false)
-        }
-        CAPLog.print("⚡️  WebView failed provisional navigation")
-        CAPLog.print("⚡️  Error: " + error.localizedDescription)
-        
-        if let errorUrl = webView.url?.absoluteString {
-            print("navURL-- errorUrl: \(errorUrl)")
-            if (!self.redirectLink.isEmpty && errorUrl.starts(with: self.redirectLink)) {
-                webContainerView.showError(false)
-                webContainerView.showLoading(true)
-            }else {
-                webContainerView.showError(true, error.localizedDescription)
-            }
-        }else {
-            webContainerView.showError(true, error.localizedDescription)
-        }
-        
-    }
-    
+
+//    // The force unwrap is part of the protocol declaration, so we should keep it.
+//    // swiftlint:disable:next implicitly_unwrapped_optional
+//    public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+//        webContainerView.showLoading(false)
+//        // cancel
+//        let e = error as NSError
+//        if (e.code == NSURLErrorCancelled || e.code == -999) {
+//            webContainerView.showError(false)
+//        }
+//        CAPLog.print("⚡️  WebView failed provisional navigation")
+//        CAPLog.print("⚡️  Error: " + error.localizedDescription)
+//
+//        if let errorUrl = webView.url?.absoluteString {
+//            print("navURL-- errorUrl: \(errorUrl)")
+//            if (!self.redirectLink.isEmpty && errorUrl.starts(with: self.redirectLink)) {
+//                webContainerView.showError(false)
+//                webContainerView.showLoading(true)
+//            }else {
+//                webContainerView.showError(true, error.localizedDescription)
+//            }
+//        }else {
+//            webContainerView.showError(true, error.localizedDescription)
+//        }
+//
+//    }
+
     public func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
         webView.reload()
     }
