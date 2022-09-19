@@ -178,7 +178,8 @@ import Capacitor
 
 
         let descriptor = InstanceDescriptor.init(at: wwwLoc!, configuration: configLoc, cordovaConfiguration: nil)
-
+        
+        descriptor.appendedUserAgentString = "AigensSDK"
 
         return descriptor
     }
