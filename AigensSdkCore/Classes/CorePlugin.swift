@@ -34,6 +34,42 @@ public class CorePlugin: CAPPlugin {
         ])
         return true
     }
+
+    private func clearCache() {
+        if #available(iOS 9.0, *) {
+            /*
+             在磁盘缓存上。
+             WKWebsiteDataTypeDiskCache,
+             html离线Web应用程序缓存。
+             WKWebsiteDataTypeOfflineWebApplicationCache,
+             内存缓存。
+             WKWebsiteDataTypeMemoryCache,
+             本地存储。
+             WKWebsiteDataTypeLocalStorage,
+             Cookies
+             WKWebsiteDataTypeCookies,
+             会话存储
+             WKWebsiteDataTypeSessionStorage,
+             IndexedDB数据库。
+             WKWebsiteDataTypeIndexedDBDatabases,
+             查询数据库。
+             WKWebsiteDataTypeWebSQLDatabases
+             */
+            let types = [WKWebsiteDataTypeMemoryCache, WKWebsiteDataTypeDiskCache]
+            let websiteDataTypes = Set<AnyHashable>(types)
+            let dateFrom = Date(timeIntervalSince1970: 0)
+            if let websiteDataTypes = websiteDataTypes as? Set<String> {
+                WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes, modifiedSince: dateFrom, completionHandler: {
+                    print("removeData completionHandler");
+                })
+            }
+        } else {
+            //            let libraryPath = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]
+            //            let cookiesFolderPath = libraryPath + ("/Cookies")
+            //            JJPrint("\(cookiesFolderPath)")
+            //            try? FileManager.default.removeItem(atPath: cookiesFolderPath)
+        }
+    }
     
     @objc func echo(_ call: CAPPluginCall) {
 
@@ -109,9 +145,13 @@ public class CorePlugin: CAPPlugin {
         let member = call.getObject("member")
         let deeplink = call.getObject("deeplink")
         let externalProtocols = call.getArray("externalProtocols")
+        let clearCache = call.getBool("clearCache") ?? false
 
         DispatchQueue.main.async {
 
+            if clearCache {
+                self.clearCache()
+            }
             let bridgeVC = WebContainerViewController()
 
             var options = [String: AnyObject]()
@@ -162,19 +202,22 @@ public class CorePlugin: CAPPlugin {
 
     @objc func openExternalUrl(_ call: CAPPluginCall) {
         if let url = call.getString("url"), let URL_ = URL(string: url) {
-            let can = UIApplication.shared.canOpenURL(URL_)
-            if !can {
-                call.reject("cannot open the url:\(url)")
-                return;
+            DispatchQueue.main.async {
+                let can = UIApplication.shared.canOpenURL(URL_)
+                if !can {
+                    call.reject("cannot open the url:\(url)")
+                    return;
+                }
+                if #available(iOS 10.0, *) {
+                    UIApplication.shared.open(URL_, options: [:], completionHandler: nil)
+                } else {
+                    UIApplication.shared.openURL(URL_)
+                }
+                call.resolve([
+                    "open": true
+                ])
+                
             }
-            if #available(iOS 10.0, *) {
-                UIApplication.shared.open(URL_, options: [:], completionHandler: nil)
-            } else {
-                UIApplication.shared.openURL(URL_)
-            }
-            call.resolve([
-                "open": true
-            ])
 
         }else {
             call.reject("url is missing or is invaild url")
