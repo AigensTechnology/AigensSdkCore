@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AigensSdkCore'
-  s.version          = '0.0.23'
+  s.version          = '0.0.24'
   s.summary          = 'AigensSdkCore'
 
 # This description is used to generate tags and improve search results.
