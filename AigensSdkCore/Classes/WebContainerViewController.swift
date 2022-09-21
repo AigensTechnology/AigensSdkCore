@@ -186,6 +186,7 @@ import Capacitor
 
     deinit {
         print("WebContainerViewController deinit")
+        NotificationCenter.default.removeObserver(self)
     }
 
 
@@ -197,6 +198,8 @@ extension WebContainerViewController: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         // Reset the bridge on each navigation
 //        self.bridge?.reset()
+        webContainerView.showError(false)
+        webContainerView.showLoading(true)
     }
 
     public func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
