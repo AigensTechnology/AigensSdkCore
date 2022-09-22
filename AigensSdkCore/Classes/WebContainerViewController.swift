@@ -13,7 +13,7 @@ import Capacitor
 
     // {themeColor: "#xxxxxx"}
     public var options: Dictionary<String, Any>?
-
+    private var isFirstError = true
     private var redirectLink = ""
     private var universalLink = ""
     var externalProtocols: [String] = [
@@ -178,7 +178,7 @@ import Capacitor
 
 
         let descriptor = InstanceDescriptor.init(at: wwwLoc!, configuration: configLoc, cordovaConfiguration: nil)
-        
+
         descriptor.appendedUserAgentString = "AigensSDK"
 
         return descriptor
@@ -309,37 +309,44 @@ extension WebContainerViewController: WKNavigationDelegate {
     // The force unwrap is part of the protocol declaration, so we should keep it.
     // swiftlint:disable:next implicitly_unwrapped_optional
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-//        if case .initialLoad(let isOpaque) = webViewLoadingState {
-//            webView.isOpaque = isOpaque
-//            webViewLoadingState = .subsequentLoad
-//        }
-        webContainerView.showLoading(false)
-
-        webContainerView.showError(true, error.localizedDescription)
         CAPLog.print("⚡️  WebView failed to load")
         CAPLog.print("⚡️  Error: " + error.localizedDescription)
+        webContainerView.showLoading(false)
+            
+        if isFirstError {
+            CAPLog.print("⚡️  WebView failed didFail reload")
+            isFirstError = false
+            // reload
+            webView.reload()
+            return;
+        }
+        
+        let e = error as NSError
+        if (e.code == NSURLErrorCancelled || e.code == -999) {
+        }else {
+            webContainerView.showError(true, error.localizedDescription)
+        }
+        
     }
 
 //    // The force unwrap is part of the protocol declaration, so we should keep it.
 //    // swiftlint:disable:next implicitly_unwrapped_optional
 //    public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-//        webContainerView.showLoading(false)
-//        // cancel
-//        let e = error as NSError
-//        if (e.code == NSURLErrorCancelled || e.code == -999) {
-//            webContainerView.showError(false)
-//        }
 //        CAPLog.print("⚡️  WebView failed provisional navigation")
 //        CAPLog.print("⚡️  Error: " + error.localizedDescription)
 //
-//        if let errorUrl = webView.url?.absoluteString {
-//            print("navURL-- errorUrl: \(errorUrl)")
-//            if (!self.redirectLink.isEmpty && errorUrl.starts(with: self.redirectLink)) {
-//                webContainerView.showError(false)
-//                webContainerView.showLoading(true)
-//            }else {
-//                webContainerView.showError(true, error.localizedDescription)
-//            }
+//        webContainerView.showLoading(false)
+//
+//        if isFirstError {
+//            CAPLog.print("⚡️  WebView failed provisional reload")
+//            isFirstError = false
+//            // reload
+//            webView.reload()
+//            return;
+//        }
+//
+//        let e = error as NSError
+//        if (e.code == NSURLErrorCancelled || e.code == -999) {
 //        }else {
 //            webContainerView.showError(true, error.localizedDescription)
 //        }
