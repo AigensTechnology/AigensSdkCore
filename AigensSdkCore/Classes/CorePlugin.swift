@@ -72,7 +72,7 @@ public class CorePlugin: CAPPlugin {
             //            try? FileManager.default.removeItem(atPath: cookiesFolderPath)
         }
     }
-    
+
     @objc func echo(_ call: CAPPluginCall) {
 
         aigensprint("CorePlugin echo")
@@ -219,12 +219,32 @@ public class CorePlugin: CAPPlugin {
                 call.resolve([
                     "open": true
                 ])
-                
+
             }
 
         }else {
             call.reject("url is missing or is invaild url")
             return
+        }
+    }
+@objc func checkNotificationPermissions(_ call: CAPPluginCall) {
+        let center = UNUserNotificationCenter.current()
+        center.getNotificationSettings { settings in
+            let status = settings.authorizationStatus
+            let permission: String
+            switch status {
+            case .authorized, .ephemeral, .provisional:
+                permission = "granted"
+            case .denied:
+                permission = "denied"
+            case .notDetermined:
+                permission = "prompt"
+            @unknown default:
+                permission = "prompt"
+            }
+
+            call.resolve(["display": permission])
+
         }
     }
 
@@ -255,10 +275,10 @@ public class CorePlugin: CAPPlugin {
 
 ///全局函数
 func aigensprint<T>(_ message:T,file:String = #file,_ funcName:String = #function,_ lineNum:Int = #line){
-    
+
     if aigensDebug {
         let file = (file as NSString).lastPathComponent;
         print("\(file):(\(lineNum))--:\(message)");
     }
-    
+
 }

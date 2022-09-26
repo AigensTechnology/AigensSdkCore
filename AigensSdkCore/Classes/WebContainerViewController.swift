@@ -312,7 +312,7 @@ extension WebContainerViewController: WKNavigationDelegate {
         CAPLog.print("⚡️  WebView failed to load")
         CAPLog.print("⚡️  Error: " + error.localizedDescription)
         webContainerView.showLoading(false)
-            
+
         if isFirstError {
             CAPLog.print("⚡️  WebView failed didFail reload")
             isFirstError = false
@@ -320,13 +320,13 @@ extension WebContainerViewController: WKNavigationDelegate {
             webView.reload()
             return;
         }
-        
+
         let e = error as NSError
         if (e.code == NSURLErrorCancelled || e.code == -999) {
         }else {
             webContainerView.showError(true, error.localizedDescription)
         }
-        
+
     }
 
 //    // The force unwrap is part of the protocol declaration, so we should keep it.

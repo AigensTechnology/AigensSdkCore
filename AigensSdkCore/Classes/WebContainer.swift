@@ -9,13 +9,13 @@ import UIKit
 
 class WebContainer: UIView {
     @IBOutlet weak var activity: UIActivityIndicatorView!
-    
+
     @IBOutlet weak var errorWrapper: UIView!
-    
+
     @IBOutlet weak var errorTextView: UITextView!
-    
+
     public weak var vc: WebContainerViewController?
-    
+
     public func setTheme(_ color: String) {
         if let color = UIColor.getHex(hex: color) {
             self.backgroundColor = color
@@ -25,14 +25,14 @@ class WebContainer: UIView {
         super.awakeFromNib()
         aigensprint("awakeFromNib")
     }
-    
+
     private func hiddenSelf() {
         self.alpha = 1.0
         UIView.animate(withDuration: 0.5, animations: {
             self.alpha = 0
         })
     }
-    
+
     public func showLoading(_ show: Bool) {
         if show {
             self.alpha = 1.0
@@ -56,9 +56,9 @@ class WebContainer: UIView {
             errorWrapper?.isHidden = true
             self.alpha = 0
         }
-        
+
     }
-    
+
     /*
     // Only override draw() if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.
@@ -69,7 +69,7 @@ class WebContainer: UIView {
     @IBAction func dismiss(_ sender: UIButton) {
         self.vc?.dismiss(animated: true);
     }
-    
+
     @IBAction func reload(_ sender: UIButton) {
         self.vc?.webView?.reload()
     }
