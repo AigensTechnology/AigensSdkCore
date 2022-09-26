@@ -2,6 +2,8 @@ import Foundation
 import Capacitor
 import UIKit
 
+
+var aigensDebug = false;
 /**
  * Please read the Capacitor iOS Plugin Development Guide
  * here: https://capacitorjs.com/docs/plugins/ios
@@ -60,7 +62,7 @@ public class CorePlugin: CAPPlugin {
             let dateFrom = Date(timeIntervalSince1970: 0)
             if let websiteDataTypes = websiteDataTypes as? Set<String> {
                 WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes, modifiedSince: dateFrom, completionHandler: {
-                    print("removeData completionHandler");
+                    aigensprint("removeData completionHandler");
                 })
             }
         } else {
@@ -73,7 +75,7 @@ public class CorePlugin: CAPPlugin {
     
     @objc func echo(_ call: CAPPluginCall) {
 
-        print("CorePlugin echo")
+        aigensprint("CorePlugin echo")
 
         let value = call.getString("value") ?? ""
         call.resolve([
@@ -85,7 +87,7 @@ public class CorePlugin: CAPPlugin {
 
     @objc func dismiss(_ call: CAPPluginCall) {
 
-        print("CorePlugin dismiss")
+        aigensprint("CorePlugin dismiss")
 
         DispatchQueue.main.async {
             self.bridge?.viewController?.dismiss(animated: true);
@@ -116,7 +118,7 @@ public class CorePlugin: CAPPlugin {
 
     @objc func finish(_ call: CAPPluginCall) {
 
-        print("CorePlugin finish")
+        aigensprint("CorePlugin finish")
 
         DispatchQueue.main.async {
             self.bridge?.viewController?.dismiss(animated: true);
@@ -133,7 +135,7 @@ public class CorePlugin: CAPPlugin {
 
     @objc func openBrowser(_ call: CAPPluginCall) {
 
-        print("CorePlugin openBrowser")
+        aigensprint("CorePlugin openBrowser")
 
         let url = call.getString("url")
 
@@ -146,6 +148,7 @@ public class CorePlugin: CAPPlugin {
         let deeplink = call.getObject("deeplink")
         let externalProtocols = call.getArray("externalProtocols")
         let clearCache = call.getBool("clearCache") ?? false
+        aigensDebug = call.getBool("debug") ?? false
 
         DispatchQueue.main.async {
 
@@ -247,4 +250,15 @@ public class CorePlugin: CAPPlugin {
 
 
 
+}
+
+
+///全局函数
+func aigensprint<T>(_ message:T,file:String = #file,_ funcName:String = #function,_ lineNum:Int = #line){
+    
+    if aigensDebug {
+        let file = (file as NSString).lastPathComponent;
+        print("\(file):(\(lineNum))--:\(message)");
+    }
+    
 }

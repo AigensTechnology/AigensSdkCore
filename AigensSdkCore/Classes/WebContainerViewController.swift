@@ -25,7 +25,7 @@ import Capacitor
     }
     override open func viewDidLoad() {
 
-        print("WebContainerViewController viewDidLoad")
+        aigensprint("WebContainerViewController viewDidLoad")
 
         self.becomeFirstResponder()
         loadWebViewCustom()
@@ -46,7 +46,7 @@ import Capacitor
             return
         }
 
-        print("handleUrlOpened url:\(object)")
+        aigensprint("handleUrlOpened url:\(object)")
         guard let url = object["url"] as? URL else {
             return
         }
@@ -64,7 +64,7 @@ import Capacitor
             return
         }
 
-        print("handleUniversalLink url:\(object)")
+        aigensprint("handleUniversalLink url:\(object)")
         guard let url = object["url"] as? URL else {
             return
         }
@@ -80,7 +80,7 @@ import Capacitor
     }
     private func initView(){
 
-        print("VC initView")
+        aigensprint("VC initView")
 
         //let bundle = Bundle(for: WebContainerViewController.self)
         //let containerView = WebContainerView()
@@ -185,7 +185,7 @@ import Capacitor
     }
 
     deinit {
-        print("WebContainerViewController deinit")
+        aigensprint("WebContainerViewController deinit")
         NotificationCenter.default.removeObserver(self)
     }
 
@@ -217,13 +217,13 @@ extension WebContainerViewController: WKNavigationDelegate {
             return
         }
 
-        print("navURL--:\(navURL)")
+        aigensprint("navURL--:\(navURL)")
 
         if !universalLink.isEmpty && navURL.absoluteString.starts(with: universalLink) {
 
             if navURL.absoluteString.range(of: "redirect=") != nil, let redirect = navURL.absoluteString.components(separatedBy:"redirect=").last, let redirectUrl = URL(string: redirect) {
                 self.redirectLink = redirect
-                print("navURL-- redirect:\(redirect)")
+                aigensprint("navURL-- redirect:\(redirect)")
                 webContainerView.showLoading(true)
                 webContainerView.showError(false)
                 let rUrl = URLRequest(url: redirectUrl)

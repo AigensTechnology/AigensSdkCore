@@ -23,7 +23,7 @@ class WebContainer: UIView {
     }
     override func awakeFromNib() {
         super.awakeFromNib()
-        print("awakeFromNib")
+        aigensprint("awakeFromNib")
     }
     
     private func hiddenSelf() {
