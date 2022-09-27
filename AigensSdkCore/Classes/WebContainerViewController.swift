@@ -32,6 +32,18 @@ import Capacitor
         initView()
 
         handleOpenUrl()
+        
+//        if let splashScreenPlugin = bridge?.plugin(withName: "SplashScreen") {
+//            let selector = NSSelectorFromString("hide:")
+//            if splashScreenPlugin.responds(to: selector) {
+//                let pluginCall = CAPPluginCall(callbackId: "hideSplashScreen", options: [:]) { (callResult, call) in
+//                    aigensprint("callResult:\(callResult)")
+//                } error: { error in
+//                    aigensprint("error:\(error)")
+//                }
+//                splashScreenPlugin.perform(selector, with: pluginCall)
+//            }
+//        }
 
     }
 
@@ -180,6 +192,12 @@ import Capacitor
         let descriptor = InstanceDescriptor.init(at: wwwLoc!, configuration: configLoc, cordovaConfiguration: nil)
 
         descriptor.appendedUserAgentString = "AigensSDK"
+        
+        if var splashScreenPlugin = descriptor.pluginConfigurations["SplashScreen"] as? [String: Any] {
+            splashScreenPlugin["launchShowDuration"] = 3
+            splashScreenPlugin["launchAutoHide"] = true
+            descriptor.pluginConfigurations["SplashScreen"] = splashScreenPlugin
+        }
 
         return descriptor
     }
