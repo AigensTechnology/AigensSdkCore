@@ -94,12 +94,18 @@ public class CorePlugin: CAPPlugin {
         }
 
 
+        if let data = call.getObject("closedData") {
+            let r = ["closedData": data]
+            WebContainerViewController.closeCB?(r)
+            CorePlugin.dismissCall?.resolve(r)
+        }
+        
         //let value = call.getString("value") ?? ""
         call.resolve([
             "success": true
             //"value": implementation.echo(value)
         ])
-
+        
 
     }
 
@@ -124,12 +130,23 @@ public class CorePlugin: CAPPlugin {
             self.bridge?.viewController?.dismiss(animated: true);
         }
 
+        if let data = call.getObject("closedData") {
+            let r = ["closedData": data]
+            WebContainerViewController.closeCB?(r)
+            CorePlugin.dismissCall?.resolve(r)
+        }
 
         //let value = call.getString("value") ?? ""
         call.resolve([
             "success": true
             //"value": implementation.echo(value)
         ])
+    }
+    
+    private static var dismissCall: CAPPluginCall?
+    @objc func getFinishData(_ call: CAPPluginCall) {
+        call.keepAlive = true
+        CorePlugin.dismissCall = call
     }
 
 

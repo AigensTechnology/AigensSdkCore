@@ -50,7 +50,12 @@ class ViewController: UIViewController {
 //        url = "http://localhost:4200/order/store/80039/mode/takeaway"
 //        url = "http://localhost:4200/home/store/5669108628586496(modal:directory/popup)?mode=dinein&advertisement=true"
         
-        url = "http://192.168.100.138:4200/order/store/600002/mode/catering"
+        url = "https://fairwood.order.place/order/store/600002/mode/catering"
+        
+        url = "https://fairwood.order.place/crm/brand/600001/directory"
+        
+        url = "https://test.order.place/crm/brand/220000/directory?locale=zh&nocache=true"
+//        url = "http://192.168.100.66:4200/crm/brand/600001/directory";
         
         let bridgeVC = WebContainerViewController()
         
@@ -82,9 +87,18 @@ class ViewController: UIViewController {
         
         options["member"] = member
         options["deeplink"] = deeplink
+        
+        options["debug"] = true
+        options["clearCache"] = true
+        
 //        options["themeColor"] = "#144372"
         
         bridgeVC.options = options;
+        
+        WebContainerViewController.closeCB = {
+            (result: Any?) in
+            print("closeCB:\(result)")
+        }
         
         bridgeVC.modalPresentationStyle = .fullScreen
         self.present(bridgeVC, animated: true);

@@ -11,6 +11,7 @@ import Capacitor
 
 @objc open class WebContainerViewController: CAPBridgeViewController {
 
+    public static var closeCB: ((Any?) -> Void)? = nil;
     // {themeColor: "#xxxxxx"}
     public var options: Dictionary<String, Any>?
     private var isFirstError = true
@@ -46,6 +47,43 @@ import Capacitor
 //        }
 
     }
+    
+    private func clearCache() {
+        if #available(iOS 9.0, *) {
+            /*
+             在磁盘缓存上。
+             WKWebsiteDataTypeDiskCache,
+             html离线Web应用程序缓存。
+             WKWebsiteDataTypeOfflineWebApplicationCache,
+             内存缓存。
+             WKWebsiteDataTypeMemoryCache,
+             本地存储。
+             WKWebsiteDataTypeLocalStorage,
+             Cookies
+             WKWebsiteDataTypeCookies,
+             会话存储
+             WKWebsiteDataTypeSessionStorage,
+             IndexedDB数据库。
+             WKWebsiteDataTypeIndexedDBDatabases,
+             查询数据库。
+             WKWebsiteDataTypeWebSQLDatabases
+             */
+            let types = [WKWebsiteDataTypeMemoryCache, WKWebsiteDataTypeDiskCache]
+            let websiteDataTypes = Set<AnyHashable>(types)
+            let dateFrom = Date(timeIntervalSince1970: 0)
+            if let websiteDataTypes = websiteDataTypes as? Set<String> {
+                WKWebsiteDataStore.default().removeData(ofTypes: websiteDataTypes, modifiedSince: dateFrom, completionHandler: {
+                    aigensprint("removeData completionHandler");
+                })
+            }
+        } else {
+            //            let libraryPath = NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0]
+            //            let cookiesFolderPath = libraryPath + ("/Cookies")
+            //            JJPrint("\(cookiesFolderPath)")
+            //            try? FileManager.default.removeItem(atPath: cookiesFolderPath)
+        }
+    }
+
 
     private func handleOpenUrl() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUniversalLink(notification:)), name: Notification.Name.capacitorOpenUniversalLink, object: nil)
@@ -161,6 +199,14 @@ import Capacitor
         CorePlugin.member = member
         let deeplink = self.options?["deeplink"] as? Dictionary<String, Any>
         CorePlugin.deeplink = deeplink
+        
+        if let debug = self.options?["debug"] as? Bool, debug == true {
+            aigensDebug = debug
+        }
+        
+        if let clearCache = self.options?["clearCache"] as? Bool, clearCache == true {
+            self.clearCache()
+        }
 
         //bridge.webViewDelegationHandler.willLoadWebview(webView)
         _ = webView?.load(URLRequest(url: url!))
