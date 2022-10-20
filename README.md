@@ -81,10 +81,10 @@ Include the aigens-sdk-core dependency in "build.gradle".
 ```gradle
 dependencies {
 
-    implementation 'com.aigens:aigens-sdk-core:0.0.22'
+    implementation 'com.aigens:aigens-sdk-core:0.0.23'
 
     # If have googlepay
-    implementation 'com.aigens:aigens-sdk-googlepay:0.0.5'
+    implementation 'com.aigens:aigens-sdk-googlepay:0.0.6'
 }
 ```
 
