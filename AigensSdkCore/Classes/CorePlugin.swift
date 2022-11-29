@@ -99,13 +99,13 @@ public class CorePlugin: CAPPlugin {
             WebContainerViewController.closeCB?(r)
             CorePlugin.dismissCall?.resolve(r)
         }
-        
+
         //let value = call.getString("value") ?? ""
         call.resolve([
             "success": true
             //"value": implementation.echo(value)
         ])
-        
+
 
     }
 
@@ -142,7 +142,7 @@ public class CorePlugin: CAPPlugin {
             //"value": implementation.echo(value)
         ])
     }
-    
+
     private static var dismissCall: CAPPluginCall?
     @objc func getFinishData(_ call: CAPPluginCall) {
         call.keepAlive = true
@@ -244,7 +244,7 @@ public class CorePlugin: CAPPlugin {
             return
         }
     }
-@objc func checkNotificationPermissions(_ call: CAPPluginCall) {
+    @objc func checkNotificationPermissions(_ call: CAPPluginCall) {
         let center = UNUserNotificationCenter.current()
         center.getNotificationSettings { settings in
             let status = settings.authorizationStatus
@@ -259,12 +259,39 @@ public class CorePlugin: CAPPlugin {
             @unknown default:
                 permission = "prompt"
             }
-
             call.resolve(["display": permission])
-
         }
     }
 
+    @objc func setTextZoom(_ call: CAPPluginCall) {
+        call.unimplemented("ios does not implement.")
+    }
+    
+    private func getStringFromQr(_ image: UIImage) -> String? {
+        guard let ciImage = CIImage(image: image) else {
+            return nil
+        }
+        // 2.从选中的图片中读取二维码数据
+        // 2.1创建一个探测器
+        // CIDetectorTypeFace -- 探测器还可以搞人脸识别
+        let detector = CIDetector(ofType: CIDetectorTypeQRCode, context: nil, options: [CIDetectorAccuracy: CIDetectorAccuracyLow])
+        // 2.2利用探测器探测数据
+        let results = detector?.features(in: ciImage) ?? []
+        // 2.3取出探测到的数据
+        var str: String? = nil;
+        if results.count > 0 {
+            str = (results[0] as? CIQRCodeFeature)?.messageString
+        }
+        return str;
+    }
+
+    @objc func readClipboard(_ call: CAPPluginCall) {
+        if UIPasteboard.general.hasImages, let image = UIPasteboard.general.image, let str = getStringFromQr(image) {
+            call.resolve(["value": str, "type": "text/plain"])
+            return
+        }
+        call.resolve(["value": "", "type": ""])
+    }
 
 
     /*

@@ -15,5 +15,6 @@ CAP_PLUGIN(CorePlugin, "Core",
            CAP_PLUGIN_METHOD(getIsProductionEnvironment, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(checkNotificationPermissions, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getFinishData, CAPPluginReturnPromise);
-           
+           CAP_PLUGIN_METHOD(setTextZoom, CAPPluginReturnPromise);
+
 )
