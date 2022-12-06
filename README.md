@@ -234,6 +234,8 @@ class ViewController: UIViewController {
         
         options["member"] = member
         options["deeplink"] = deeplink
+
+        options["debug"] = isUat ? true : false;
         
         bridgeVC.options = options
         
@@ -283,6 +285,7 @@ import com.aigens.sdk.WebContainerActivity;
         intent.putExtra("member", (Serializable) member);
         intent.putExtra("deeplink", (Serializable) deeplink);
 
+        intent.putExtra("debug", isUat ? true : false);
         
         intent.putExtra("ENVIRONMENT_PRODUCTION", true);
         // intent.putExtra("ENVIRONMENT_PRODUCTION", false);
