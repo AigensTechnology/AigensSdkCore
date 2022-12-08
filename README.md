@@ -106,7 +106,7 @@ Add permissions required in "AndroidManifest.xml" depending on features.
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <!--     set your app link           -->
-                <!-- <data android:scheme="xxxapp" android:host="localhost" android:pathPrefix="/toapp" /> -->
+                <!-- <data android:scheme="https" android:host="xxx.xx.com" android:pathPrefix="/toapp" /> -->
                 
             </intent-filter>
         </activity>
@@ -274,8 +274,8 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("deviceId", "<deviceId>");
         member.put("language", "en");  // en / zh
         
-        // from :  <!-- <data android:scheme="xxxapp" android:host="localhost" android:pathPrefix="/toapp" /> -->
-        member.put("universalLink", "xxxapp://localhost/toapp");
+        // from :  <!-- <data android:scheme="https" android:host="xxx.xx.com" android:pathPrefix="/toapp" /> -->
+        member.put("universalLink", "https://xxx.xx.com/toapp");
 
         Map<String, String> deeplink = new HashMap<String, String>();
         deeplink.put("addItemId", "<itemId>");
