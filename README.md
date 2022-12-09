@@ -101,12 +101,16 @@ Add permissions required in "AndroidManifest.xml" depending on features.
             android:screenOrientation="portrait"
             android:exported="true"
             >
-            <intent-filter>
+            <!-- 1. android:autoVerify="true" -->
+            <!-- 2. <data android:scheme="https" /> -->
+            <!-- 3. <data android:host="domain.name" android:pathPrefix="/toapp" /> -->
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!--     set your app link           -->
-                <!-- <data android:scheme="https" android:host="xxx.xx.com" android:pathPrefix="/toapp" /> -->
+                
+                <data android:scheme="https" />
+                <data android:host="domain.name" android:pathPrefix="/toapp" />
                 
             </intent-filter>
         </activity>
@@ -274,7 +278,8 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("deviceId", "<deviceId>");
         member.put("language", "en");  // en / zh
         
-        // from :  <!-- <data android:scheme="https" android:host="xxx.xx.com" android:pathPrefix="/toapp" /> -->
+        // from : <data android:scheme="https" />
+        //        <data android:host="domain.name" android:pathPrefix="/toapp" />
         member.put("universalLink", "https://xxx.xx.com/toapp");
 
         Map<String, String> deeplink = new HashMap<String, String>();
