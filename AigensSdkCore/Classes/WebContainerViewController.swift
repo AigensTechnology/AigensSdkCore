@@ -106,6 +106,14 @@ import Capacitor
         }
 
         let rUrl = URLRequest(url: url)
+
+        let newUrl = url;
+        if newUrl.absoluteString.range(of: "redirect=") != nil, let redirect = newUrl.absoluteString.components(separatedBy:"redirect=").last, !redirect.isEmpty {
+            aigensprint("handleUniversalLink has -- redirect:\(redirect)")
+            webContainerView.showLoading(true)
+            webContainerView.showError(false)
+        }
+        
         webView?.load(rUrl)
     }
 
