@@ -57,6 +57,8 @@ class ViewController: UIViewController {
         url = "https://test.order.place/crm/brand/220000/directory?locale=zh&nocache=true"
 //        url = "http://192.168.100.66:4200/crm/brand/600001/directory";
         
+//        url = "https://fairwood-uat-v4.order.place/order/store/600002/mode/catering?brandId=600001"
+        
         let bridgeVC = WebContainerViewController()
         
         var options = [String: Any]()
