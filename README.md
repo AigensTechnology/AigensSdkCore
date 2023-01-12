@@ -21,7 +21,7 @@ pod init
 Add AigensSdkCore into Podfile:
 
 ```ruby
-pod 'AigensSdkCore', '0.0.27'
+pod 'AigensSdkCore', '0.0.28'
 
 # If have applepay
 pod 'AigensSdkApplepay', '0.0.8'
@@ -81,7 +81,7 @@ Include the aigens-sdk-core dependency in "build.gradle".
 ```gradle
 dependencies {
 
-    implementation 'com.aigens:aigens-sdk-core:0.0.24'
+    implementation 'com.aigens:aigens-sdk-core:0.0.25'
 
     # If have googlepay
     implementation 'com.aigens:aigens-sdk-googlepay:0.0.6'
