@@ -29,6 +29,8 @@ import Capacitor
         aigensprint("WebContainerViewController viewDidLoad")
 
         self.becomeFirstResponder()
+        
+        addChannel()
         loadWebViewCustom()
         initView()
 
@@ -46,6 +48,16 @@ import Capacitor
 //            }
 //        }
 
+    }
+    
+    private func addChannel() {
+        if let urlString = self.options?["url"] as? String {
+        
+            if !urlString.contains("&channel=app") && !urlString.contains("?channel=app") {
+                let sign = urlString.contains("?") ? "&" : "?"
+                self.options?["url"] = urlString + sign + "channel=app"
+            }
+        }
     }
     
     private func clearCache() {
