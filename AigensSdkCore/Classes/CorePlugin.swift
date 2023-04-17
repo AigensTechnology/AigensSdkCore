@@ -164,6 +164,8 @@ public class CorePlugin: CAPPlugin {
         let member = call.getObject("member")
         let deeplink = call.getObject("deeplink")
         let externalProtocols = call.getArray("externalProtocols")
+        let addPaddingProtocols = call.getArray("addPaddingProtocols")
+        
         let clearCache = call.getBool("clearCache") ?? false
         aigensDebug = call.getBool("debug") ?? false
 
@@ -185,6 +187,9 @@ public class CorePlugin: CAPPlugin {
             }
             if (externalProtocols != nil) {
                 options["externalProtocols"] = externalProtocols as AnyObject
+            }
+            if (addPaddingProtocols != nil) {
+                options["addPaddingProtocols"] = addPaddingProtocols as AnyObject
             }
 
             bridgeVC.options = options;

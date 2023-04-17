@@ -18,8 +18,25 @@ import Capacitor
     private var redirectLink = ""
     private var universalLink = ""
     var externalProtocols: [String] = [
-        "octopus://", "alipay://", "alipays://", "alipayhk://", "https://itunes.apple.com", "tel:", "mailto:", "itms-apps://itunes.apple.com", "https://apps.apple.com", "payme://", "weixin://", "hsbcpaymepay://"
+        "octopus://", "alipay://", "alipays://", "alipayhk://", "https://play.google.com", "https://itunes.apple.com", "tel:", "mailto:", "itms-apps://itunes.apple.com", "https://apps.apple.com", "payme://", "weixin://", "hsbcpaymepay://"
     ]
+    var addPaddingProtocols: [String] = [
+        "https://ap-gateway.mastercard.com",
+        "https://mapi-hk.alipay.com/",
+        "https://mclient.alipay.com/",
+        "https://tscenter.alipay.com/",
+        "https://test.paydollar.com/",
+        "https://paydollar.com/",
+        "https://www.paydollar.com/",
+        "https://web-test.online.octopus.com.hk",
+        "https://web.online.octopus.com.hk",
+        "https://web-prd.online.octopus.com.hk",
+        "http://vmp.eftpay.com.cn",
+        "https://wx.tenpay.com",
+        
+        
+    ]
+    
     let containerView = WebContainer.webContainer()
     var webContainerView: WebContainer {
             return containerView
@@ -29,13 +46,13 @@ import Capacitor
         aigensprint("WebContainerViewController viewDidLoad")
 
         self.becomeFirstResponder()
-        
+
         addChannel()
         loadWebViewCustom()
         initView()
 
         handleOpenUrl()
-        
+
 //        if let splashScreenPlugin = bridge?.plugin(withName: "SplashScreen") {
 //            let selector = NSSelectorFromString("hide:")
 //            if splashScreenPlugin.responds(to: selector) {
@@ -49,17 +66,26 @@ import Capacitor
 //        }
 
     }
-    
+
+    private func isPaddingUrl(_ url: URL) -> Bool {
+        var result = false
+        addPaddingProtocols.forEach { (url_) in
+            if (url.absoluteString.starts(with: url_)) {
+                result = true
+            }
+        }
+        return result
+    }
     private func addChannel() {
         if let urlString = self.options?["url"] as? String {
-        
+
             if !urlString.contains("&channel=app") && !urlString.contains("?channel=app") {
                 let sign = urlString.contains("?") ? "&" : "?"
                 self.options?["url"] = urlString + sign + "channel=app"
             }
         }
     }
-    
+
     private func clearCache() {
         if #available(iOS 9.0, *) {
             /*
@@ -113,7 +139,7 @@ import Capacitor
             return
         }
 
-        if universalLink.isEmpty || !url.absoluteString.starts(with: universalLink) {
+        if universalLink.isEmpty || (!url.absoluteString.starts(with: universalLink) && !universalLink.contains("aigens=true")) {
             return;
         }
 
@@ -125,7 +151,7 @@ import Capacitor
             webContainerView.showLoading(true)
             webContainerView.showError(false)
         }
-        
+
         webView?.load(rUrl)
     }
 
@@ -139,21 +165,21 @@ import Capacitor
             return
         }
 
-        if universalLink.isEmpty || !url.absoluteString.starts(with: universalLink) {
+        if universalLink.isEmpty || (!url.absoluteString.starts(with: universalLink) && !universalLink.contains("aigens=true")) {
             return;
         }
 
 
         let rUrl = URLRequest(url: url)
-        
+
         let newUrl = url;
         if newUrl.absoluteString.range(of: "redirect=") != nil, let redirect = newUrl.absoluteString.components(separatedBy:"redirect=").last, !redirect.isEmpty {
             aigensprint("handleUniversalLink has -- redirect:\(redirect)")
             webContainerView.showLoading(true)
             webContainerView.showError(false)
         }
-        
-        
+
+
         webView?.load(rUrl)
 
     }
@@ -205,6 +231,10 @@ import Capacitor
         if let externalProtocols = options?["externalProtocols"] as? [String] {
             self.externalProtocols.append(contentsOf: externalProtocols)
         }
+        
+        if let addPaddingProtocols = options?["addPaddingProtocols"] as? [String] {
+            self.addPaddingProtocols.append(contentsOf: addPaddingProtocols)
+        }
 
     }
 
@@ -228,11 +258,11 @@ import Capacitor
         CorePlugin.member = member
         let deeplink = self.options?["deeplink"] as? Dictionary<String, Any>
         CorePlugin.deeplink = deeplink
-        
+
         if let debug = self.options?["debug"] as? Bool, debug == true {
             aigensDebug = debug
         }
-        
+
         if let clearCache = self.options?["clearCache"] as? Bool, clearCache == true {
             self.clearCache()
         }
@@ -267,7 +297,7 @@ import Capacitor
         let descriptor = InstanceDescriptor.init(at: wwwLoc!, configuration: configLoc, cordovaConfiguration: nil)
 
         descriptor.appendedUserAgentString = "AigensSDK"
-        
+
         if var splashScreenPlugin = descriptor.pluginConfigurations["SplashScreen"] as? [String: Any] {
             splashScreenPlugin["launchShowDuration"] = 3
             splashScreenPlugin["launchAutoHide"] = true
@@ -311,8 +341,7 @@ extension WebContainerViewController: WKNavigationDelegate {
         }
 
         aigensprint("navURL--:\(navURL)")
-
-        if !universalLink.isEmpty && navURL.absoluteString.starts(with: universalLink) {
+        if !universalLink.isEmpty && (navURL.absoluteString.starts(with: universalLink) || universalLink.contains("aigens=true")) {
 
             if navURL.absoluteString.range(of: "redirect=") != nil, let redirect = navURL.absoluteString.components(separatedBy:"redirect=").last, let redirectUrl = URL(string: redirect) {
                 self.redirectLink = redirect
@@ -321,9 +350,10 @@ extension WebContainerViewController: WKNavigationDelegate {
                 webContainerView.showError(false)
                 let rUrl = URLRequest(url: redirectUrl)
                 webView.load(rUrl)
+                decisionHandler(.cancel)
+                return;
             }
-            decisionHandler(.cancel)
-            return;
+            
         }
 
         var isCanOpen = false
@@ -394,6 +424,16 @@ extension WebContainerViewController: WKNavigationDelegate {
 //            webView.isOpaque = isOpaque
 //            webViewLoadingState = .subsequentLoad
 //        }
+        
+        if let navURL = webView.url, isPaddingUrl(navURL) {
+            webView.evaluateJavaScript("""
+            let bg = document.getElementsByTagName('body');
+            if (bg && bg[0]) {
+                bg[0].style.paddingTop = "\(UIDevice.xp_statusBarHeight())px";
+            }
+            """)
+        }
+        
         webContainerView.showLoading(false)
         webContainerView.showError(false)
         CAPLog.print("⚡️  WebView loaded")
@@ -462,5 +502,72 @@ extension UIColor {
             green: CGFloat((rgbValue & 0xFF00) >> 8) / 255.0,
             blue: CGFloat((rgbValue & 0xFF)) / 255.0,
             alpha: alpha);
+    }
+}
+
+
+extension UIDevice {
+    
+    /// 顶部安全区高度
+    static func xp_safeDistanceTop() -> CGFloat {
+        if #available(iOS 13.0, *) {
+            let scene = UIApplication.shared.connectedScenes.first
+            guard let windowScene = scene as? UIWindowScene else { return 0 }
+            guard let window = windowScene.windows.first else { return 0 }
+            return window.safeAreaInsets.top
+        } else if #available(iOS 11.0, *) {
+            guard let window = UIApplication.shared.windows.first else { return 0 }
+            return window.safeAreaInsets.top
+        }
+        return 0;
+    }
+    
+    /// 底部安全区高度
+    static func xp_safeDistanceBottom() -> CGFloat {
+        if #available(iOS 13.0, *) {
+            let scene = UIApplication.shared.connectedScenes.first
+            guard let windowScene = scene as? UIWindowScene else { return 0 }
+            guard let window = windowScene.windows.first else { return 0 }
+            return window.safeAreaInsets.bottom
+        } else if #available(iOS 11.0, *) {
+            guard let window = UIApplication.shared.windows.first else { return 0 }
+            return window.safeAreaInsets.bottom
+        }
+        return 0;
+    }
+    
+    /// 顶部状态栏高度（包括安全区）
+    static func xp_statusBarHeight() -> CGFloat {
+        var statusBarHeight: CGFloat = 0
+        if #available(iOS 13.0, *) {
+            let scene = UIApplication.shared.connectedScenes.first
+            guard let windowScene = scene as? UIWindowScene else { return 0 }
+            guard let statusBarManager = windowScene.statusBarManager else { return 0 }
+            statusBarHeight = statusBarManager.statusBarFrame.height
+        } else {
+            statusBarHeight = UIApplication.shared.statusBarFrame.height
+        }
+        print("navURL-- height:\(statusBarHeight)")
+        return statusBarHeight
+    }
+    
+    /// 导航栏高度
+    static func xp_navigationBarHeight() -> CGFloat {
+        return 44.0
+    }
+    
+    /// 状态栏+导航栏的高度
+    static func xp_navigationFullHeight() -> CGFloat {
+        return UIDevice.xp_statusBarHeight() + UIDevice.xp_navigationBarHeight()
+    }
+    
+    /// 底部导航栏高度
+    static func xp_tabBarHeight() -> CGFloat {
+        return 49.0
+    }
+    
+    /// 底部导航栏高度（包括安全区）
+    static func xp_tabBarFullHeight() -> CGFloat {
+        return UIDevice.xp_tabBarHeight() + UIDevice.xp_safeDistanceBottom()
     }
 }
