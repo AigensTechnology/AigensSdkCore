@@ -21,7 +21,7 @@ pod init
 Add AigensSdkCore into Podfile:
 
 ```ruby
-pod 'AigensSdkCore', '0.0.29'
+pod 'AigensSdkCore', '0.0.30'
 
 # If have applepay
 pod 'AigensSdkApplepay', '0.0.8'
@@ -81,7 +81,7 @@ Include the aigens-sdk-core dependency in "build.gradle".
 ```gradle
 dependencies {
 
-    implementation 'com.aigens:aigens-sdk-core:0.0.26'
+    implementation 'com.aigens:aigens-sdk-core:0.0.27'
 
     # If have googlepay
     implementation 'com.aigens:aigens-sdk-googlepay:0.0.6'
@@ -100,6 +100,7 @@ Add permissions required in "AndroidManifest.xml" depending on features.
             android:name="com.aigens.sdk.WebContainerActivity"
             android:screenOrientation="portrait"
             android:exported="true"
+            android:launchMode="singleTask"
             >
             <!-- 1. android:autoVerify="true" -->
             <!-- 2. <data android:scheme="https" /> -->
