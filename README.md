@@ -125,6 +125,9 @@ Add permissions required in "AndroidManifest.xml" depending on features.
         <package android:name="com.tencent.mm" />
         <package android:name="com.octopuscards.nfc_reader" /> 
         <package android:name="hk.com.hsbc.paymefromhsbc" />
+        <package android:name="com.macaupass.rechargeEasy" />
+        <package android:name="hk.alipay.wallet" />
+        <package android:name="com.eg.android.AlipayGphone" />
     </queries>
 
     <uses-permission android:name="android.permission.INTERNET" />
