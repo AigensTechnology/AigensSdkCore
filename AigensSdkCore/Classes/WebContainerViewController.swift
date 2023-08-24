@@ -18,7 +18,7 @@ import Capacitor
     private var redirectLink = ""
     private var universalLink = ""
     var externalProtocols: [String] = [
-        "octopus://", "alipay://", "alipays://", "alipayhk://", "https://play.google.com", "https://itunes.apple.com", "tel:", "mailto:", "itms-apps://itunes.apple.com", "https://apps.apple.com", "payme://", "weixin://", "hsbcpaymepay://"
+        "octopus://", "alipay://", "alipays://", "alipayhk://", "https://play.google.com", "https://itunes.apple.com", "tel:", "mailto:", "itms-apps://itunes.apple.com", "https://apps.apple.com", "payme://", "weixin://", "hsbcpaymepay://", "mpay://"
     ]
     var addPaddingProtocols: [String] = [
         "https://ap-gateway.mastercard.com",
@@ -33,10 +33,12 @@ import Capacitor
         "https://web-prd.online.octopus.com.hk",
         "http://vmp.eftpay.com.cn",
         "https://wx.tenpay.com",
-        
-        
+        "https://uatopenapi.macaupay.com.mo",
+        "https://uatpay.macaupass.com",
+        "https://prdpay.macaupass.com",
+        "https://pay.macaupass.com",
     ]
-    
+
     let containerView = WebContainer.webContainer()
     var webContainerView: WebContainer {
             return containerView
@@ -135,9 +137,11 @@ import Capacitor
         }
 
         aigensprint("handleUrlOpened url:\(object)")
-        guard let url = object["url"] as? URL else {
+        guard var url = object["url"] as? URL else {
             return
         }
+
+        url = decodeURIComponent(url);
 
         if universalLink.isEmpty || (!url.absoluteString.starts(with: universalLink) && !universalLink.contains("aigens=true")) {
             return;
@@ -148,6 +152,10 @@ import Capacitor
         let newUrl = url;
         if newUrl.absoluteString.range(of: "redirect=") != nil, let redirect = newUrl.absoluteString.components(separatedBy:"redirect=").last, !redirect.isEmpty {
             aigensprint("handleUniversalLink has -- redirect:\(redirect)")
+            webContainerView.showLoading(true)
+            webContainerView.showError(false)
+        }else if newUrl.absoluteString.range(of: "aigensRedirect/") != nil, let redirect = newUrl.absoluteString.components(separatedBy:"aigensRedirect/").last, !redirect.isEmpty {
+            aigensprint("handleUniversalLink has -- aigensRedirect:\(redirect)")
             webContainerView.showLoading(true)
             webContainerView.showError(false)
         }
@@ -161,9 +169,12 @@ import Capacitor
         }
 
         aigensprint("handleUniversalLink url:\(object)")
-        guard let url = object["url"] as? URL else {
+        guard var url = object["url"] as? URL else {
             return
         }
+
+        url = decodeURIComponent(url);
+
 
         if universalLink.isEmpty || (!url.absoluteString.starts(with: universalLink) && !universalLink.contains("aigens=true")) {
             return;
@@ -175,6 +186,10 @@ import Capacitor
         let newUrl = url;
         if newUrl.absoluteString.range(of: "redirect=") != nil, let redirect = newUrl.absoluteString.components(separatedBy:"redirect=").last, !redirect.isEmpty {
             aigensprint("handleUniversalLink has -- redirect:\(redirect)")
+            webContainerView.showLoading(true)
+            webContainerView.showError(false)
+        }else if newUrl.absoluteString.range(of: "aigensRedirect/") != nil, let redirect = newUrl.absoluteString.components(separatedBy:"aigensRedirect/").last, !redirect.isEmpty {
+            aigensprint("handleUniversalLink has -- aigensRedirect:\(redirect)")
             webContainerView.showLoading(true)
             webContainerView.showError(false)
         }
@@ -231,11 +246,21 @@ import Capacitor
         if let externalProtocols = options?["externalProtocols"] as? [String] {
             self.externalProtocols.append(contentsOf: externalProtocols)
         }
-        
+
         if let addPaddingProtocols = options?["addPaddingProtocols"] as? [String] {
             self.addPaddingProtocols.append(contentsOf: addPaddingProtocols)
         }
 
+    }
+
+    private func decodeURIComponent(_ url: URL) -> URL {
+        let str = url.absoluteString
+        let urlStr = str.removingPercentEncoding ?? str
+        return URL(string: urlStr) ?? url
+    }
+
+    private func decodeURIComponent(_ str: String) -> String {
+        return str.removingPercentEncoding ?? str
     }
 
     public final func loadWebViewCustom() {
@@ -245,6 +270,13 @@ import Capacitor
 
 
         let urlString = self.options?["url"] as? String;
+//        urlString = "https://payment2.pizzahut.com.hk/v3/Payment/Completed?TransId=N224A2306130302&Code=4F19FC65-E099-4339-ADF4-3986EF539233"
+//        urlString = "https://payment2.pizzahut.com.hk/v3/Payment/UserCancel?TransId=N224A2306130301&Code=44D4B103-4962-432E-A323-086D46F8BB6F"
+//        urlString = "https://payment2.pizzahut.com.hk/v3/Payment/Completed?TransId=A224A2306131102&Code=104A53FB-053E-4FC1-870E-29D7B39AE2C5"
+
+//        urlString = "https%3a%2f%2fpayment2.pizzahut.com.hk%2fv3%2fPayment%2fCompleted%3fTransId%3dA224A2306131102%26Code%3d104A53FB-053E-4FC1-870E-29D7B39AE2C5";
+//
+//        urlString = decodeURIComponent(urlString!)
 
         if(urlString == nil){
             return;
@@ -343,17 +375,38 @@ extension WebContainerViewController: WKNavigationDelegate {
         aigensprint("navURL--:\(navURL)")
         if !universalLink.isEmpty && (navURL.absoluteString.starts(with: universalLink) || universalLink.contains("aigens=true")) {
 
-            if navURL.absoluteString.range(of: "redirect=") != nil, let redirect = navURL.absoluteString.components(separatedBy:"redirect=").last, let redirectUrl = URL(string: redirect) {
-                self.redirectLink = redirect
-                aigensprint("navURL-- redirect:\(redirect)")
-                webContainerView.showLoading(true)
-                webContainerView.showError(false)
-                let rUrl = URLRequest(url: redirectUrl)
-                webView.load(rUrl)
-                decisionHandler(.cancel)
-                return;
+            if navURL.absoluteString.range(of: "redirect=") != nil, var redirect = navURL.absoluteString.components(separatedBy:"redirect=").last{
+                if !redirect.starts(with: "http://") && !redirect.starts(with: "https://") {
+                    redirect = "https://" + redirect
+                }
+                if let redirectUrl = URL(string: redirect) {
+                    self.redirectLink = redirect
+                    aigensprint("navURL-- redirect:\(redirect)")
+                    webContainerView.showLoading(true)
+                    webContainerView.showError(false)
+                    let rUrl = URLRequest(url: redirectUrl)
+                    webView.load(rUrl)
+                    decisionHandler(.cancel)
+                    return;
+                }
             }
             
+            if navURL.absoluteString.range(of: "aigensRedirect/") != nil, var redirect = navURL.absoluteString.components(separatedBy:"aigensRedirect/").last, !redirect.isEmpty{
+                if !redirect.starts(with: "http://") && !redirect.starts(with: "https://") {
+                    redirect = "https://" + redirect
+                }
+                if let redirectUrl = URL(string: redirect) {
+                    self.redirectLink = redirect
+                    aigensprint("navURL-- aigensRedirect:\(redirect)")
+                    webContainerView.showLoading(true)
+                    webContainerView.showError(false)
+                    let rUrl = URLRequest(url: redirectUrl)
+                    webView.load(rUrl)
+                    decisionHandler(.cancel)
+                    return;
+                }
+            }
+
         }
 
         var isCanOpen = false
@@ -424,19 +477,27 @@ extension WebContainerViewController: WKNavigationDelegate {
 //            webView.isOpaque = isOpaque
 //            webViewLoadingState = .subsequentLoad
 //        }
-        
+
         if let navURL = webView.url, isPaddingUrl(navURL) {
             webView.evaluateJavaScript("""
             let bg = document.getElementsByTagName('body');
             if (bg && bg[0]) {
                 bg[0].style.paddingTop = "\(UIDevice.xp_statusBarHeight())px";
             }
+
+            let app = document.querySelector('body>#app');
+            if (app && window) {
+               if (window.getComputedStyle(app).position == 'absolute') {
+                    app.style.top = "\(UIDevice.xp_statusBarHeight())px";
+                }
+            }
+
             """)
         }
-        
+
         webContainerView.showLoading(false)
         webContainerView.showError(false)
-        CAPLog.print("⚡️  WebView loaded")
+        CAPLog.print("⚡️  WebView loaded:\(webView.url)")
     }
 
     // The force unwrap is part of the protocol declaration, so we should keep it.
@@ -507,7 +568,7 @@ extension UIColor {
 
 
 extension UIDevice {
-    
+
     /// 顶部安全区高度
     static func xp_safeDistanceTop() -> CGFloat {
         if #available(iOS 13.0, *) {
@@ -521,7 +582,7 @@ extension UIDevice {
         }
         return 0;
     }
-    
+
     /// 底部安全区高度
     static func xp_safeDistanceBottom() -> CGFloat {
         if #available(iOS 13.0, *) {
@@ -535,7 +596,7 @@ extension UIDevice {
         }
         return 0;
     }
-    
+
     /// 顶部状态栏高度（包括安全区）
     static func xp_statusBarHeight() -> CGFloat {
         var statusBarHeight: CGFloat = 0
@@ -547,25 +608,25 @@ extension UIDevice {
         } else {
             statusBarHeight = UIApplication.shared.statusBarFrame.height
         }
-        print("navURL-- height:\(statusBarHeight)")
+        CAPLog.print("navURL-- height:\(statusBarHeight)")
         return statusBarHeight
     }
-    
+
     /// 导航栏高度
     static func xp_navigationBarHeight() -> CGFloat {
         return 44.0
     }
-    
+
     /// 状态栏+导航栏的高度
     static func xp_navigationFullHeight() -> CGFloat {
         return UIDevice.xp_statusBarHeight() + UIDevice.xp_navigationBarHeight()
     }
-    
+
     /// 底部导航栏高度
     static func xp_tabBarHeight() -> CGFloat {
         return 49.0
     }
-    
+
     /// 底部导航栏高度（包括安全区）
     static func xp_tabBarFullHeight() -> CGFloat {
         return UIDevice.xp_tabBarHeight() + UIDevice.xp_safeDistanceBottom()
