@@ -143,7 +143,7 @@ import Capacitor
 
         url = decodeURIComponent(url);
 
-        if universalLink.isEmpty || (!url.absoluteString.starts(with: universalLink) && !universalLink.contains("aigens=true")) {
+        if universalLink.isEmpty || (!url.absoluteString.starts(with: universalLink) && !universalLink.contains("aigens=true") && !universalLink.contains("aigens/true")) {
             return;
         }
 
@@ -176,7 +176,7 @@ import Capacitor
         url = decodeURIComponent(url);
 
 
-        if universalLink.isEmpty || (!url.absoluteString.starts(with: universalLink) && !universalLink.contains("aigens=true")) {
+        if universalLink.isEmpty || (!url.absoluteString.starts(with: universalLink) && !universalLink.contains("aigens=true") && !universalLink.contains("aigens/true")) {
             return;
         }
 
@@ -373,7 +373,7 @@ extension WebContainerViewController: WKNavigationDelegate {
         }
 
         aigensprint("navURL--:\(navURL)")
-        if !universalLink.isEmpty && (navURL.absoluteString.starts(with: universalLink) || universalLink.contains("aigens=true")) {
+        if !universalLink.isEmpty && (navURL.absoluteString.starts(with: universalLink) || universalLink.contains("aigens=true") || universalLink.contains("aigens/true")) {
 
             if navURL.absoluteString.range(of: "redirect=") != nil, var redirect = navURL.absoluteString.components(separatedBy:"redirect=").last{
                 if !redirect.starts(with: "http://") && !redirect.starts(with: "https://") {
