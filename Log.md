@@ -1,5 +1,9 @@
 AigensSdkCore
 
+* 0.0.32
+  * support aigens/true
+
+
 * 0.0.31
   * handle app scheme
 
@@ -12,6 +16,12 @@ AigensSdkCore
 
 
 # android
+
+* 0.0.30
+  * without log
+
+* 0.0.29
+  * support aigens/true
 
 * 0.0.27
     * android:launchMode="singleTask"
