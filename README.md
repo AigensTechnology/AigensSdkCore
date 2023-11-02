@@ -21,7 +21,7 @@ pod init
 Add AigensSdkCore into Podfile:
 
 ```ruby
-pod 'AigensSdkCore', '0.0.32'
+pod 'AigensSdkCore', '0.0.33'
 
 # If have applepay
 pod 'AigensSdkApplepay', '0.0.8'
@@ -45,6 +45,9 @@ Add permissions required in "Info.plist" depending on features.
  - NSCameraUsageDescription (Privacy - Camera Usage Description)
  - NSPhotoLibraryAddUsageDescription (Privacy - Photo Library Additions Usage Description)
  - NSPhotoLibraryUsageDescription (Privacy - Photo Library Usage Description)
+
+ #Calendar
+ - NSCalendarsUsageDescription
 
  # add schemes in info.plist
 
@@ -82,7 +85,7 @@ Include the aigens-sdk-core dependency in "build.gradle".
 ```gradle
 dependencies {
 
-    implementation 'com.aigens:aigens-sdk-core:0.0.30'
+    implementation 'com.aigens:aigens-sdk-core:0.0.31'
 
     # If have googlepay
     implementation 'com.aigens:aigens-sdk-googlepay:0.0.6'
@@ -138,6 +141,10 @@ Add permissions required in "AndroidManifest.xml" depending on features.
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    
+    <!-- calendar -->
+    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
 
  </manifest>
 ```
