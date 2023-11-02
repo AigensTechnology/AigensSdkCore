@@ -23,8 +23,8 @@ import Capacitor
     var addPaddingProtocols: [String] = [
         "https://ap-gateway.mastercard.com",
         "https://mapi-hk.alipay.com/",
-        "https://mclient.alipay.com/",
-        "https://tscenter.alipay.com/",
+//        "https://mclient.alipay.com/",
+//        "https://tscenter.alipay.com/",
         "https://test.paydollar.com/",
         "https://paydollar.com/",
         "https://www.paydollar.com/",
@@ -371,6 +371,13 @@ extension WebContainerViewController: WKNavigationDelegate {
             decisionHandler(.allow)
             return
         }
+        
+        if let del = CorePlugin.coreDelegate {
+            if del.isInterceptedUrl(url: navURL, webview: webView) {
+                decisionHandler(.cancel)
+                return
+            }
+        }
 
         aigensprint("navURL--:\(navURL)")
         if !universalLink.isEmpty && (navURL.absoluteString.starts(with: universalLink) || universalLink.contains("aigens=true") || universalLink.contains("aigens/true")) {
@@ -390,7 +397,7 @@ extension WebContainerViewController: WKNavigationDelegate {
                     return;
                 }
             }
-            
+
             if navURL.absoluteString.range(of: "aigensRedirect/") != nil, var redirect = navURL.absoluteString.components(separatedBy:"aigensRedirect/").last, !redirect.isEmpty{
                 if !redirect.starts(with: "http://") && !redirect.starts(with: "https://") {
                     redirect = "https://" + redirect

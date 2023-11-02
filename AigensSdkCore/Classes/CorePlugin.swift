@@ -1,7 +1,11 @@
 import Foundation
 import Capacitor
 import UIKit
+import EventKitUI
 
+@objc public protocol CoreDelegate: AnyObject {
+    func isInterceptedUrl(url: URL, webview: WKWebView) -> Bool
+}
 
 var aigensDebug = false;
 /**
@@ -10,6 +14,8 @@ var aigensDebug = false;
  */
 @objc(CorePlugin)
 public class CorePlugin: CAPPlugin {
+
+    static public var coreDelegate: CoreDelegate?
 
     public static let shared = CorePlugin()
     private let implementation = Core()
@@ -165,7 +171,7 @@ public class CorePlugin: CAPPlugin {
         let deeplink = call.getObject("deeplink")
         let externalProtocols = call.getArray("externalProtocols")
         let addPaddingProtocols = call.getArray("addPaddingProtocols")
-        
+
         let clearCache = call.getBool("clearCache") ?? false
         aigensDebug = call.getBool("debug") ?? false
 
@@ -268,10 +274,65 @@ public class CorePlugin: CAPPlugin {
         }
     }
 
+    private func showNewEvent(_ askPermission: Bool, _ call: CAPPluginCall) {
+        let store = EKEventStore()
+        if askPermission {
+            store.requestAccess(to: .event) { (granted, error) in
+                if granted {
+                    DispatchQueue.main.async {
+                        self.showNewEvent(false, call)
+                    }
+                }else {
+                    call.resolve(["notPermission": true])
+                }
+            }
+            return
+        }
+
+        let event = EKEvent(eventStore: store)
+        let title = call.getString("title", "")
+        if title == "" {
+            call.reject("missing title")
+            return;
+        }
+        event.title = title
+        if let notes = call.getString("notes") {
+            event.notes = notes;
+        }
+        if let location = call.getString("location") {
+            event.location = location
+        }
+        let isAllDay = call.getBool("isAllDay", false)
+        event.isAllDay = isAllDay
+//        event.availability = .busy
+//        event.structuredLocation = ...
+        if let beginTime = call.getDouble("beginTime") {
+            event.startDate = Date(timeIntervalSince1970: beginTime / 1000)
+        }
+
+        if let endTime = call.getDouble("endTime") {
+            event.endDate = Date(timeIntervalSince1970: endTime / 1000)
+        }
+
+
+        let vc = EKEventEditViewController()
+        vc.event = event
+        vc.eventStore = store // <-- this needs to be the same event store you used for EKEvent
+        vc.editViewDelegate = self
+        self.bridge?.viewController?.present(vc, animated: true, completion: nil)
+
+        call.resolve(["notPermission": false, "resultCode": 0])
+
+    }
+
+    @objc func addCalendar(_ call: CAPPluginCall) {
+        showNewEvent(true, call)
+    }
+
     @objc func setTextZoom(_ call: CAPPluginCall) {
         call.unimplemented("ios does not implement.")
     }
-    
+
     private func getStringFromQr(_ image: UIImage) -> String? {
         guard let ciImage = CIImage(image: image) else {
             return nil
@@ -330,4 +391,11 @@ func aigensprint<T>(_ message:T,file:String = #file,_ funcName:String = #functio
         print("\(file):(\(lineNum))--:\(message)");
     }
 
+}
+
+
+extension CorePlugin: EKEventEditViewDelegate {
+    public func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
+        controller.dismiss(animated: true)
+    }
 }

@@ -55,6 +55,8 @@ class ViewController: UIViewController {
         url = "https://fairwood.order.place/crm/brand/600001/directory"
         
         url = "https://test.order.place/crm/brand/220000/directory?locale=zh&nocache=true"
+        
+        url = "https://fairwood-uat-v4.order.place/order/store/600002/order/a416dbb9-fcea-43a4-b62e-9748c9abd37d";
 //        url = "http://192.168.100.66:4200/crm/brand/600001/directory";
         
 //        url = "https://fairwood-uat-v4.order.place/order/store/600002/mode/catering?brandId=600001"

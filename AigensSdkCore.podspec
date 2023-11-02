@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'AigensSdkCore'
-  s.version          = '0.0.32'
+  s.version          = '0.0.33'
   s.summary          = 'AigensSdkCore'
 
 # This description is used to generate tags and improve search results.
@@ -45,7 +45,7 @@ Aigens SDK for embedding web based UX.
   s.dependency 'CapacitorShare', '~> 1.1.2'
   s.dependency 'CapacitorStorage', '~> 1.2.5'
   s.dependency 'CapacitorToast', '~> 1.0.8'
-  
+  s.frameworks = 'EventKitUI'
   s.resources = "AigensSdkCore/Assets/*.{json}"
   
   # s.resource_bundles = {

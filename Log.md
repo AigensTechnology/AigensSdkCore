@@ -1,5 +1,9 @@
 AigensSdkCore
 
+* 0.0.33
+  * add addCalendar
+
+
 * 0.0.32
   * support aigens/true
 

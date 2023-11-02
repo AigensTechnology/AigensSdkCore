@@ -16,5 +16,8 @@ CAP_PLUGIN(CorePlugin, "Core",
            CAP_PLUGIN_METHOD(checkNotificationPermissions, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(getFinishData, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setTextZoom, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(readClipboard, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(addCalendar, CAPPluginReturnPromise);
+           
 
 )

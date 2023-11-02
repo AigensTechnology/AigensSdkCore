@@ -62,5 +62,7 @@
 	<string>use gps</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>use gps</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>use calendar</string>
 </dict>
 </plist>
