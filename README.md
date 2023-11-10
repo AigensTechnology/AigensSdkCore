@@ -236,7 +236,8 @@ class ViewController: UIViewController {
             "deviceId": "<deviceId>",
             "universalLink": "<start with https://xxxx>",
             "appleMerchantId": "<YourAppleMerchantId>",
-            "language": "en"  // en/zh
+            "language": "en"  // en/zh,
+            "isGuest": false   // true/false
             
         ]
 
@@ -288,7 +289,8 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("sessionId", "<sessionId>");
         member.put("pushId", "<googlePushToken>");
         member.put("deviceId", "<deviceId>");
-        member.put("language", "en");  // en / zh
+        member.put("language", "en");
+        member.put("isGuest", false);  // true/false
         
         // from : <data android:scheme="https" />
         //        <data android:host="domain.name" android:pathPrefix="/toapp" />
