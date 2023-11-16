@@ -1,5 +1,9 @@
 AigensSdkCore
 
+* 0.0.34
+  * fix: open redirect
+
+
 * 0.0.33
   * add addCalendar
 

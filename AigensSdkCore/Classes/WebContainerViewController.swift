@@ -17,6 +17,7 @@ import Capacitor
     private var isFirstError = true
     private var redirectLink = ""
     private var universalLink = ""
+    private var appScheme = ""
     var externalProtocols: [String] = [
         "octopus://", "alipay://", "alipays://", "alipayhk://", "https://play.google.com", "https://itunes.apple.com", "tel:", "mailto:", "itms-apps://itunes.apple.com", "https://apps.apple.com", "payme://", "weixin://", "hsbcpaymepay://", "mpay://"
     ]
@@ -130,6 +131,20 @@ import Capacitor
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUrlOpened(notification:)), name: Notification.Name.capacitorOpenURL, object: nil)
     }
+    
+    private func isParseUrl(_ url: String) -> Bool {
+        
+        if url.contains("aigens=true") || url.contains("aigens/true") {
+            return true;
+        }
+        if !universalLink.isEmpty && url.contains(universalLink) {
+            return true
+        }
+        if !appScheme.isEmpty && url.contains(appScheme) {
+            return true
+        }
+        return false;
+    }
 
     @objc func handleUrlOpened(notification: NSNotification) {
         guard let object = notification.object as? [String: Any?] else {
@@ -143,7 +158,8 @@ import Capacitor
 
         url = decodeURIComponent(url);
 
-        if universalLink.isEmpty || (!url.absoluteString.starts(with: universalLink) && !universalLink.contains("aigens=true") && !universalLink.contains("aigens/true")) {
+        
+        if !isParseUrl(url.absoluteString) {
             return;
         }
 
@@ -175,8 +191,7 @@ import Capacitor
 
         url = decodeURIComponent(url);
 
-
-        if universalLink.isEmpty || (!url.absoluteString.starts(with: universalLink) && !universalLink.contains("aigens=true") && !universalLink.contains("aigens/true")) {
+        if !isParseUrl(url.absoluteString) {
             return;
         }
 
@@ -286,6 +301,8 @@ import Capacitor
 
         let member = self.options?["member"] as? Dictionary<String, Any>
         self.universalLink = member?["universalLink"] as? String ?? ""
+        self.appScheme = member?["appScheme"] as? String ?? ""
+        
 
         CorePlugin.member = member
         let deeplink = self.options?["deeplink"] as? Dictionary<String, Any>
@@ -380,7 +397,7 @@ extension WebContainerViewController: WKNavigationDelegate {
         }
 
         aigensprint("navURL--:\(navURL)")
-        if !universalLink.isEmpty && (navURL.absoluteString.starts(with: universalLink) || universalLink.contains("aigens=true") || universalLink.contains("aigens/true")) {
+        if isParseUrl(navURL.absoluteString) {
 
             if navURL.absoluteString.range(of: "redirect=") != nil, var redirect = navURL.absoluteString.components(separatedBy:"redirect=").last{
                 if !redirect.starts(with: "http://") && !redirect.starts(with: "https://") {
