@@ -1,5 +1,8 @@
 AigensSdkCore
 
+* 0.0.35
+  * fix: payment cannot redirect the issue
+
 * 0.0.34
   * fix: open redirect
 

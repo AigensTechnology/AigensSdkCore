@@ -146,6 +146,46 @@ import Capacitor
         return false;
     }
 
+    private func fromAppUrl(_ url_: URL) {
+        let url = decodeURIComponent(url_);
+
+        
+        if !isParseUrl(url.absoluteString) {
+            return;
+        }
+
+        let rUrl = URLRequest(url: url)
+
+        let newUrl = url;
+        var redirectUrl: String? = nil;
+        if newUrl.absoluteString.range(of: "redirect=") != nil, var redirect = newUrl.absoluteString.components(separatedBy:"redirect=").last, !redirect.isEmpty {
+            if !redirect.starts(with: "http://") && !redirect.starts(with: "https://") {
+                redirect = "https://" + redirect
+            }
+            redirectUrl = redirect;
+            aigensprint("handleUniversalLink has -- redirect:\(redirect)");
+        }else if newUrl.absoluteString.range(of: "aigensRedirect/") != nil, var redirect = newUrl.absoluteString.components(separatedBy:"aigensRedirect/").last, !redirect.isEmpty {
+            if !redirect.starts(with: "http://") && !redirect.starts(with: "https://") {
+                redirect = "https://" + redirect
+            }
+            redirectUrl = redirect;
+            aigensprint("handleUniversalLink has -- aigensRedirect:\(redirect)");
+        }
+        
+        if let redirect = redirectUrl, let redirectUrl = URL(string: redirect) {
+            self.redirectLink = redirect
+            webContainerView.showLoading(true)
+            webContainerView.showError(false)
+            let rUrl = URLRequest(url: redirectUrl)
+            webView?.load(rUrl)
+            return;
+        }
+        
+        webContainerView.showLoading(true)
+        webContainerView.showError(false)
+        webView?.load(rUrl)
+    }
+    
     @objc func handleUrlOpened(notification: NSNotification) {
         guard let object = notification.object as? [String: Any?] else {
             return
@@ -156,27 +196,7 @@ import Capacitor
             return
         }
 
-        url = decodeURIComponent(url);
-
-        
-        if !isParseUrl(url.absoluteString) {
-            return;
-        }
-
-        let rUrl = URLRequest(url: url)
-
-        let newUrl = url;
-        if newUrl.absoluteString.range(of: "redirect=") != nil, let redirect = newUrl.absoluteString.components(separatedBy:"redirect=").last, !redirect.isEmpty {
-            aigensprint("handleUniversalLink has -- redirect:\(redirect)")
-            webContainerView.showLoading(true)
-            webContainerView.showError(false)
-        }else if newUrl.absoluteString.range(of: "aigensRedirect/") != nil, let redirect = newUrl.absoluteString.components(separatedBy:"aigensRedirect/").last, !redirect.isEmpty {
-            aigensprint("handleUniversalLink has -- aigensRedirect:\(redirect)")
-            webContainerView.showLoading(true)
-            webContainerView.showError(false)
-        }
-
-        webView?.load(rUrl)
+        fromAppUrl(url);
     }
 
     @objc func handleUniversalLink(notification: NSNotification) {
@@ -189,28 +209,7 @@ import Capacitor
             return
         }
 
-        url = decodeURIComponent(url);
-
-        if !isParseUrl(url.absoluteString) {
-            return;
-        }
-
-
-        let rUrl = URLRequest(url: url)
-
-        let newUrl = url;
-        if newUrl.absoluteString.range(of: "redirect=") != nil, let redirect = newUrl.absoluteString.components(separatedBy:"redirect=").last, !redirect.isEmpty {
-            aigensprint("handleUniversalLink has -- redirect:\(redirect)")
-            webContainerView.showLoading(true)
-            webContainerView.showError(false)
-        }else if newUrl.absoluteString.range(of: "aigensRedirect/") != nil, let redirect = newUrl.absoluteString.components(separatedBy:"aigensRedirect/").last, !redirect.isEmpty {
-            aigensprint("handleUniversalLink has -- aigensRedirect:\(redirect)")
-            webContainerView.showLoading(true)
-            webContainerView.showError(false)
-        }
-
-
-        webView?.load(rUrl)
+        fromAppUrl(url);
 
     }
     private func initView(){
@@ -397,42 +396,7 @@ extension WebContainerViewController: WKNavigationDelegate {
         }
 
         aigensprint("navURL--:\(navURL)")
-        if isParseUrl(navURL.absoluteString) {
-
-            if navURL.absoluteString.range(of: "redirect=") != nil, var redirect = navURL.absoluteString.components(separatedBy:"redirect=").last{
-                if !redirect.starts(with: "http://") && !redirect.starts(with: "https://") {
-                    redirect = "https://" + redirect
-                }
-                if let redirectUrl = URL(string: redirect) {
-                    self.redirectLink = redirect
-                    aigensprint("navURL-- redirect:\(redirect)")
-                    webContainerView.showLoading(true)
-                    webContainerView.showError(false)
-                    let rUrl = URLRequest(url: redirectUrl)
-                    webView.load(rUrl)
-                    decisionHandler(.cancel)
-                    return;
-                }
-            }
-
-            if navURL.absoluteString.range(of: "aigensRedirect/") != nil, var redirect = navURL.absoluteString.components(separatedBy:"aigensRedirect/").last, !redirect.isEmpty{
-                if !redirect.starts(with: "http://") && !redirect.starts(with: "https://") {
-                    redirect = "https://" + redirect
-                }
-                if let redirectUrl = URL(string: redirect) {
-                    self.redirectLink = redirect
-                    aigensprint("navURL-- aigensRedirect:\(redirect)")
-                    webContainerView.showLoading(true)
-                    webContainerView.showError(false)
-                    let rUrl = URLRequest(url: redirectUrl)
-                    webView.load(rUrl)
-                    decisionHandler(.cancel)
-                    return;
-                }
-            }
-
-        }
-
+        
         var isCanOpen = false
         if externalProtocols.count > 0 {
             externalProtocols.forEach { (url) in
@@ -452,6 +416,43 @@ extension WebContainerViewController: WKNavigationDelegate {
             decisionHandler(.cancel)
             return;
         }
+        
+//        if isParseUrl(navURL.absoluteString) {
+//
+//            if navURL.absoluteString.range(of: "redirect=") != nil, var redirect = navURL.absoluteString.components(separatedBy:"redirect=").last{
+//                if !redirect.starts(with: "http://") && !redirect.starts(with: "https://") {
+//                    redirect = "https://" + redirect
+//                }
+//                if let redirectUrl = URL(string: redirect) {
+//                    self.redirectLink = redirect
+//                    aigensprint("navURL-- redirect:\(redirect)")
+//                    webContainerView.showLoading(true)
+//                    webContainerView.showError(false)
+//                    let rUrl = URLRequest(url: redirectUrl)
+//                    webView.load(rUrl)
+//                    decisionHandler(.cancel)
+//                    return;
+//                }
+//            }
+//
+//            if navURL.absoluteString.range(of: "aigensRedirect/") != nil, var redirect = navURL.absoluteString.components(separatedBy:"aigensRedirect/").last, !redirect.isEmpty{
+//                if !redirect.starts(with: "http://") && !redirect.starts(with: "https://") {
+//                    redirect = "https://" + redirect
+//                }
+//                if let redirectUrl = URL(string: redirect) {
+//                    self.redirectLink = redirect
+//                    aigensprint("navURL-- aigensRedirect:\(redirect)")
+//                    webContainerView.showLoading(true)
+//                    webContainerView.showError(false)
+//                    let rUrl = URLRequest(url: redirectUrl)
+//                    webView.load(rUrl)
+//                    decisionHandler(.cancel)
+//                    return;
+//                }
+//            }
+//
+//        }
+
 
 
         // first, give plugins the chance to handle the decision
