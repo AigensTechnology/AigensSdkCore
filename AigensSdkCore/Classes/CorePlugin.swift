@@ -1,7 +1,12 @@
 import Foundation
 import Capacitor
 import UIKit
+
+#if DISABLE_ADD_CALENDER
+#else
 import EventKitUI
+#endif
+
 
 @objc public protocol CoreDelegate: AnyObject {
     func isInterceptedUrl(url: URL, webview: WKWebView) -> Bool
@@ -275,6 +280,11 @@ public class CorePlugin: CAPPlugin {
     }
 
     private func showNewEvent(_ askPermission: Bool, _ call: CAPPluginCall) {
+        
+        
+#if DISABLE_ADD_CALENDER
+        call.reject("Please remove (-D DISABLE_ADD_CALENDER from (AigensSdkCore) Build Settings -> Other Swift Flags) first")
+#else
         let store = EKEventStore()
         if askPermission {
             store.requestAccess(to: .event) { (granted, error) in
@@ -304,24 +314,26 @@ public class CorePlugin: CAPPlugin {
         }
         let isAllDay = call.getBool("isAllDay", false)
         event.isAllDay = isAllDay
-//        event.availability = .busy
-//        event.structuredLocation = ...
+        //        event.availability = .busy
+        //        event.structuredLocation = ...
         if let beginTime = call.getDouble("beginTime") {
             event.startDate = Date(timeIntervalSince1970: beginTime / 1000)
         }
-
+        
         if let endTime = call.getDouble("endTime") {
             event.endDate = Date(timeIntervalSince1970: endTime / 1000)
         }
-
-
+        
+        
         let vc = EKEventEditViewController()
         vc.event = event
         vc.eventStore = store // <-- this needs to be the same event store you used for EKEvent
         vc.editViewDelegate = self
         self.bridge?.viewController?.present(vc, animated: true, completion: nil)
-
+        
         call.resolve(["notPermission": false, "resultCode": 0])
+#endif
+        
 
     }
 
