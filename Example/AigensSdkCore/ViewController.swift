@@ -55,10 +55,10 @@ class ViewController: UIViewController {
         url = "https://fairwood.order.place/crm/brand/600001/directory"
         
         url = "https://test.order.place/crm/brand/220000/directory?locale=zh&nocache=true"
-        url = "https://fairwood-uat-v4.order.place/order/store/600002/order/4128ee6c-648e-4fc3-9870-8f49ad79fbfd";
+        url = "https://fairwood-uat-v4.order.place/order/store/600002/order/f19b7ffa-fb8d-4dcb-9546-b1b0c6e141c4";
         
         
-        url = "https://fairwood-uat-v4.order.place/crm/brand/600001/directory?brandId=600001";
+//        url = "https://fairwood-uat-v4.order.place/crm/brand/600001/directory?brandId=600001";
         
 //        url = "http://192.168.1.108:4200/crm/brand/600001/directory?brandId=600001";
 //        url = "http://192.168.100.66:4200/crm/brand/600001/directory";
