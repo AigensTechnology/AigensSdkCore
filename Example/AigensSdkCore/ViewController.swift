@@ -58,7 +58,9 @@ class ViewController: UIViewController {
         url = "https://fairwood-uat-v4.order.place/order/store/600002/order/f19b7ffa-fb8d-4dcb-9546-b1b0c6e141c4";
         
         
-//        url = "https://fairwood-uat-v4.order.place/crm/brand/600001/directory?brandId=600001";
+        url = "https://fairwood-uat-v4.order.place/crm/brand/600001/directory?brandId=600001";
+        
+        url = "https://fairwood.order.place/crm/brand/600001/directory"
         
 //        url = "http://192.168.1.108:4200/crm/brand/600001/directory?brandId=600001";
 //        url = "http://192.168.100.66:4200/crm/brand/600001/directory";
@@ -82,7 +84,8 @@ class ViewController: UIViewController {
             "deviceId":"peijue-test-iphone2-cdc",
             "universalLink": "https://yoshinoyaapp.aigens.com/yoshinoyaapp/wechatpay/*",
 //            "universalLink":"fairwoodtestapp://test",
-            "appleMerchantId": ""
+            "appleMerchantId": "",
+            "appScheme": "fairwoodtestappprd://test"
         ]
         
         let deeplink:Dictionary<String, Any> = [
