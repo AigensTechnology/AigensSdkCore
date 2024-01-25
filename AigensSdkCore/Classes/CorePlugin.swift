@@ -405,9 +405,13 @@ func aigensprint<T>(_ message:T,file:String = #file,_ funcName:String = #functio
 
 }
 
-
+#if DISABLE_ADD_CALENDER
+#else
 extension CorePlugin: EKEventEditViewDelegate {
     public func eventEditViewController(_ controller: EKEventEditViewController, didCompleteWith action: EKEventEditViewAction) {
         controller.dismiss(animated: true)
     }
 }
+#endif
+
+

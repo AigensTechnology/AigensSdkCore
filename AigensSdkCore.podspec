@@ -40,12 +40,11 @@ Aigens SDK for embedding web based UX.
   s.dependency 'CapacitorDevice', '~> 1.1.2'
   s.dependency 'CapacitorGeolocation', '~> 1.3.1'
   s.dependency 'CapacitorKeyboard', '~> 1.2.2'
-  s.dependency 'CapacitorNetwork', '~> 1.0.7'
+  # s.dependency 'CapacitorNetwork', '~> 1.0.7'
   # s.dependency 'CapacitorPushNotifications', '~> 1.0.9'
   s.dependency 'CapacitorShare', '~> 1.1.2'
   s.dependency 'CapacitorStorage', '~> 1.2.5'
   s.dependency 'CapacitorToast', '~> 1.0.8'
-  s.frameworks = 'EventKitUI'
   s.resources = "AigensSdkCore/Assets/*.{json}"
   
   # s.resource_bundles = {
