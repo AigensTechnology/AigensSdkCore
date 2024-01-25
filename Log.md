@@ -1,5 +1,8 @@
 AigensSdkCore
 
+* 0.0.36
+  * rm network lib
+
 * 0.0.35
   * fix: payment cannot redirect the issue
 
