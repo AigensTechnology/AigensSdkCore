@@ -1,5 +1,8 @@
 AigensSdkCore
 
+* 0.0.37
+  * support 11+
+
 * 0.0.36
   * rm network lib
 
