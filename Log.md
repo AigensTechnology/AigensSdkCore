@@ -1,5 +1,8 @@
 AigensSdkCore
 
+* 0.0.38
+  * support 11+ & rm CapacitorToast
+
 * 0.0.37
   * support 11+
 
