@@ -4,7 +4,7 @@ Aigens SDK enable native IOS/Android app to embed Aigens universal UX into the a
 
 ## Requirement
 
-* IOS - Swift 4.2+ , IOS 13+
+* IOS - Swift 4.2+ , IOS 12+
 * Android - API Level 28+, Android 9+
 
 ## IOS Installation
@@ -21,7 +21,7 @@ pod init
 Add AigensSdkCore into Podfile:
 
 ```ruby
-pod 'AigensSdkCore', '0.0.35'
+pod 'AigensSdkCore', '0.0.36'
 
 # If have applepay
 pod 'AigensSdkApplepay', '0.0.8'
@@ -66,6 +66,13 @@ Add permissions required in "Info.plist" depending on features.
 
 ```
 ![image](https://github.com/AigensTechnology/AigensSdkCore/blob/main/ios_schemes.png)
+
+## Errors
+
+* If got error: Sandbox: rsync.samba xxxxx
+* Please set: User Script Sandboxing : No
+![image](https://github.com/AigensTechnology/AigensSdkCore/blob/main/sandboxRsync.png)
+
 
 ## Android Installation
 
