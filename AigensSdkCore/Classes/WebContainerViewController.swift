@@ -333,7 +333,7 @@ import Capacitor
         var configLoc = Bundle.main.url(forResource: "capacitor.config", withExtension: "json")
 
         //if config is missing, it's a dynamic page, load config from sdk core
-        if(configLoc == nil){
+        if(wwwLoc == nil || configLoc == nil){
             configLoc = Bundle(for: WebContainerViewController.self).url(forResource: "capacitor.config", withExtension: "json")
 
             //www folder will be dynamic, set to anything is ok
@@ -341,8 +341,7 @@ import Capacitor
             wwwLoc = FileManager.default.temporaryDirectory
         }
 
-
-        let descriptor = InstanceDescriptor.init(at: wwwLoc!, configuration: configLoc, cordovaConfiguration: nil)
+        let descriptor = InstanceDescriptor.init(at: wwwLoc ?? FileManager.default.temporaryDirectory, configuration: configLoc, cordovaConfiguration: nil)
 
         descriptor.appendedUserAgentString = "AigensSDK"
 
