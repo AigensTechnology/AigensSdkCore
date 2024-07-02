@@ -18,6 +18,7 @@ CAP_PLUGIN(CorePlugin, "Core",
            CAP_PLUGIN_METHOD(setTextZoom, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(readClipboard, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(addCalendar, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(makeHKFPSPayment, CAPPluginReturnPromise);
            
 
 )

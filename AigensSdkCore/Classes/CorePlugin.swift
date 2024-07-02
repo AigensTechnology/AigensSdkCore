@@ -27,6 +27,105 @@ public class CorePlugin: CAPPlugin {
     public static var member: Dictionary<String, Any>?
     public static var deeplink: Dictionary<String, Any>?
 
+
+    public override func load() {
+        handleOpenUrl()
+    }
+    
+    private func handleOpenUrl() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleUniversalLink(notification:)), name: Notification.Name.capacitorOpenUniversalLink, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(self.handleUrlOpened(notification:)), name: Notification.Name.capacitorOpenURL, object: nil)
+    }
+    
+    @objc func handleUrlOpened(notification: NSNotification) {
+        guard let object = notification.object as? [String: Any?] else {
+            return
+        }
+
+        aigensprint("CorePlugin handleUrlOpened url:\(object)")
+        guard let url = object["url"] as? URL else {
+            return
+        }
+
+        handleHKFPSUniversalLink(url)
+        
+    }
+
+    @objc func handleUniversalLink(notification: NSNotification) {
+        guard let object = notification.object as? [String: Any?] else {
+            return
+        }
+
+        aigensprint("CorePlugin handleUniversalLink url:\(object)")
+        guard let url = object["url"] as? URL else {
+            return
+        }
+
+        handleHKFPSUniversalLink(url)
+
+    }
+
+    private func decodeURIComponent(_ url: URL) -> URL {
+        let str = url.absoluteString
+        let urlStr = str.removingPercentEncoding ?? str
+        return URL(string: urlStr) ?? url
+    }
+
+    private func decodeURIComponent(_ str: String) -> String {
+        return str.removingPercentEncoding ?? str
+    }
+    
+    @objc func handleHKFPSUniversalLink(_ url: URL) {
+        let url_ = decodeURIComponent(url.absoluteString)
+        if (!(url_.contains("aigenshkfps=true") || url_.contains("aigenshkfps/true"))) {
+            return
+        }
+        // 當universal link 並調用時, 會給多個參數:  is_successful:  1 => 成功; 0 =>  不成功
+        DispatchQueue.main.async {
+            CorePlugin.HKFPSCall?.resolve(["url": url_, "result": (url_.contains("is_successful=1") || url_.contains("is_successful=true")) ? true: false])
+            CorePlugin.HKFPSCall = nil
+        }
+    }
+    
+    private static var HKFPSCall: CAPPluginCall?
+    @objc func makeHKFPSPayment(_ call: CAPPluginCall) {
+        let paymentRequestUrl = call.getString("paymentRequestUrl", "")
+        let callbackUrl = call.getString("callbackUrl", "")
+        if paymentRequestUrl == "" || callbackUrl == "" {
+            call.reject("missing paymentRequestUrl or callbackUrl")
+            return
+        }
+        
+        let typeIdentifier = call.getString("typeIdentifier", "hk.com.hkicl");
+        
+        let paymentData: [String: Any] = ["URL": paymentRequestUrl, "callback": callbackUrl]
+//        let jsonData = try! JSONSerialization.data(withJSONObject: paymentData, options: [])
+//        let itemProvider = NSItemProvider(item: jsonData as NSSecureCoding, typeIdentifier: typeIdentifier)
+        let itemProvider = NSItemProvider(item: paymentData as NSSecureCoding, typeIdentifier: typeIdentifier)
+        let extensionItem = NSExtensionItem()
+        extensionItem.attachments = [itemProvider]
+        
+        // Invoke UIActivityViewController to choose Payment App
+        let activityViewController = UIActivityViewController(activityItems: [extensionItem], applicationActivities: nil)
+        
+        activityViewController.completionWithItemsHandler = { (activityType, completed, returnedItems, activityError) in
+            // Start the activity chosen to complete the payment
+            print("Start the activity chosen to complete the payment : \(completed)")
+            if !completed {
+                CorePlugin.HKFPSCall?.keepAlive = false;
+                CorePlugin.HKFPSCall = nil;
+            }
+        }
+        DispatchQueue.main.async {
+            self.bridge?.viewController?.present(activityViewController, animated: true, completion: nil)
+            
+            call.keepAlive = true;
+            CorePlugin.HKFPSCall = call;
+        }
+        
+    }
+
     @objc public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         NotificationCenter.default.post(name: .capacitorOpenURL, object: [
             "url": url,
@@ -176,6 +275,7 @@ public class CorePlugin: CAPPlugin {
         let deeplink = call.getObject("deeplink")
         let externalProtocols = call.getArray("externalProtocols")
         let addPaddingProtocols = call.getArray("addPaddingProtocols")
+        let excludedUniversalLinks = call.getArray("excludedUniversalLinks")
 
         let clearCache = call.getBool("clearCache") ?? false
         aigensDebug = call.getBool("debug") ?? false
@@ -201,6 +301,9 @@ public class CorePlugin: CAPPlugin {
             }
             if (addPaddingProtocols != nil) {
                 options["addPaddingProtocols"] = addPaddingProtocols as AnyObject
+            }
+            if (excludedUniversalLinks != nil) {
+                options["excludedUniversalLinks"] = excludedUniversalLinks as AnyObject
             }
 
             bridgeVC.options = options;

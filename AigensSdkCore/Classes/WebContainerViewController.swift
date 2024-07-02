@@ -40,6 +40,11 @@ import Capacitor
         "https://pay.macaupass.com",
     ]
 
+    var excludedUniversalLinks: [String] = [
+        "aigenshkfps=true",
+        "aigenshkfps/true"
+    ]
+
     let containerView = WebContainer.webContainer()
     var webContainerView: WebContainer {
             return containerView
@@ -131,8 +136,23 @@ import Capacitor
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUrlOpened(notification:)), name: Notification.Name.capacitorOpenURL, object: nil)
     }
+
+    private func isExcludedUniversalLink(_ url: String) -> Bool {
+        var result = false
+        
+        excludedUniversalLinks.forEach { (url_) in
+            if url.contains(url_) {
+                result = true
+            }
+        }
+        return result
+    }
     
     private func isParseUrl(_ url: String) -> Bool {
+        
+        if isExcludedUniversalLink(url) {
+            return false
+        }
         
         if url.contains("aigens=true") || url.contains("aigens/true") {
             return true;
@@ -263,6 +283,10 @@ import Capacitor
 
         if let addPaddingProtocols = options?["addPaddingProtocols"] as? [String] {
             self.addPaddingProtocols.append(contentsOf: addPaddingProtocols)
+        }
+
+        if let excludedUniversalLinks = options?["excludedUniversalLinks"] as? [String] {
+            self.excludedUniversalLinks.append(contentsOf: excludedUniversalLinks)
         }
 
     }
