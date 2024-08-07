@@ -1,5 +1,8 @@
 AigensSdkCore
 
+* 0.1.0
+  * add makeHKFPSPayment
+
 * 0.0.39
   * fix: wwwLoc is nil
 
