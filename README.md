@@ -92,10 +92,10 @@ Include the aigens-sdk-core dependency in "build.gradle".
 ```gradle
 dependencies {
 
-    implementation 'com.aigens:aigens-sdk-core:0.1.0'
+    implementation 'com.aigens:aigens-sdk-core:5.0.2'
 
     # If have googlepay
-    implementation 'com.aigens:aigens-sdk-googlepay:0.0.6'
+    implementation 'com.aigens:aigens-sdk-googlepay:5.0.0'
 }
 ```
 
@@ -297,7 +297,7 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("pushId", "<googlePushToken>");
         member.put("deviceId", "<deviceId>");
         member.put("language", "en");
-        member.put("isGuest", false);  // true/false
+        member.put("isGuest", String.valueOf(false));  // true/false
         
         // from : <data android:scheme="https" />
         //        <data android:host="domain.name" android:pathPrefix="/toapp" />
