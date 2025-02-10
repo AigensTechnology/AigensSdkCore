@@ -62,6 +62,7 @@ Add permissions required in "Info.plist" depending on features.
 	<string>alipays</string>
 	<string>alipayhk</string>
     <string>mpay</string>
+    <string>gcash</string>
 </array>
 
 ```
