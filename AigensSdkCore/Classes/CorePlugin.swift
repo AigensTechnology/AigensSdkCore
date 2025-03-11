@@ -27,10 +27,19 @@ public class CorePlugin: CAPPlugin {
     public static var member: Dictionary<String, Any>?
     public static var deeplink: Dictionary<String, Any>?
 
-
+    static var StaticBridge: CAPBridgeProtocol?
     public override func load() {
         handleOpenUrl()
+        CorePlugin.StaticBridge = self.bridge;
     }
+    
+    public static func getCoreInstance() -> CorePlugin? {
+        if let instance = StaticBridge?.plugin(withName: "Core") as? CorePlugin {
+            return instance
+        }
+        return nil
+    }
+    
     
     private func handleOpenUrl() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUniversalLink(notification:)), name: Notification.Name.capacitorOpenUniversalLink, object: nil)
@@ -257,6 +266,41 @@ public class CorePlugin: CAPPlugin {
     @objc func getFinishData(_ call: CAPPluginCall) {
         call.keepAlive = true
         CorePlugin.dismissCall = call
+    }
+
+    var openEmbedBrowserCallback: CAPPluginCall?
+    @objc func openSecondBrowser(_ call: CAPPluginCall) {
+        aigensprint("CorePlugin openEmbedBrowser")
+        guard let url = call.getString("url") else {
+            call.reject("url is missing")
+            return;
+        }
+        let serviceName = call.getString("serviceName")
+
+        DispatchQueue.main.async {
+            guard let currentVc = self.bridge?.viewController?.view else {
+                call.reject("currentVc is missing")
+                return;
+            }
+            
+            let secondView = SecondWebContainerView()
+            self.insertView(secondView, currentVc)
+            secondView.delegate = self
+            secondView.serviceName = serviceName
+            secondView.loadUrl(urlString: url)
+            call.keepAlive = true
+            self.openEmbedBrowserCallback = call
+        }
+        
+    }
+    
+    public func insertView(_ newView: SecondWebContainerView, _ parentView: UIView) {
+        parentView.subviews
+            .filter { $0 is SecondWebContainerView }
+            .forEach { $0.removeFromSuperview() }
+        
+        parentView.addSubview(newView)
+        newView.setCustomFrame(CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height:UIScreen.main.bounds.size.height))
     }
 
 
@@ -495,6 +539,15 @@ public class CorePlugin: CAPPlugin {
 
 
 
+}
+
+extension CorePlugin: SecondWebContainerDelegate {
+    
+    public func secondWebContainerViewYuuLoginCallback(view: UIView, data: [String: Any]) {
+        guard let callback = openEmbedBrowserCallback else {return}
+        callback.resolve(data)
+        view.removeFromSuperview()
+    }
 }
 
 

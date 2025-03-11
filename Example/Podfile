@@ -6,9 +6,34 @@ target 'AigensSdkCore_Example' do
   pod 'AigensSdkCore', :path => '../'
   pod 'AigensSdkApplepay', '0.0.8'
 
+  
+#  test
+pod 'Capacitor', '3.5.1'
+  pod 'CapacitorApp', '1.1.1'
+  pod 'CapacitorBrowser', '1.0.7'
+  pod 'CapacitorCamera', '1.3.1'
+  pod 'CapacitorDevice', '1.1.2'
+  pod 'CapacitorGeolocation', '1.3.1'
+  pod 'CapacitorKeyboard', '1.2.2'
+  pod 'CapacitorNetwork', '1.0.7'
+  pod 'CapacitorShare', '1.1.2'
+  pod 'CapacitorStorage', '1.2.5'
+  
+  
   target 'AigensSdkCore_Tests' do
     inherit! :search_paths
 
     
   end
+end
+
+
+post_install do |installer|
+    installer.generated_projects.each do |project|
+        project.targets.each do |target|
+            target.build_configurations.each do |config|
+                config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+            end
+        end
+    end
 end

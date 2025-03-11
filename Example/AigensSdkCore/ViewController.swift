@@ -62,6 +62,8 @@ class ViewController: UIViewController {
         
         url = "https://fairwood.order.place/crm/brand/600001/directory"
         
+        // url = "http://192.168.1.108:4200/crm/brand/599961624702976/home";
+        
 //        url = "http://192.168.1.108:4200/crm/brand/600001/directory?brandId=600001";
 //        url = "http://192.168.100.66:4200/crm/brand/600001/directory";
         
@@ -114,7 +116,32 @@ class ViewController: UIViewController {
         bridgeVC.modalPresentationStyle = .fullScreen
         self.present(bridgeVC, animated: true);
         
+        
+        // open second view
+//        openSecondView(firstview: bridgeVC)
     }
+    
+    private func openSecondView(firstview: WebContainerViewController) {
+        let secondView = SecondWebContainerView()
+        secondView.delegate = self
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            
+            firstview.insertView(secondView)
+            let url = "https://www.google.com.hk/"
+            secondView.loadUrl(urlString: url)
+            
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
+            secondView.removeFromSuperview()
+        }
+    }
+    
+}
 
+extension ViewController: SecondWebContainerDelegate {
+    public func secondWebContainerViewYuuLoginCallback(view: UIView, data: [String: Any]) {
+        print("Jason Received credit card token:", data)
+    }
 }
 

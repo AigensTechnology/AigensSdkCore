@@ -300,6 +300,23 @@ import Capacitor
     private func decodeURIComponent(_ str: String) -> String {
         return str.removingPercentEncoding ?? str
     }
+    
+    public func insertView(_ newView: SecondWebContainerView) {
+
+        if let parentView = self.view {
+            parentView.subviews
+                .filter { $0 is SecondWebContainerView } 
+                .forEach { $0.removeFromSuperview() }
+
+        }
+        
+        if webContainerView.superview != nil {
+            self.view.insertSubview(newView, belowSubview: webContainerView)
+        } else {
+            self.view.addSubview(newView)
+        }
+        newView.setCustomFrame(CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height:UIScreen.main.bounds.size.height))
+    }
 
     public final func loadWebViewCustom() {
 
