@@ -44,6 +44,9 @@ import Capacitor
         "aigenshkfps=true",
         "aigenshkfps/true"
     ]
+    var exitUniversalLinks: [String] = [
+        "phhkdownloadapp=true&requireMember"
+    ]
 
     let containerView = WebContainer.webContainer()
     var webContainerView: WebContainer {
@@ -135,11 +138,20 @@ import Capacitor
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUniversalLink(notification:)), name: Notification.Name.capacitorOpenUniversalLink, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUrlOpened(notification:)), name: Notification.Name.capacitorOpenURL, object: nil)
+        
+        NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { [weak self] (_) in
+            if let core = CorePlugin.getCoreInstance(), let obj = core._readClipboard(), let value = obj["value"] as? String, let this = self {
+                if this.isExitUniversalLinks(value) {
+                    core.forceDismiss()
+                }
+            }
+            
+        }
     }
 
     private func isExcludedUniversalLink(_ url: String) -> Bool {
         var result = false
-        
+
         excludedUniversalLinks.forEach { (url_) in
             if url.contains(url_) {
                 result = true
@@ -148,12 +160,23 @@ import Capacitor
         return result
     }
     
+    private func isExitUniversalLinks(_ url: String) -> Bool {
+        var result = false
+
+        exitUniversalLinks.forEach { (url_) in
+            if url.contains(url_) {
+                result = true
+            }
+        }
+        return result
+    }
+
     private func isParseUrl(_ url: String) -> Bool {
-        
+
         if isExcludedUniversalLink(url) {
             return false
         }
-        
+
         if url.contains("aigens=true") || url.contains("aigens/true") {
             return true;
         }
@@ -169,7 +192,7 @@ import Capacitor
     private func fromAppUrl(_ url_: URL) {
         let url = decodeURIComponent(url_);
 
-        
+
         if !isParseUrl(url.absoluteString) {
             return;
         }
@@ -191,7 +214,7 @@ import Capacitor
             redirectUrl = redirect;
             aigensprint("handleUniversalLink has -- aigensRedirect:\(redirect)");
         }
-        
+
         if let redirect = redirectUrl, let redirectUrl = URL(string: redirect) {
             self.redirectLink = redirect
             webContainerView.showLoading(true)
@@ -200,12 +223,12 @@ import Capacitor
             webView?.load(rUrl)
             return;
         }
-        
+
         webContainerView.showLoading(true)
         webContainerView.showError(false)
         webView?.load(rUrl)
     }
-    
+
     @objc func handleUrlOpened(notification: NSNotification) {
         guard let object = notification.object as? [String: Any?] else {
             return
@@ -288,6 +311,10 @@ import Capacitor
         if let excludedUniversalLinks = options?["excludedUniversalLinks"] as? [String] {
             self.excludedUniversalLinks.append(contentsOf: excludedUniversalLinks)
         }
+        
+        if let exitUniversalLinks = options?["exitUniversalLinks"] as? [String] {
+            self.exitUniversalLinks.append(contentsOf: exitUniversalLinks)
+        }
 
     }
 
@@ -300,16 +327,16 @@ import Capacitor
     private func decodeURIComponent(_ str: String) -> String {
         return str.removingPercentEncoding ?? str
     }
-    
+
     public func insertView(_ newView: SecondWebContainerView) {
 
         if let parentView = self.view {
             parentView.subviews
-                .filter { $0 is SecondWebContainerView } 
+                .filter { $0 is SecondWebContainerView }
                 .forEach { $0.removeFromSuperview() }
 
         }
-        
+
         if webContainerView.superview != nil {
             self.view.insertSubview(newView, belowSubview: webContainerView)
         } else {
@@ -342,7 +369,7 @@ import Capacitor
         let member = self.options?["member"] as? Dictionary<String, Any>
         self.universalLink = member?["universalLink"] as? String ?? ""
         self.appScheme = member?["appScheme"] as? String ?? ""
-        
+
 
         CorePlugin.member = member
         let deeplink = self.options?["deeplink"] as? Dictionary<String, Any>
@@ -427,7 +454,7 @@ extension WebContainerViewController: WKNavigationDelegate {
             decisionHandler(.allow)
             return
         }
-        
+
         if let del = CorePlugin.coreDelegate {
             if del.isInterceptedUrl(url: navURL, webview: webView) {
                 decisionHandler(.cancel)
@@ -436,7 +463,7 @@ extension WebContainerViewController: WKNavigationDelegate {
         }
 
         aigensprint("navURL--:\(navURL)")
-        
+
         var isCanOpen = false
         if externalProtocols.count > 0 {
             externalProtocols.forEach { (url) in
@@ -456,7 +483,7 @@ extension WebContainerViewController: WKNavigationDelegate {
             decisionHandler(.cancel)
             return;
         }
-        
+
 //        if isParseUrl(navURL.absoluteString) {
 //
 //            if navURL.absoluteString.range(of: "redirect=") != nil, var redirect = navURL.absoluteString.components(separatedBy:"redirect=").last{

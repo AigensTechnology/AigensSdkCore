@@ -32,21 +32,21 @@ public class CorePlugin: CAPPlugin {
         handleOpenUrl()
         CorePlugin.StaticBridge = self.bridge;
     }
-    
+
     public static func getCoreInstance() -> CorePlugin? {
         if let instance = StaticBridge?.plugin(withName: "Core") as? CorePlugin {
             return instance
         }
         return nil
     }
-    
-    
+
+
     private func handleOpenUrl() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUniversalLink(notification:)), name: Notification.Name.capacitorOpenUniversalLink, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUrlOpened(notification:)), name: Notification.Name.capacitorOpenURL, object: nil)
     }
-    
+
     @objc func handleUrlOpened(notification: NSNotification) {
         guard let object = notification.object as? [String: Any?] else {
             return
@@ -58,7 +58,7 @@ public class CorePlugin: CAPPlugin {
         }
 
         handleHKFPSUniversalLink(url)
-        
+
     }
 
     @objc func handleUniversalLink(notification: NSNotification) {
@@ -84,7 +84,7 @@ public class CorePlugin: CAPPlugin {
     private func decodeURIComponent(_ str: String) -> String {
         return str.removingPercentEncoding ?? str
     }
-    
+
     @objc func handleHKFPSUniversalLink(_ url: URL) {
         let url_ = decodeURIComponent(url.absoluteString)
         if (!(url_.contains("aigenshkfps=true") || url_.contains("aigenshkfps/true"))) {
@@ -96,7 +96,7 @@ public class CorePlugin: CAPPlugin {
             CorePlugin.HKFPSCall = nil
         }
     }
-    
+
     private static var HKFPSCall: CAPPluginCall?
     @objc func makeHKFPSPayment(_ call: CAPPluginCall) {
         let paymentRequestUrl = call.getString("paymentRequestUrl", "")
@@ -105,22 +105,22 @@ public class CorePlugin: CAPPlugin {
             call.reject("missing paymentRequestUrl or callbackUrl")
             return
         }
-        
+
         let typeIdentifier = call.getString("typeIdentifier", "hk.com.hkicl");
-        
+
         let paymentData: [String: Any] = ["URL": paymentRequestUrl, "callback": callbackUrl]
 //        let jsonData = try! JSONSerialization.data(withJSONObject: paymentData, options: [])
 //        let itemProvider = NSItemProvider(item: jsonData as NSSecureCoding, typeIdentifier: typeIdentifier)
         let itemProvider = NSItemProvider(item: paymentData as NSSecureCoding, typeIdentifier: typeIdentifier)
         let extensionItem = NSExtensionItem()
         extensionItem.attachments = [itemProvider]
-        
+
         // Invoke UIActivityViewController to choose Payment App
         let activityViewController = UIActivityViewController(activityItems: [extensionItem], applicationActivities: nil)
-        
+
         activityViewController.completionWithItemsHandler = { (activityType, completed, returnedItems, activityError) in
             // Start the activity chosen to complete the payment
-            print("Start the activity chosen to complete the payment : \(completed)")
+            // print("Start the activity chosen to complete the payment : \(completed)")
             if !completed {
                 CorePlugin.HKFPSCall?.keepAlive = false;
                 CorePlugin.HKFPSCall = nil;
@@ -128,11 +128,11 @@ public class CorePlugin: CAPPlugin {
         }
         DispatchQueue.main.async {
             self.bridge?.viewController?.present(activityViewController, animated: true, completion: nil)
-            
+
             call.keepAlive = true;
             CorePlugin.HKFPSCall = call;
         }
-        
+
     }
 
     @objc public func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
@@ -203,6 +203,16 @@ public class CorePlugin: CAPPlugin {
 
 
     }
+    
+    public func forceDismiss() {
+        let r = ["closedData": [:]]
+        WebContainerViewController.closeCB?(r)
+        CorePlugin.dismissCall?.resolve(r)
+        CorePlugin.dismissCall = nil
+        DispatchQueue.main.async {
+            self.bridge?.viewController?.dismiss(animated: true);
+        }
+    }
 
     @objc func dismiss(_ call: CAPPluginCall) {
 
@@ -224,6 +234,7 @@ public class CorePlugin: CAPPlugin {
             "success": true
             //"value": implementation.echo(value)
         ])
+        CorePlugin.dismissCall = nil
 
 
     }
@@ -260,6 +271,7 @@ public class CorePlugin: CAPPlugin {
             "success": true
             //"value": implementation.echo(value)
         ])
+        CorePlugin.dismissCall = nil
     }
 
     private static var dismissCall: CAPPluginCall?
@@ -282,7 +294,7 @@ public class CorePlugin: CAPPlugin {
                 call.reject("currentVc is missing")
                 return;
             }
-            
+
             let secondView = SecondWebContainerView()
             self.insertView(secondView, currentVc)
             secondView.delegate = self
@@ -291,14 +303,14 @@ public class CorePlugin: CAPPlugin {
             call.keepAlive = true
             self.openEmbedBrowserCallback = call
         }
-        
+
     }
-    
+
     public func insertView(_ newView: SecondWebContainerView, _ parentView: UIView) {
         parentView.subviews
             .filter { $0 is SecondWebContainerView }
             .forEach { $0.removeFromSuperview() }
-        
+
         parentView.addSubview(newView)
         newView.setCustomFrame(CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height:UIScreen.main.bounds.size.height))
     }
@@ -320,6 +332,7 @@ public class CorePlugin: CAPPlugin {
         let externalProtocols = call.getArray("externalProtocols")
         let addPaddingProtocols = call.getArray("addPaddingProtocols")
         let excludedUniversalLinks = call.getArray("excludedUniversalLinks")
+        let exitUniversalLinks = call.getArray("exitUniversalLinks")
 
         let clearCache = call.getBool("clearCache") ?? false
         aigensDebug = call.getBool("debug") ?? false
@@ -348,6 +361,9 @@ public class CorePlugin: CAPPlugin {
             }
             if (excludedUniversalLinks != nil) {
                 options["excludedUniversalLinks"] = excludedUniversalLinks as AnyObject
+            }
+            if (exitUniversalLinks != nil) {
+                options["exitUniversalLinks"] = exitUniversalLinks as AnyObject
             }
 
             bridgeVC.options = options;
@@ -427,8 +443,8 @@ public class CorePlugin: CAPPlugin {
     }
 
     private func showNewEvent(_ askPermission: Bool, _ call: CAPPluginCall) {
-        
-        
+
+
 #if DISABLE_ADD_CALENDER
         call.reject("Please remove (-D DISABLE_ADD_CALENDER from (AigensSdkCore) Build Settings -> Other Swift Flags) first")
 #else
@@ -466,21 +482,21 @@ public class CorePlugin: CAPPlugin {
         if let beginTime = call.getDouble("beginTime") {
             event.startDate = Date(timeIntervalSince1970: beginTime / 1000)
         }
-        
+
         if let endTime = call.getDouble("endTime") {
             event.endDate = Date(timeIntervalSince1970: endTime / 1000)
         }
-        
-        
+
+
         let vc = EKEventEditViewController()
         vc.event = event
         vc.eventStore = store // <-- this needs to be the same event store you used for EKEvent
         vc.editViewDelegate = self
         self.bridge?.viewController?.present(vc, animated: true, completion: nil)
-        
+
         call.resolve(["notPermission": false, "resultCode": 0])
 #endif
-        
+
 
     }
 
@@ -509,10 +525,17 @@ public class CorePlugin: CAPPlugin {
         }
         return str;
     }
+    
+    public func _readClipboard() -> [String: Any]?{
+        if UIPasteboard.general.hasImages, let image = UIPasteboard.general.image, let str = getStringFromQr(image) {
+            return ["value": str, "type": "text/plain"]
+        }
+        return nil
+    }
 
     @objc func readClipboard(_ call: CAPPluginCall) {
-        if UIPasteboard.general.hasImages, let image = UIPasteboard.general.image, let str = getStringFromQr(image) {
-            call.resolve(["value": str, "type": "text/plain"])
+        if let obj = _readClipboard() {
+            call.resolve(obj)
             return
         }
         call.resolve(["value": "", "type": ""])
@@ -542,7 +565,7 @@ public class CorePlugin: CAPPlugin {
 }
 
 extension CorePlugin: SecondWebContainerDelegate {
-    
+
     public func secondWebContainerViewYuuLoginCallback(view: UIView, data: [String: Any]) {
         guard let callback = openEmbedBrowserCallback else {return}
         callback.resolve(data)
