@@ -45,7 +45,7 @@ import Capacitor
         "aigenshkfps/true"
     ]
     var exitUniversalLinks: [String] = [
-        "phhkdownloadapp=true&requireMember"
+//        "phhkdownloadapp=true&requireMember"
     ]
 
     let containerView = WebContainer.webContainer()
@@ -138,14 +138,14 @@ import Capacitor
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUniversalLink(notification:)), name: Notification.Name.capacitorOpenUniversalLink, object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(self.handleUrlOpened(notification:)), name: Notification.Name.capacitorOpenURL, object: nil)
-        
+
         NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification, object: nil, queue: OperationQueue.main) { [weak self] (_) in
-            if let core = CorePlugin.getCoreInstance(), let obj = core._readClipboard(), let value = obj["value"] as? String, let this = self {
+            if let this = self, let core = CorePlugin.getCoreInstance(), this.exitUniversalLinks.count > 0, let obj = core._readClipboard(), let value = obj["value"] as? String {
                 if this.isExitUniversalLinks(value) {
                     core.forceDismiss()
                 }
             }
-            
+
         }
     }
 
@@ -159,7 +159,7 @@ import Capacitor
         }
         return result
     }
-    
+
     private func isExitUniversalLinks(_ url: String) -> Bool {
         var result = false
 
@@ -311,7 +311,7 @@ import Capacitor
         if let excludedUniversalLinks = options?["excludedUniversalLinks"] as? [String] {
             self.excludedUniversalLinks.append(contentsOf: excludedUniversalLinks)
         }
-        
+
         if let exitUniversalLinks = options?["exitUniversalLinks"] as? [String] {
             self.exitUniversalLinks.append(contentsOf: exitUniversalLinks)
         }
