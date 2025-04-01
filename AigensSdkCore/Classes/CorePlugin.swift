@@ -12,6 +12,11 @@ import EventKitUI
     func isInterceptedUrl(url: URL, webview: WKWebView) -> Bool
 }
 
+@objc public protocol AnalyticsDelegate: AnyObject {
+    func setScreenName(_ screenName: String)
+    func logEvent(_ name: String, parameters: Dictionary<String, Any>?)
+}
+
 var aigensDebug = false;
 /**
  * Please read the Capacitor iOS Plugin Development Guide
@@ -21,6 +26,7 @@ var aigensDebug = false;
 public class CorePlugin: CAPPlugin {
 
     static public var coreDelegate: CoreDelegate?
+    static public var analyticsDelegate: AnalyticsDelegate?
 
     public static let shared = CorePlugin()
     private let implementation = Core()
@@ -237,6 +243,65 @@ public class CorePlugin: CAPPlugin {
         CorePlugin.dismissCall = nil
 
 
+    }
+    
+    @objc func setScreenName(_ call: CAPPluginCall) {
+        if let screenName = call.getString("name") {
+            if let del = CorePlugin.analyticsDelegate {
+                DispatchQueue.main.async {
+                    del.setScreenName(screenName)
+                }
+            }
+            call.resolve()
+        } else {
+            call.resolve()
+        }
+        
+    }
+
+    @objc func logEvent(_ call: CAPPluginCall) {
+        guard let name = call.getString("name"), !name.isEmpty else {
+            call.reject("Event name is required and can't be empty")
+            return
+        }
+        
+        guard let del = CorePlugin.analyticsDelegate else {
+            call.resolve()
+            return;
+        }
+        
+        /// logEvent() expects `nil` when there are no parameters
+        guard var params = call.getObject("params"), !params.isEmpty else {
+            if let del = CorePlugin.analyticsDelegate {
+                del.logEvent(name, parameters: nil)
+            }
+            call.resolve()
+            return
+        }
+        
+        /// FirebaseAnalytics silently converts any item quantity that is not an
+        /// integer to zero, this includes any NSNumber or string value passed
+        /// as an option to CAPPluginCall.
+        if var items = params["items"] as? NSArray as? [[String:Any]] {
+            for (idx, item) in items.enumerated() {
+                if let quantity = item["quantity"] {
+                    guard let intVal = quantity as? Int else {
+                        call.resolve()
+                        return
+                    }
+                    items[idx]["quantity"] = intVal
+                }
+            }
+            params["items"] = items
+        }
+        
+        if let extendSession = params["extendSession"] as? NSNumber, extendSession == 1 {
+            params["extendSession"] = true
+        }
+        
+        del.logEvent(name, parameters: params)
+        call.resolve()
+        
     }
 
     @objc func getMember(_ call: CAPPluginCall) {
