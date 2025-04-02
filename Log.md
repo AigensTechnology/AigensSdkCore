@@ -1,4 +1,6 @@
 AigensSdkCore
+* 0.1.1
+  * add logEvent
 
 * 0.1.0
   * add makeHKFPSPayment
