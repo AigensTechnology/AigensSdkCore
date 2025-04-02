@@ -13,7 +13,6 @@ import EventKitUI
 }
 
 @objc public protocol AnalyticsDelegate: AnyObject {
-    func setScreenName(_ screenName: String)
     func logEvent(_ name: String, parameters: Dictionary<String, Any>?)
 }
 
@@ -247,10 +246,8 @@ public class CorePlugin: CAPPlugin {
     
     @objc func setScreenName(_ call: CAPPluginCall) {
         if let screenName = call.getString("name") {
-            if let del = CorePlugin.analyticsDelegate {
-                DispatchQueue.main.async {
-                    del.setScreenName(screenName)
-                }
+            DispatchQueue.main.async {
+                self.trackEvent("screen_view", parameters: ["screen_name": screenName])
             }
             call.resolve()
         } else {
@@ -259,22 +256,40 @@ public class CorePlugin: CAPPlugin {
         
     }
 
+    private func _logEvent(name: String, params: [String: Any]) -> Bool {
+        
+        guard let analyticsClass = NSClassFromString("FirebaseAnalytics.FIRAnalytics") ?? NSClassFromString("FirebaseAnalytics.Analytics") ?? NSClassFromString("FIRAnalytics") ?? NSClassFromString("Analytics") else {
+            return false
+        }
+        
+        let selector = NSSelectorFromString("logEventWithName:parameters:")
+        
+        guard analyticsClass.responds(to: selector) else { return false }
+        
+        let arguments: [Any] = [name, params]
+            
+        _ = analyticsClass.perform(selector, with: arguments, afterDelay: 0)
+        print("CorePlugin logEvent")
+        return true
+    }
+    
+    private func trackEvent(_ name: String, parameters: Dictionary<String, Any>?) {
+        if let del = CorePlugin.analyticsDelegate {
+            del.logEvent(name, parameters: parameters)
+            return;
+        }
+        _ = _logEvent(name: name, params: parameters ?? [:])
+    }
+
     @objc func logEvent(_ call: CAPPluginCall) {
         guard let name = call.getString("name"), !name.isEmpty else {
             call.reject("Event name is required and can't be empty")
             return
         }
         
-        guard let del = CorePlugin.analyticsDelegate else {
-            call.resolve()
-            return;
-        }
-        
         /// logEvent() expects `nil` when there are no parameters
         guard var params = call.getObject("params"), !params.isEmpty else {
-            if let del = CorePlugin.analyticsDelegate {
-                del.logEvent(name, parameters: nil)
-            }
+            trackEvent(name, parameters: nil)
             call.resolve()
             return
         }
@@ -298,8 +313,7 @@ public class CorePlugin: CAPPlugin {
         if let extendSession = params["extendSession"] as? NSNumber, extendSession == 1 {
             params["extendSession"] = true
         }
-        
-        del.logEvent(name, parameters: params)
+        trackEvent(name, parameters: params)
         call.resolve()
         
     }
@@ -657,5 +671,3 @@ extension CorePlugin: EKEventEditViewDelegate {
     }
 }
 #endif
-
-

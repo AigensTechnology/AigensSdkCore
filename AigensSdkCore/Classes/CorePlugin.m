@@ -20,6 +20,10 @@ CAP_PLUGIN(CorePlugin, "Core",
            CAP_PLUGIN_METHOD(readClipboard, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(addCalendar, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(makeHKFPSPayment, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(setScreenName, CAPPluginReturnPromise);
+           CAP_PLUGIN_METHOD(logEvent, CAPPluginReturnPromise);
+           
+           
            
 
 )

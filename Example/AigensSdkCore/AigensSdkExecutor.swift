@@ -26,10 +26,6 @@ private let sharedExecutor = AigensSdkExecutor()
 
 extension AigensSdkExecutor: AnalyticsDelegate {
     
-    public func setScreenName(_ screenName: String) {
-        
-    }
-    
     public func logEvent(_ name: String, parameters: Dictionary<String, Any>?) {
         //Analytics.logEvent(name, parameters: parameters)
     }
