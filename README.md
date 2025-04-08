@@ -93,10 +93,21 @@ Include the aigens-sdk-core dependency in "build.gradle".
 ```gradle
 dependencies {
 
-    implementation 'com.aigens:aigens-sdk-core:5.0.5'
+    # Required
+    # classpath 'com.android.tools.build:gradle:8.0.0'
+    # distributionUrl=https\://services.gradle.org/distributions/gradle-8.0.2-all.zip
+    # Android Studio Flamingo | 2022.2.1 or newer
 
-    # If have googlepay
+    implementation 'com.aigens:aigens-sdk-core:5.0.5'
+    
+    # If you wanna use googlepay
     implementation 'com.aigens:aigens-sdk-googlepay:5.0.1'
+
+
+    # else
+    implementation 'com.aigens:aigens-sdk-core-legacy:0.5.0'
+    # If you wanna use googlepay
+    implementation 'com.aigens:aigens-sdk-googlepay:0.0.6'
 }
 ```
 
