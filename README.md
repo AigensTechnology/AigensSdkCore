@@ -254,6 +254,7 @@ class ViewController: UIViewController {
             "pushId": "<applePushToken>",
             "deviceId": "<deviceId>",
             "universalLink": "<start with https://xxxx>",
+            "appScheme": "xxxappScheme",
             "appleMerchantId": "<YourAppleMerchantId>",
             "language": "en"  // en/zh,
             "isGuest": false   // true/false
@@ -314,6 +315,7 @@ import com.aigens.sdk.WebContainerActivity;
         // from : <data android:scheme="https" />
         //        <data android:host="domain.name" android:pathPrefix="/toapp" />
         member.put("universalLink", "https://xxx.xx.com/toapp");
+        member.put("appScheme", "xxappScheme");
 
         Map<String, String> deeplink = new HashMap<String, String>();
         deeplink.put("addItemId", "<itemId>");
