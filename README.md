@@ -90,7 +90,7 @@ Newer Android projects might not automatically include this repository.
 
 Include the aigens-sdk-core dependency in "build.gradle".
 
-```gradle
+```groovy
 dependencies {
 
     # Required
