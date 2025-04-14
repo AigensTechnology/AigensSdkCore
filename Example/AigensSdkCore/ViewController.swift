@@ -70,7 +70,7 @@ class ViewController: UIViewController {
 //        url = "https://fairwood-uat-v4.order.place/order/store/600002/mode/catering?brandId=600001"
         
         let bridgeVC = WebContainerViewController()
-        
+
         var options = [String: Any]()
         options["url"] = url
         
@@ -110,6 +110,12 @@ class ViewController: UIViewController {
         
         WebContainerViewController.closeCB = {
             (result: Any?) in
+            if let r = result as? [String: Any], let closedData = r["closedData"] as? [String: Any] {
+                if let redirectUrl = closedData["redirectUrl"] as? String, let action = closedData["action"] as? String, action == "hkbu-verify-2nd" {
+                    //redirectUrl
+                    print("redirectUrl:\(redirectUrl)")
+                }
+            }
             print("closeCB:\(result)")
         }
         

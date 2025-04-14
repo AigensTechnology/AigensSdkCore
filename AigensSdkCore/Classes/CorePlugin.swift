@@ -232,6 +232,8 @@ public class CorePlugin: CAPPlugin {
             let r = ["closedData": data]
             WebContainerViewController.closeCB?(r)
             CorePlugin.dismissCall?.resolve(r)
+        }else {
+            WebContainerViewController.closeCB?(["closedData": [:]])
         }
 
         //let value = call.getString("value") ?? ""
@@ -343,6 +345,8 @@ public class CorePlugin: CAPPlugin {
             let r = ["closedData": data]
             WebContainerViewController.closeCB?(r)
             CorePlugin.dismissCall?.resolve(r)
+        }else {
+            WebContainerViewController.closeCB?(["closedData": [:]])
         }
 
         //let value = call.getString("value") ?? ""

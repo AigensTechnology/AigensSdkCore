@@ -275,6 +275,18 @@ class ViewController: UIViewController {
         options["debug"] = isUat ? true : false;
         
         bridgeVC.options = options
+
+        //closed callback
+        WebContainerViewController.closeCB = {
+            (result: Any?) in
+            if let r = result as? [String: Any], let closedData = r["closedData"] as? [String: Any] {
+                if let redirectUrl = closedData["redirectUrl"] as? String, let action = closedData["action"] as? String, action == "xxx" {
+                    //redirectUrl
+                    print("redirectUrl:\(redirectUrl)")
+                }
+            }
+            print("closeCB:\(result)")
+        }
         
         bridgeVC.modalPresentationStyle = .fullScreen
         self.present(bridgeVC, animated: true)
@@ -330,8 +342,37 @@ import com.aigens.sdk.WebContainerActivity;
         intent.putExtra("ENVIRONMENT_PRODUCTION", true);
         // intent.putExtra("ENVIRONMENT_PRODUCTION", false);
 
-        activity.startActivity(intent);
+        //activity.startActivity(intent);
+        // for result
+        activity.startActivityForResult(intent, WebContainerActivity.REQUEST_CODE_OPEN_URL);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (WebContainerActivity.REQUEST_CODE_OPEN_URL == requestCode) {
+            if (resultCode == RESULT_OK && data != null) {
+
+                Bundle extras = data.getExtras();
+                if (extras != null) {
+                    try {
+                        String closedData = extras.getString("closedData");
+                        JSONObject object = new JSONObject(closedData);
+                        String redirectUrl = object.getString("redirectUrl");
+                        String action = object.getString("action");
+                        if ("xxx".equals(action) && redirectUrl != null) {
+
+                        }
+                        Log.i("onActivityResult:", object.toString());
+                    } catch (Exception e) {
+                    }
+
+                }
+
+            }
+        }
     }
 ```
 
