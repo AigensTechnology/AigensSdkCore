@@ -89,12 +89,20 @@ import Capacitor
     }
     private func addChannel() {
         if let urlString = self.options?["url"] as? String {
-
             if !urlString.contains("&channel=app") && !urlString.contains("?channel=app") {
                 let sign = urlString.contains("?") ? "&" : "?"
                 self.options?["url"] = urlString + sign + "channel=app"
             }
+            
         }
+        
+        if let urlString = self.options?["url"] as? String {
+            let sign = urlString.contains("?") ? "&" : "?"
+            let timestamp = Int(Date().timeIntervalSince1970 * 1000)
+            self.options?["url"] = urlString + sign + "ts=\(timestamp)"
+        }
+
+        
     }
 
     private func clearCache() {
