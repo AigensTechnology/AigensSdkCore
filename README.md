@@ -104,7 +104,7 @@ dependencies {
     implementation 'com.aigens:aigens-sdk-googlepay:5.0.1'
 
 
-    # else
+    # If you wanna use legacy version, for gradle 7.0.0 or older
     implementation 'com.aigens:aigens-sdk-core-legacy:0.5.0'
     # If you wanna use googlepay
     implementation 'com.aigens:aigens-sdk-googlepay:0.0.6'
