@@ -87,6 +87,9 @@ class ViewController: UIViewController {
     }
 
     // url:  https://xxx.order.place/crm/brand/xxxx/directory?brandId=xxxx
+    
+    // mode: takeaway / dinein 
+    // store url: https://xxx.order.place/order/store/xxx/mode/xxx?brandId=xxxxx
    func openClicked(url: String) {
     
         let bridgeVC = WebContainerViewController()
@@ -229,6 +232,9 @@ import com.aigens.sdk.WebContainerActivity;
 
 
     // url:  https://xxx.order.place/crm/brand/xxxx/directory?brandId=xxxx
+    
+    // mode: takeaway / dinein 
+    // store url: https://xxx.order.place/order/store/xxx/mode/xxx?brandId=xxxxx
     void openUrl(String url) {
         Activity activity = this;
         Intent intent = new Intent(activity, WebContainerActivity.class);
