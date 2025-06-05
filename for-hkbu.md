@@ -236,8 +236,10 @@ Add permissions required in "AndroidManifest.xml" depending on features.
 ```
 
 ### styles.xml
-<!-- main activity theme should be set to Theme.MaterialComponents.DayNight.DarkActionBar -->
 ```xml
+
+<!-- main activity theme should be set to Theme.MaterialComponents.DayNight.DarkActionBar -->
+
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
 ```
 
@@ -256,6 +258,9 @@ buildscript {
 
 
 ```
+
+### Google merchant Id 
+* Please provide the google-merchant-id for Aigens
 
 
 ### app build.gradle
