@@ -172,7 +172,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ```groovy
 
 implementation 'com.aigens:aigens-sdk-core:5.0.7'
-implementation 'com.aigens:aigens-sdk-adyen-payments:0.5.2'
+implementation 'com.aigens:aigens-sdk-adyen-payments:5.0.0'
 
 // implementation 'com.aigens:aigens-sdk-core-legacy:0.5.2'
 
