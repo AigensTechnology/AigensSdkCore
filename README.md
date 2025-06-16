@@ -98,14 +98,14 @@ dependencies {
     # distributionUrl=https\://services.gradle.org/distributions/gradle-8.0.2-all.zip
     # Android Studio Flamingo | 2022.2.1 or newer
 
-    implementation 'com.aigens:aigens-sdk-core:5.0.5'
+    implementation 'com.aigens:aigens-sdk-core:5.0.8'
     
     # If you wanna use googlepay
     implementation 'com.aigens:aigens-sdk-googlepay:5.0.1'
 
 
     # If you wanna use legacy version, for gradle 7.0.0 or older
-    implementation 'com.aigens:aigens-sdk-core-legacy:0.5.0'
+    implementation 'com.aigens:aigens-sdk-core-legacy:0.5.3'
     # If you wanna use googlepay
     implementation 'com.aigens:aigens-sdk-googlepay:0.0.6'
 }
