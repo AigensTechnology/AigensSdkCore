@@ -222,7 +222,7 @@
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						DevelopmentTeam = 786Q353TMH;
+						DevelopmentTeam = 9Q6U2EWTRL;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -518,7 +518,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = com.peijue.my;
+				PRODUCT_BUNDLE_IDENTIFIER = com.peijue.my2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -536,7 +536,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
-				PRODUCT_BUNDLE_IDENTIFIER = com.peijue.my;
+				PRODUCT_BUNDLE_IDENTIFIER = com.peijue.my2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -547,7 +547,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 50842F070935769F24C06802 /* Pods-AigensSdkCore_Tests.debug.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 786Q353TMH;
+				DEVELOPMENT_TEAM = 9Q6U2EWTRL;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -570,7 +570,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 2B9F076522C49076518882B2 /* Pods-AigensSdkCore_Tests.release.xcconfig */;
 			buildSettings = {
-				DEVELOPMENT_TEAM = 786Q353TMH;
+				DEVELOPMENT_TEAM = 9Q6U2EWTRL;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 					"$(inherited)",

@@ -62,6 +62,8 @@ class ViewController: UIViewController {
         
         url = "https://fairwood.order.place/crm/brand/600001/directory"
         
+        url = "https://test.order.place/home/store/755605031657472"
+        
         // url = "http://192.168.1.108:4200/crm/brand/599961624702976/home";
         
 //        url = "http://192.168.1.108:4200/crm/brand/600001/directory?brandId=600001";
@@ -80,11 +82,11 @@ class ViewController: UIViewController {
         
         let member:Dictionary<String, Any> = [
         
-            "memberCode" : "MEM-42244-6X4H2Q",
-            "source" : "cdc",
-            "sessionId" : "MEM-42244-6X4H2Q",
-            "deviceId":"peijue-test-iphone2-cdc",
-            "universalLink": "https://yoshinoyaapp.aigens.com/yoshinoyaapp/wechatpay/*",
+//            "memberCode" : "MEM-42244-6X4H2Q",
+            "source" : "hkbu",
+//            "sessionId" : "MEM-42244-6X4H2Q",
+            "deviceId":"peijue-test-iphone2-cdc-se",
+//            "universalLink": "https://yoshinoyaapp.aigens.com/yoshinoyaapp/wechatpay/*",
 //            "universalLink":"fairwoodtestapp://test",
             "appleMerchantId": "",
             "appScheme": "fairwoodtestappprd://test"

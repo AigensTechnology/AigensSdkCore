@@ -188,21 +188,21 @@ import Capacitor
         if url.contains("aigens=true") || url.contains("aigens/true") {
             return true;
         }
-        if !universalLink.isEmpty && url.contains(universalLink) {
+        if !universalLink.isEmpty && url.contains(universalLink) && url.starts(with: universalLink){
             return true
         }
-        if !appScheme.isEmpty && url.contains(appScheme) {
+        if !appScheme.isEmpty && url.contains(appScheme) && url.starts(with: appScheme) {
             return true
         }
         return false;
     }
 
-    private func fromAppUrl(_ url_: URL) {
+    private func fromAppUrl(_ url_: URL) -> Bool {
         let url = decodeURIComponent(url_);
 
 
         if !isParseUrl(url.absoluteString) {
-            return;
+            return false;
         }
 
         let rUrl = URLRequest(url: url)
@@ -229,12 +229,13 @@ import Capacitor
             webContainerView.showError(false)
             let rUrl = URLRequest(url: redirectUrl)
             webView?.load(rUrl)
-            return;
+            return true;
         }
 
         webContainerView.showLoading(true)
         webContainerView.showError(false)
         webView?.load(rUrl)
+        return true;
     }
 
     @objc func handleUrlOpened(notification: NSNotification) {
@@ -488,6 +489,11 @@ extension WebContainerViewController: WKNavigationDelegate {
             } else {
                 UIApplication.shared.openURL(navURL)
             }
+            decisionHandler(.cancel)
+            return;
+        }
+        
+        if (fromAppUrl(navURL)) {
             decisionHandler(.cancel)
             return;
         }
