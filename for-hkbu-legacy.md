@@ -265,6 +265,9 @@ Add permissions required in "AndroidManifest.xml" depending on features.
         intent.putExtra("member", (Serializable) member);
         intent.putExtra("debug", isUat ? true : false);
 
+
+        // for googlepay
+        intent.putExtra("ENVIRONMENT_PRODUCTION", isUat ? false : true);
         //activity.startActivity(intent);
 
         // for result
