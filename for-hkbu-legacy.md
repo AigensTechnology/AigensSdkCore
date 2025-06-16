@@ -1,6 +1,6 @@
 # ios
 ```ruby
-pod 'AigensSdkCore', '0.1.1'
+pod 'AigensSdkCore', '0.1.3'
 ```
 
 ### Add permissions required in "Info.plist" depending on features.

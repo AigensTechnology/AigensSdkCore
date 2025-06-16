@@ -21,7 +21,7 @@ pod init
 Add AigensSdkCore into Podfile:
 
 ```ruby
-pod 'AigensSdkCore', '0.1.1'
+pod 'AigensSdkCore', '0.1.3'
 
 ```
 

@@ -185,23 +185,36 @@ import Capacitor
             return false
         }
 
-        if url.contains("aigens=true") || url.contains("aigens/true") {
+        if url.contains("aigens=true") || url.contains("aigens/true") || url.contains("aigensRedirect/") {
             return true;
         }
-        if !universalLink.isEmpty && url.contains(universalLink) && url.starts(with: universalLink){
+        if !universalLink.isEmpty && url.contains(universalLink) {
             return true
         }
-        if !appScheme.isEmpty && url.contains(appScheme) && url.starts(with: appScheme) {
+        if !appScheme.isEmpty && url.contains(appScheme) {
             return true
         }
         return false;
     }
+    
+    private func isParseUrl2(_ url: String) -> Bool {
 
-    private func fromAppUrl(_ url_: URL) -> Bool {
+        if isExcludedUniversalLink(url) {
+            return false
+        }
+        let contain = url.contains("alwayscheck=true") || url.contains("alwayscheck/true");
+        return contain
+    }
+
+    private func fromAppUrl(_ url_: URL, _ alwayscheck: Bool = false) -> Bool {
         let url = decodeURIComponent(url_);
 
 
-        if !isParseUrl(url.absoluteString) {
+        if !alwayscheck && !isParseUrl(url.absoluteString) {
+            return false;
+        }
+        
+        if alwayscheck && !isParseUrl2(url.absoluteString) {
             return false;
         }
 
@@ -493,7 +506,7 @@ extension WebContainerViewController: WKNavigationDelegate {
             return;
         }
         
-        if (fromAppUrl(navURL)) {
+        if (fromAppUrl(navURL, true)) {
             decisionHandler(.cancel)
             return;
         }
