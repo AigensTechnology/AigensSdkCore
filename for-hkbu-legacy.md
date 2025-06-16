@@ -1,5 +1,6 @@
 # ios
 ```ruby
+#  updated: 2025-06-16
 pod 'AigensSdkCore', '0.1.3'
 ```
 
@@ -170,6 +171,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 # Android
 
 ```groovy
+
+    // updated: 2025-06-16
 
     implementation 'com.aigens:aigens-sdk-core-legacy:0.5.3'
     implementation 'com.aigens:aigens-sdk-googlepay:0.0.6'
