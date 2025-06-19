@@ -136,7 +136,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
             "otpToken": otpToken ?? "",
 
-            "appScheme": appScheme
+            "appScheme": appScheme,
+
+
+            <!-- Please remove universalLink -->
+            <!-- "universalLink": "<start with https://xxxx>", -->
             
         ]
         options["member"] = member
@@ -260,6 +264,9 @@ Add permissions required in "AndroidManifest.xml" depending on features.
         member.put("appScheme", appScheme);
 
         member.put("otpToken", otpToken);
+
+        // please remove universalLink
+        // member.put("universalLink", "https://xxx.xx.com/toapp");
 
 
         intent.putExtra("member", (Serializable) member);
