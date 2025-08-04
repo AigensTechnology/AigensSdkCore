@@ -256,8 +256,11 @@ class ViewController: UIViewController {
             "universalLink": "<start with https://xxxx>",
             "appScheme": "xxxappScheme",
             "appleMerchantId": "<YourAppleMerchantId>",
-            "language": "en"  // en/zh,
-            "isGuest": false   // true/false
+            "language": "en",  // en/zh,
+            "isGuest": false,   // true/false
+            // add
+            "memberCardNumber": "<memberCardNumber>"
+
             
         ]
 
@@ -325,6 +328,9 @@ import com.aigens.sdk.WebContainerActivity;
         member.put("deviceId", "<deviceId>");
         member.put("language", "en");
         member.put("isGuest", String.valueOf(false));  // true/false
+
+        // add
+        member.put("memberCardNumber", "<memberCardNumber>");
         
         // from : <data android:scheme="https" />
         //        <data android:host="domain.name" android:pathPrefix="/toapp" />
