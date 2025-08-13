@@ -58,7 +58,7 @@ import Capacitor
 
         self.becomeFirstResponder()
 
-        addChannel()
+        addChannelAndTs()
         loadWebViewCustom()
         initView()
 
@@ -87,22 +87,27 @@ import Capacitor
         }
         return result
     }
-    private func addChannel() {
+    private func addChannelAndTs() {
+        
+        let member = self.options?["member"] as? Dictionary<String, Any>
+        let withoutAddChannel = member?["withoutAddChannel"] as? Bool ?? false
+        let disableAddTs = member?["disableAddTs"] as? Bool ?? false
+        
         if let urlString = self.options?["url"] as? String {
-            if !urlString.contains("&channel=app") && !urlString.contains("?channel=app") {
+            if !urlString.contains("&channel=app") && !urlString.contains("?channel=app") && !withoutAddChannel {
                 let sign = urlString.contains("?") ? "&" : "?"
                 self.options?["url"] = urlString + sign + "channel=app"
             }
-            
+
         }
-        
-        if let urlString = self.options?["url"] as? String {
+
+        if let urlString = self.options?["url"] as? String, !disableAddTs {
             let sign = urlString.contains("?") ? "&" : "?"
             let timestamp = Int(Date().timeIntervalSince1970 * 1000)
             self.options?["url"] = urlString + sign + "ts=\(timestamp)"
         }
 
-        
+
     }
 
     private func clearCache() {
@@ -196,7 +201,7 @@ import Capacitor
         }
         return false;
     }
-    
+
     private func isParseUrl2(_ url: String) -> Bool {
 
         if isExcludedUniversalLink(url) {
@@ -213,7 +218,7 @@ import Capacitor
         if !alwayscheck && !isParseUrl(url.absoluteString) {
             return false;
         }
-        
+
         if alwayscheck && !isParseUrl2(url.absoluteString) {
             return false;
         }
@@ -505,7 +510,7 @@ extension WebContainerViewController: WKNavigationDelegate {
             decisionHandler(.cancel)
             return;
         }
-        
+
         if (fromAppUrl(navURL, true)) {
             decisionHandler(.cancel)
             return;
