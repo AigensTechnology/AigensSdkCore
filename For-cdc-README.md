@@ -277,6 +277,9 @@ class ViewController: UIViewController {
         // add
         options["addPaddingProtocols"]  =  ["https://www.bochk.com", "https://ewa.bochk.com"] 
 
+        // add
+        options["externalProtocols"] = ["https://mbaapp.ftcwifi.com", "https://ewa.bochk.com"]
+
         options["debug"] = isUat ? true : false;
         
         bridgeVC.options = options
@@ -344,6 +347,13 @@ import com.aigens.sdk.WebContainerActivity;
 
         intent.putExtra("member", (Serializable) member);
         intent.putExtra("deeplink", (Serializable) deeplink);
+
+        // add  
+        List<String> externalProtocols = new ArrayList<String>() {{
+            add("https://mbaapp.ftcwifi.com");
+            add("https://ewa.bochk.com");
+        }};
+        intent.putExtra("externalProtocols", (Serializable) externalProtocols);
 
         intent.putExtra("debug", isUat ? true : false);
         
