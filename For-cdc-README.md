@@ -65,6 +65,33 @@ Add permissions required in "Info.plist" depending on features.
     <string>gcash</string>
 </array>
 
+
+# uat
+<key>CFBundleURLTypes</key>
+<array>
+	<dict>
+		<key>CFBundleTypeRole</key>
+		<string>Editor</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+			<string>cdcuatappforaigens</string>
+		</array>
+	</dict>
+</array>
+
+# prd
+<key>CFBundleURLTypes</key>
+<array>
+	<dict>
+		<key>CFBundleTypeRole</key>
+		<string>Editor</string>
+		<key>CFBundleURLSchemes</key>
+		<array>
+			<string>cdcprdappforaigens</string>
+		</array>
+	</dict>
+</array>
+
 ```
 ![image](https://github.com/AigensTechnology/AigensSdkCore/blob/main/ios_schemes.png)
 
@@ -135,6 +162,12 @@ Add permissions required in "AndroidManifest.xml" depending on features.
                 
                 <data android:scheme="https" />
                 <data android:host="domain.name" android:pathPrefix="/toapp" />
+
+                <!-- uat -->
+				<data android:scheme="cdcuatappforaigens" android:host="localhost"/>
+                
+                <!-- prd -->
+				<data android:scheme="cdcprdappforaigens" android:host="localhost"/>
                 
             </intent-filter>
         </activity>
@@ -254,7 +287,8 @@ class ViewController: UIViewController {
             "pushId": "<applePushToken>",
             "deviceId": "<deviceId>",
             "universalLink": "<start with https://xxxx>",
-            "appScheme": "xxxappScheme",
+            "appScheme": "cdcuatappforaigens",  // uat
+            // "appScheme": "cdcprdappforaigens",  // prd
             "appleMerchantId": "<YourAppleMerchantId>",
             "language": "en",  // en/zh,
             "isGuest": false,   // true/false
@@ -338,7 +372,13 @@ import com.aigens.sdk.WebContainerActivity;
         // from : <data android:scheme="https" />
         //        <data android:host="domain.name" android:pathPrefix="/toapp" />
         member.put("universalLink", "https://xxx.xx.com/toapp");
-        member.put("appScheme", "xxappScheme");
+        
+        
+        // uat
+        member.put("appScheme", "cdcuatappforaigens");
+
+        // prd
+        // member.put("appScheme", "cdcprdappforaigens");
 
         Map<String, String> deeplink = new HashMap<String, String>();
 
