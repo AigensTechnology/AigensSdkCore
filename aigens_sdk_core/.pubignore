@@ -1,0 +1,22 @@
+# Build artifacts
+.dart_tool/
+.packages
+.pub/
+build/
+internal/
+
+# Scripts (optional - remove this line if you want to publish publish.sh)
+publish.sh
+
+# IDE files
+.idea/
+.vscode/
+*.iml
+
+# OS files
+.DS_Store
+
+# Git
+.git/
+.gitignore
+

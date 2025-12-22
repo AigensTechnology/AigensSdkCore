@@ -64,12 +64,16 @@ class ViewController: UIViewController {
         
         url = "https://test.order.place/home/store/755605031657472"
         
+        url = "https://wechatfe.github.io/vconsole/demo.html"
+        
+        url = "http://192.168.1.103:4200/crm/brand/599961624702976/home";
+        url = "https://test.order.place/home/store/755605031657472";
         // url = "http://192.168.1.108:4200/crm/brand/599961624702976/home";
         
 //        url = "http://192.168.1.108:4200/crm/brand/600001/directory?brandId=600001";
 //        url = "http://192.168.100.66:4200/crm/brand/600001/directory";
         
-//        url = "https://fairwood-uat-v4.order.place/order/store/600002/mode/catering?brandId=600001"
+        url = "https://fairwood-uat-v4.order.place/order/store/600002/mode/catering?brandId=600001"
         
         let bridgeVC = WebContainerViewController()
 

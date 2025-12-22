@@ -1,0 +1,35 @@
+name: flutter_example
+description: Example Flutter app using aigens_sdk_core plugin
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.17.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  
+  # 方式 1: 从 pub.dev 安装（发布后使用）
+  # aigens_sdk_core: ^0.1.0
+  
+  # 方式 2: 从本地路径安装（开发/测试时使用）
+  aigens_sdk_core:
+    path: ../aigens_sdk_core
+  
+  # 方式 3: 从 Git 仓库安装（如果发布到 GitHub）
+  # aigens_sdk_core:
+  #   git:
+  #     url: https://github.com/AigensTechnology/AigensSdkCore.git
+  #     path: aigens_sdk_core
+  #     ref: main  # 或特定版本标签，如 v0.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
+

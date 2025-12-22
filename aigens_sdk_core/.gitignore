@@ -1,0 +1,20 @@
+# Dart/Flutter
+.dart_tool/
+.packages
+.pub/
+build/
+pubspec.lock
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# macOS
+.DS_Store
+
+# Scripts (optional - remove if you want to publish publish.sh)
+# publish.sh
+
