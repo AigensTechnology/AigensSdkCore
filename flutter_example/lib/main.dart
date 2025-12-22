@@ -6,7 +6,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
 
     try {
       final closedData = await AigensSdkCore.openUrl(
-        url: 'https://scantest.aigens.com/scan?code=c3RvcmU9NTAwJnNwb3Q9MSZwYWdlPWJ5b2Q=',
+        url: 'https://fairwood-uat-v4.order.place/order/store/600002/mode/catering',
         member: MemberData(
           memberCode: 'testMember123',
           source: 'testMerchant',

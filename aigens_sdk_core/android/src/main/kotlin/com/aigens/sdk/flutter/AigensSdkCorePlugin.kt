@@ -20,7 +20,7 @@ class AigensSdkCorePlugin: FlutterPlugin, MethodCallHandler, ActivityAware, Plug
   private var activityBinding: ActivityPluginBinding? = null
 
   companion object {
-    const val REQUEST_CODE_OPEN_URL = 1001
+    const val REQUEST_CODE_OPEN_URL = 100001
   }
 
   override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -95,21 +95,11 @@ class AigensSdkCorePlugin: FlutterPlugin, MethodCallHandler, ActivityAware, Plug
       pendingResult = result
 
       // Start activity for result
-      // Use the constant value if available, otherwise use our default
-      try {
-        val requestCodeField = Class.forName("com.aigens.sdk.WebContainerActivity")
-            .getDeclaredField("REQUEST_CODE_OPEN_URL")
-        requestCodeField.isAccessible = true
-        val requestCode = requestCodeField.get(null) as Int
-        activity.startActivityForResult(intent, requestCode)
-      } catch (e: Exception) {
-        // Fallback to our own request code
-        activity.startActivityForResult(intent, REQUEST_CODE_OPEN_URL)
-      }
+     activity.startActivityForResult(intent, REQUEST_CODE_OPEN_URL)
     } catch (e: ClassNotFoundException) {
       result.error(
           "SDK_NOT_AVAILABLE",
-          "Aigens SDK not found. Please add 'implementation \"com.aigens:aigens-sdk-core:5.0.8\"' to your build.gradle",
+          "Aigens SDK not found. Please add 'implementation \"com.aigens:aigens-sdk-core:xx.xx.xx\"' to your build.gradle",
           null
       )
     } catch (e: Exception) {
