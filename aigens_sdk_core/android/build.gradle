@@ -23,9 +23,9 @@ allprojects {
 }
 
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
 
 android {
+    namespace "aigens.sdk.flutter"
     compileSdkVersion 33
 
     compileOptions {
@@ -33,20 +33,19 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
 
     sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
     }
 
     defaultConfig {
-        minSdkVersion 28
+        minSdkVersion 25
     }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Add Aigens SDK dependencies
+    implementation 'com.aigens:aigens-sdk-core:5.0.8'
+    implementation 'com.aigens:aigens-sdk-googlepay:5.0.1'
 }
 

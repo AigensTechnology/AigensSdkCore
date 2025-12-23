@@ -14,3 +14,7 @@
 ## 0.1.2
 * fix: android path
 * Update pubspec.yaml version to 0.1.2
+
+## 0.1.3
+* Update pubspec.yaml version to 0.1.3
+* fix ios & android lib

@@ -1,3 +1,81 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-</manifest>
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- 
+        Aigens SDK Core Plugin - Pre-configured AndroidManifest.xml
+        This file contains all necessary configurations to minimize manual setup for users.
+        Users can override these configurations in their main app's AndroidManifest.xml if needed.
+    -->
+
+    <!-- Application Configuration -->
+    <application>
+        
+        <!-- 
+            WebContainerActivity - Required for Aigens SDK
+            Note: If your app already declares this activity, you can remove this declaration
+            or use tools:node="remove" in your main AndroidManifest.xml to override.
+        -->
+        <!-- <activity
+            android:name="com.aigens.sdk.WebContainerActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:launchMode="singleTask"
+            tools:node="merge">
+            
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                
+                <data android:scheme="https" />
+                <data android:host="domain.name" android:pathPrefix="/toapp" />
+            </intent-filter>
+        </activity> -->
+        
+        <!-- Google Pay Support -->
+        <meta-data
+            android:name="com.google.android.gms.walletapi.enabled"
+            android:value="true" />
+            
+    </application>
+
+    <!-- 
+        Queries for external apps - Required for payment integrations
+        These allow the app to check if payment apps are installed
+    -->
+    <queries>
+        <package android:name="com.tencent.mm" />
+        <package android:name="com.octopuscards.nfc_reader" /> 
+        <package android:name="hk.com.hsbc.paymefromhsbc" />
+        <package android:name="com.macaupass.rechargeEasy" />
+        <package android:name="hk.alipay.wallet" />
+        <package android:name="com.eg.android.AlipayGphone" />
+    </queries>
+
+    <!-- 
+        Essential Permissions - Required for Aigens SDK functionality
+        Note: These permissions will be merged with your app's permissions.
+        If you don't need certain permissions, you can remove them in your main AndroidManifest.xml
+    -->
+    
+    <!-- Network Access -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- Location Services -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+    
+    <!-- File System Access -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
+    
+    <!-- Camera Access -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    
+    <!-- Calendar Access -->
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+
+</manifest>

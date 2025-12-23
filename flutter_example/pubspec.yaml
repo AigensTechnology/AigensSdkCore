@@ -1,4 +1,4 @@
-name: flutter_example2
+name: flutter_example
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
 
   # 方式 1: 从 pub.dev 安装（发布后使用）
-  # aigens_sdk_core: ^0.1.1
+  # aigens_sdk_core: ^0.1.3
   
   # 方式 2: 从本地路径安装（开发/测试时使用）
   aigens_sdk_core:

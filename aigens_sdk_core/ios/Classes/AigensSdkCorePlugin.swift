@@ -1,8 +1,9 @@
 import Flutter
 import UIKit
+import AigensSdkCore
 
-// Note: This requires importing AigensSdkCore in the Flutter app's iOS project
-// Add to Podfile: pod 'AigensSdkCore', '0.1.3'
+// Note: This plugin now imports AigensSdkCore directly
+// Dependencies are managed through aigens_sdk_core.podspec
 
 @objc public class AigensSdkCorePlugin: NSObject, FlutterPlugin {
   private var pendingResult: FlutterResult?
@@ -45,78 +46,60 @@ import UIKit
     // Store result for callback
     pendingResult = result
 
-    // Dynamically load WebContainerViewController class
-    // This requires the app to have AigensSdkCore as a dependency
-    guard let webContainerClass = NSClassFromString("WebContainerViewController") as? UIViewController.Type else {
-      result(FlutterError(
-        code: "SDK_NOT_AVAILABLE",
-        message: "AigensSdkCore not found. Please add 'pod AigensSdkCore' to your iOS Podfile",
-        details: nil
-      ))
-      pendingResult = nil
-      return
-    }
-
-    let bridgeVC = webContainerClass.init()
+    // Create WebContainerViewController instance
+    let bridgeVC = WebContainerViewController()
 
     // Build options dictionary
     var options: [String: Any] = [:]
     options["url"] = url
 
     if let member = args["member"] as? [String: Any] {
-      options["member"] = member
+        options["member"] = member
     }
 
     if let deeplink = args["deeplink"] as? [String: Any] {
-      options["deeplink"] = deeplink
+        options["deeplink"] = deeplink
     }
 
     if let debug = args["debug"] as? Bool {
-      options["debug"] = debug
+        options["debug"] = debug
     }
 
     if let clearCache = args["clearCache"] as? Bool {
-      options["clearCache"] = clearCache
+        options["clearCache"] = clearCache
     }
 
     if let externalProtocols = args["externalProtocols"] as? [String] {
-      options["externalProtocols"] = externalProtocols
+        options["externalProtocols"] = externalProtocols
     }
 
     if let addPaddingProtocols = args["addPaddingProtocols"] as? [String] {
-      options["addPaddingProtocols"] = addPaddingProtocols
+        options["addPaddingProtocols"] = addPaddingProtocols
     }
 
     if let excludedUniversalLinks = args["excludedUniversalLinks"] as? [String] {
-      options["excludedUniversalLinks"] = excludedUniversalLinks
+        options["excludedUniversalLinks"] = excludedUniversalLinks
     }
 
     if let exitUniversalLinks = args["exitUniversalLinks"] as? [String] {
-      options["exitUniversalLinks"] = exitUniversalLinks
+        options["exitUniversalLinks"] = exitUniversalLinks
     }
 
-    // Set options using KVC
-    bridgeVC.setValue(options, forKey: "options")
+    // Set options directly (no need for KVC anymore)
+    bridgeVC.options = options
 
     // Set close callback using static property
-    // WebContainerViewController has a static closeCB property: public static var closeCB: ((Any?) -> Void)?
-    let closeCallback: (Any?) -> Void = { [weak self] (resultData: Any?) in
-      guard let self = self else { return }
-      var resultMap: [String: Any] = [:]
-      if let r = resultData as? [String: Any] {
-        resultMap = r
-      } else {
-        resultMap = ["closedData": [:]]
-      }
-      self.pendingResult?(resultMap)
-      self.pendingResult = nil
+    WebContainerViewController.closeCB = { [weak self] (resultData: Any?) in
+        guard let self = self else { return }
+        var resultMap: [String: Any] = [:]
+        if let r = resultData as? [String: Any] {
+            resultMap = r
+        } else {
+            resultMap = ["closedData": [:]]
+        }
+        self.pendingResult?(resultMap)
+        self.pendingResult = nil
     }
-
-    // Set static closeCB property using runtime
-    // Note: This requires the actual WebContainerViewController class to be available
-    // We'll use objc_setAssociatedObject or KVC to set the static property
-    let webContainerClass = type(of: bridgeVC)
-    webContainerClass.setValue(closeCallback, forKey: "closeCB")
 
     bridgeVC.modalPresentationStyle = .fullScreen
     viewController.present(bridgeVC, animated: true, completion: nil)

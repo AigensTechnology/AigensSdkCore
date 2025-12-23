@@ -24,7 +24,7 @@ android {
         applicationId = "com.example.flutter_example2"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
+        minSdk = 25
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
@@ -44,9 +44,5 @@ flutter {
 }
 
 dependencies {
-    // Add Aigens SDK Core
-    implementation("com.aigens:aigens-sdk-core:5.0.8")
-    
-    // If using Google Pay
-    // implementation("com.aigens:aigens-sdk-googlepay:5.0.1")
+
 }

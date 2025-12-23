@@ -10,7 +10,7 @@ If published to pub.dev, simply add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  aigens_sdk_core: ^0.1.1
+  aigens_sdk_core: ^0.1.3
 ```
 
 Then run:
@@ -19,41 +19,9 @@ Then run:
 flutter pub get
 ```
 
-### Install from Git repository
-
-```yaml
-dependencies:
-  aigens_sdk_core:
-    git:
-      url: https://github.com/AigensTechnology/AigensSdkCore.git
-      path: aigens_sdk_core
-      ref: main  # or specific version tag
-```
-
-### Install from local path (for development)
-
-```yaml
-dependencies:
-  aigens_sdk_core:
-    path: ../aigens_sdk_core
-```
-
-**For detailed installation instructions**, see [INSTALLATION.md](./INSTALLATION.md)
-
 ### iOS Setup
 
-1. Add to your `ios/Podfile`:
-
-```ruby
-pod 'AigensSdkCore', '0.1.3'
-
-# If using Apple Pay
-pod 'AigensSdkApplepay', '0.0.8'
-```
-
-2. Run `pod install` in the `ios` directory.
-
-3. Add required permissions to `ios/Runner/Info.plist`:
+1. Add required permissions to `ios/Runner/Info.plist`:
 
 ```xml
 <key>LSApplicationQueriesSchemes</key>
@@ -92,45 +60,24 @@ pod 'AigensSdkApplepay', '0.0.8'
 4. Configure AppDelegate (Swift):
 
 ```swift
-import Capacitor
+    import Capacitor
 
-func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-    return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
-}
+    override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
+    }
 
-func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
-    return true
-}
+    override func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
+        return true
+    }
 
-func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
-    return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
-}
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
+        return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
+    }
 ```
 
 ### Android Setup
 
-1. Add to your `android/app/build.gradle`:
-
-```groovy
-dependencies {
-    implementation 'com.aigens:aigens-sdk-core:5.0.8'
-    
-    // If using Google Pay
-    implementation 'com.aigens:aigens-sdk-googlepay:5.0.1'
-}
-```
-
-2. Ensure `jcenter()` is in `android/settings.gradle`:
-
-```gradle
-repositories {
-    google()
-    mavenCentral()
-    jcenter()
-}
-```
-
-3. Add to `android/app/src/main/AndroidManifest.xml`:
+1. Add to `android/app/src/main/AndroidManifest.xml`:
 
 ```xml
 <manifest>
@@ -147,31 +94,16 @@ repositories {
                 <data android:scheme="https" />
                 <data android:host="domain.name" android:pathPrefix="/toapp" />
             </intent-filter>
+            <intent-filter>
+				        <action android:name="android.intent.action.VIEW"/>
+				        <category android:name="android.intent.category.DEFAULT"/>
+				        <category android:name="android.intent.category.BROWSABLE"/>
+				        <data android:scheme="xxxxapp"/>
+			      </intent-filter>
         </activity>
         
-        <meta-data
-            android:name="com.google.android.gms.walletapi.enabled"
-            android:value="true" />
     </application>
 
-    <queries>
-        <package android:name="com.tencent.mm" />
-        <package android:name="com.octopuscards.nfc_reader" />
-        <package android:name="hk.com.hsbc.paymefromhsbc" />
-        <package android:name="com.macaupass.rechargeEasy" />
-        <package android:name="hk.alipay.wallet" />
-        <package android:name="com.eg.android.AlipayGphone" />
-    </queries>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-feature android:name="android.hardware.location.gps" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_CALENDAR"/>
-    <uses-permission android:name="android.permission.READ_CALENDAR"/>
 </manifest>
 ```
 
@@ -187,7 +119,6 @@ final closedData = await AigensSdkCore.openUrl(
     memberCode: '<crmMemberId>',
     source: '<merchant>',
     sessionId: '<sessionId>',
-    pushId: '<pushToken>',
     deviceId: '<deviceId>',
     universalLink: 'https://yourdomain.com/toapp',
     appScheme: 'yourappscheme',
@@ -242,7 +173,6 @@ Opens the Aigens WebContainer with the specified URL.
 - `memberCode`: The unique identifier of the member in CRM backend
 - `source`: A merchant brand name string
 - `sessionId`: Member's current session key for CRM access
-- `pushId`: Push token registered with Apple/Google push service
 - `deviceId`: Unique device identifier
 - `universalLink`: Universal link to return to the app (start with https://)
 - `appScheme`: App scheme for deep linking

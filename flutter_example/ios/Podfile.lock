@@ -1,0 +1,91 @@
+PODS:
+  - aigens_sdk_core (0.1.0):
+    - AigensSdkApplepay (= 0.0.8)
+    - AigensSdkCore (= 0.1.3)
+    - Flutter
+  - AigensSdkApplepay (0.0.8):
+    - Capacitor (~> 3.5.1)
+  - AigensSdkCore (0.1.3):
+    - Capacitor (~> 3.5.1)
+    - CapacitorApp (~> 1.1.1)
+    - CapacitorBrowser (~> 1.0.7)
+    - CapacitorCamera (~> 1.3.1)
+    - CapacitorDevice (~> 1.1.2)
+    - CapacitorGeolocation (~> 1.3.1)
+    - CapacitorKeyboard (~> 1.2.2)
+    - CapacitorNetwork (~> 1.0.7)
+    - CapacitorShare (~> 1.1.2)
+    - CapacitorStorage (~> 1.2.5)
+  - Capacitor (3.5.1):
+    - CapacitorCordova
+  - CapacitorApp (1.1.1):
+    - Capacitor
+  - CapacitorBrowser (1.0.7):
+    - Capacitor
+  - CapacitorCamera (1.3.1):
+    - Capacitor
+  - CapacitorCordova (6.2.1)
+  - CapacitorDevice (1.1.2):
+    - Capacitor
+  - CapacitorGeolocation (1.3.1):
+    - Capacitor
+  - CapacitorKeyboard (1.2.3):
+    - Capacitor
+  - CapacitorNetwork (1.0.7):
+    - Capacitor
+    - ReachabilitySwift (~> 5.0)
+  - CapacitorShare (1.1.2):
+    - Capacitor
+  - CapacitorStorage (1.2.5):
+    - Capacitor
+  - Flutter (1.0.0)
+  - ReachabilitySwift (5.2.4)
+
+DEPENDENCIES:
+  - aigens_sdk_core (from `.symlinks/plugins/aigens_sdk_core/ios`)
+  - Flutter (from `Flutter`)
+
+SPEC REPOS:
+  trunk:
+    - AigensSdkApplepay
+    - AigensSdkCore
+    - Capacitor
+    - CapacitorApp
+    - CapacitorBrowser
+    - CapacitorCamera
+    - CapacitorCordova
+    - CapacitorDevice
+    - CapacitorGeolocation
+    - CapacitorKeyboard
+    - CapacitorNetwork
+    - CapacitorShare
+    - CapacitorStorage
+    - ReachabilitySwift
+
+EXTERNAL SOURCES:
+  aigens_sdk_core:
+    :path: ".symlinks/plugins/aigens_sdk_core/ios"
+  Flutter:
+    :path: Flutter
+
+SPEC CHECKSUMS:
+  aigens_sdk_core: 07800f1d779b4d5ae54474dfe9715635ffe02cc6
+  AigensSdkApplepay: 925ff985e7c891c75b36a59a684b90a6164a80dd
+  AigensSdkCore: 90278ee0c95350a9cfea019427a164ce5146fb08
+  Capacitor: c1b2bffd379c546d3aa1cec58a388592353a509c
+  CapacitorApp: 6539a37b671391147dd0180e1483c051077254bf
+  CapacitorBrowser: b4ee622a4003e0360b2cbcbd17550b3b1f56203e
+  CapacitorCamera: 516a1d0d554357def17e85c8e492d5a983aab80f
+  CapacitorCordova: 073cd8c6044dbd69d48cfc38c75393af1397e423
+  CapacitorDevice: 793e3e66d5b27872e66e0e4079d0cd93b762872c
+  CapacitorGeolocation: 184809324d0bb80c664a157489127fd5db6be067
+  CapacitorKeyboard: 353a520309166f6cc26b3aa154a6c46c289aa40e
+  CapacitorNetwork: 185fc56570cfd4e3d41119d3ccd2a3ab3bd07806
+  CapacitorShare: f1a8ffd3bba7d6113f53fb65aa47d61764c4640a
+  CapacitorStorage: 63255170c2f7e9f7363b3e5e015584e6d18f2969
+  Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
+  ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
+
+PODFILE CHECKSUM: ed4022fd3091775ca8b0e173838c86a2f7760a03
+
+COCOAPODS: 1.16.2

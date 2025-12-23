@@ -34,12 +34,7 @@ target 'Runner' do
   target 'RunnerTests' do
     inherit! :search_paths
   end
-
-  # Add Aigens SDK Core
-  pod 'AigensSdkCore', '0.1.3'
   
-  # If using Apple Pay
-  # pod 'AigensSdkApplepay', '0.0.8'
 end
 
 post_install do |installer|

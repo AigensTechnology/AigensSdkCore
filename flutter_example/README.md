@@ -123,11 +123,6 @@ sudo gem install cocoapods
    
      flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
    
-     # Add Aigens SDK Core (add this line)
-     pod 'AigensSdkCore', '0.1.3'
-   
-     # If using Apple Pay (optional, uncomment if needed)
-     # pod 'AigensSdkApplepay', '0.0.8'
    end
    ```
 
@@ -228,39 +223,8 @@ Then select `iPhone` or `iOS Simulator` when prompted.
 
 ## 🤖 Running on Android
 
-### Step 1: Configure Android Dependencies
 
-1. **Open** `android/app/build.gradle` in a text editor
-
-2. **Find the `dependencies` section** and add:
-
-   ```groovy
-   dependencies {
-       // ... existing dependencies ...
-       
-       // Add Aigens SDK Core (add this line)
-       implementation 'com.aigens:aigens-sdk-core:5.0.8'
-       
-       // If using Google Pay (optional, uncomment if needed)
-       // implementation 'com.aigens:aigens-sdk-googlepay:5.0.1'
-   }
-   ```
-
-### Step 2: Configure settings.gradle
-
-1. **Open** `android/settings.gradle`
-
-2. **Make sure `jcenter()` is included** in repositories:
-
-   ```gradle
-   repositories {
-       google()
-       mavenCentral()
-       jcenter()  // Make sure this line exists
-   }
-   ```
-
-### Step 3: Configure AndroidManifest.xml
+### Step 1: Configure AndroidManifest.xml
 
 1. **Open** `android/app/src/main/AndroidManifest.xml`
 

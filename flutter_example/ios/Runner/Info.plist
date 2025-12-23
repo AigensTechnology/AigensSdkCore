@@ -34,6 +34,31 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>weixinULAPI</string>
+        <string>weixin</string>
+        <string>octopus</string>
+        <string>wechat</string>
+        <string>hsbcpaymepay</string>
+        <string>alipay</string>
+        <string>alipays</string>
+        <string>alipayhk</string>
+        <string>mpay</string>
+        <string>gcash</string>
+    </array>
+    <key>NSCameraUsageDescription</key>
+    <string>We need camera access for QR code scanning</string>
+    <key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need photo library access</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>We need photo library access</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>We need calendar access to add events</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>We need your location to provide better service</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We need your location to provide better service</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
