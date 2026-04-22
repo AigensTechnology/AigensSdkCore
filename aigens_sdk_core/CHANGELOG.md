@@ -18,3 +18,6 @@
 ## 0.1.3
 * Update pubspec.yaml version to 0.1.3
 * fix ios & android lib
+
+## 0.1.4
+* fix android-release mode the issue
