@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
 
     try {
       final closedData = await AigensSdkCore.openUrl(
-        url: 'https://fairwood-uat-v4.order.place/order/store/600002/mode/catering',
+        url: 'https://fairwood-uat-v4.order.place/crm/brand/600001/directory?brandId=600001&mode=takeaway',
         member: MemberData(
           memberCode: 'testMember123',
           source: 'testMerchant',
