@@ -23,14 +23,10 @@ flutter:
         package: com.aigens.sdk.flutter
         pluginClass: AigensSdkCorePlugin 
       ios:
-        # SPM 和 CocoaPods（兼容旧版本）
-        # pluginClass: AigensSdkCorePlugin
-
-        # spm
+        # Flutter 插件入口类（SPM 和 CocoaPods 都需要）
+        pluginClass: AigensSdkCorePlugin
+        
+        # Flutter 3.16+ SPM 支持
+        # 指定 SPM 包名称（对应 Package.swift 中的 name）
         package: aigens_sdk_core
-
-        # Flutter 3.16+ 支持 SPM
-        # 使用 SPM 时，需要指定 package 名称（对应 Package.swift 中的 name）
-        # 并删除或保留 podspec 文件（建议保留以兼容旧版本）
-        # package: aigens_sdk_core
 
