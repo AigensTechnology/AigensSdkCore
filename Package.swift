@@ -24,7 +24,7 @@ let package = Package(
         // Capacitor 核心包
         .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "6.0.0"),
         // Capacitor 插件包（包含所有插件）
-        .package(url: "https://github.com/ionic-team/capacitor-plugins.git", from: "@capacitor/toast@6.0.4"),
+        // .package(url: "https://github.com/ionic-team/capacitor-plugins.git", from: "@capacitor/toast@6.0.4"),
     ],
     targets: [
         // 主 SDK Target
@@ -32,13 +32,13 @@ let package = Package(
             name: "AigensSdkCore",
             dependencies: [
                 .product(name: "Capacitor", package: "capacitor-swift-pm"),
-                .product(name: "CapacitorApp", package: "capacitor-plugins"),
-                .product(name: "CapacitorCamera", package: "capacitor-plugins"),
-                .product(name: "CapacitorDevice", package: "capacitor-plugins"),
-                .product(name: "CapacitorGeolocation", package: "capacitor-plugins"),
-                .product(name: "CapacitorKeyboard", package: "capacitor-plugins"),
-                .product(name: "CapacitorNetwork", package: "capacitor-plugins"),
-                .product(name: "CapacitorShare", package: "capacitor-plugins"),
+                // .product(name: "CapacitorApp", package: "capacitor-plugins"),
+                // .product(name: "CapacitorCamera", package: "capacitor-plugins"),
+                // .product(name: "CapacitorDevice", package: "capacitor-plugins"),
+                // .product(name: "CapacitorGeolocation", package: "capacitor-plugins"),
+                // .product(name: "CapacitorKeyboard", package: "capacitor-plugins"),
+                // .product(name: "CapacitorNetwork", package: "capacitor-plugins"),
+                // .product(name: "CapacitorShare", package: "capacitor-plugins"),
             ],
             path: "AigensSdkCore/Classes",
             resources: [
