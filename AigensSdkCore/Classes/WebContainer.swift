@@ -77,7 +77,17 @@ class WebContainer: UIView {
 
 extension WebContainer {
     class func webContainer() -> WebContainer {
+        #if SWIFT_PACKAGE
+        // SPM: 使用 Bundle.module
+        let bundle = Bundle.module
+        #else
+        // CocoaPods: 使用类的 bundle
         let bundle = Bundle(for: WebContainer.self)
-        return bundle.loadNibNamed("WebContainer", owner: self, options: nil)?.first as! WebContainer
+        #endif
+        
+        guard let container = bundle.loadNibNamed("WebContainer", owner: self, options: nil)?.first as? WebContainer else {
+            fatalError("Failed to load WebContainer from nib")
+        }
+        return container
     }
 }

@@ -424,12 +424,18 @@ import Capacitor
         //let configLoc = Bundle.main.url(forResource: "capacitor.config", withExtension: "json")
 
         //default config paths
+        #if SWIFT_PACKAGE
+        let sdkBundle = Bundle.module
+        #else
+        let sdkBundle = Bundle(for: WebContainerViewController.self)
+        #endif
+        
         var wwwLoc = Bundle.main.url(forResource: "public", withExtension: nil)
         var configLoc = Bundle.main.url(forResource: "capacitor.config", withExtension: "json")
 
         //if config is missing, it's a dynamic page, load config from sdk core
         if(wwwLoc == nil || configLoc == nil){
-            configLoc = Bundle(for: WebContainerViewController.self).url(forResource: "capacitor.config", withExtension: "json")
+            configLoc = sdkBundle.url(forResource: "capacitor.config", withExtension: "json")
 
             //www folder will be dynamic, set to anything is ok
             //wwwLoc = configLoc
