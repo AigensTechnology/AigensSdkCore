@@ -19,6 +19,7 @@ let package = Package(
         .library(
             name: "AigensSdkWechatpay",
             targets: ["AigensSdkWechatpay"]),
+        .library(name: "Capacitor", targets: ["Capacitor"]),
         .library(name: "CapacitorApp", targets: ["CapacitorApp"]),
         .library(name: "CapacitorCamera", targets: ["CapacitorCamera"]),
         .library(name: "CapacitorDevice", targets: ["CapacitorDevice"]),
@@ -29,14 +30,15 @@ let package = Package(
     ],
     dependencies: [
         // Capacitor 核心包
-        .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "5.7.4"),
+        // .package(url: "https://github.com/ionic-team/capacitor-swift-pm.git", from: "5.7.4"),
     ],
     targets: [
         // 主 SDK Target
         .target(
             name: "AigensSdkCore",
             dependencies: [
-                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                // .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                "Capacitor",
                 // 引用本地的插件 target
                 "CapacitorApp",
                 "CapacitorCamera",
@@ -66,7 +68,8 @@ let package = Package(
         .target(
             name: "AigensSdkApplepay",
             dependencies: [
-                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                // .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                "Capacitor",
             ],
             path: "aigens-sdk-applepay/Classes",
             exclude: ["ApplepayPlugin.m"],
@@ -79,7 +82,8 @@ let package = Package(
         .target(
             name: "AigensSdkWechatpay",
             dependencies: [
-                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                // .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                "Capacitor",
             ],
             path: "aigens-sdk-wechatpay/Classes",
             exclude: ["WechatHKPlugin.m"],
@@ -89,11 +93,16 @@ let package = Package(
             ]
         ),
         
+        // Capacitor（本地二进制框架）
+        .binaryTarget(
+            name: "Capacitor",
+            path: "capacitor-plugins/Capacitor/Capacitor.xcframework"
+        ),
         // CapacitorApp
         .target(
             name: "CapacitorApp",
             dependencies: [
-                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                "Capacitor",
             ],
             path: "capacitor-plugins/CapacitorApp",
             exclude: ["AppPlugin.m"],
@@ -107,7 +116,7 @@ let package = Package(
         .target(
             name: "CapacitorCamera",
             dependencies: [
-                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                "Capacitor",
             ],
             path: "capacitor-plugins/CapacitorCamera",
             exclude: ["CameraPlugin.m"],
@@ -121,7 +130,7 @@ let package = Package(
         .target(
             name: "CapacitorDevice",
             dependencies: [
-                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                "Capacitor",
             ],
             path: "capacitor-plugins/CapacitorDevice",
             exclude: ["DevicePlugin.m"],
@@ -135,7 +144,7 @@ let package = Package(
         .target(
             name: "CapacitorGeolocation",
             dependencies: [
-                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                "Capacitor",
             ],
             path: "capacitor-plugins/CapacitorGeolocation",
             exclude: ["GeolocationPlugin.m"],
@@ -149,7 +158,7 @@ let package = Package(
         .target(
             name: "CapacitorKeyboard",
             dependencies: [
-                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                "Capacitor",
             ],
             path: "capacitor-plugins/CapacitorKeyboard",
             exclude: ["Keyboard.m", "KeyboardPlugin.m"],
@@ -163,7 +172,7 @@ let package = Package(
         .target(
             name: "CapacitorNetwork",
             dependencies: [
-                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                "Capacitor",
             ],
             path: "capacitor-plugins/CapacitorNetwork",
             exclude: ["NetworkPlugin.m"],
@@ -177,7 +186,7 @@ let package = Package(
         .target(
             name: "CapacitorShare",
             dependencies: [
-                .product(name: "Capacitor", package: "capacitor-swift-pm"),
+                "Capacitor",
             ],
             path: "capacitor-plugins/CapacitorShare",
             exclude: ["SharePlugin.m"],
