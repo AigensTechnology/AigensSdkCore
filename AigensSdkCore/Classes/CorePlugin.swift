@@ -24,6 +24,30 @@ var aigensDebug = false;
 @objc(CorePlugin)
 public class CorePlugin: CAPPlugin {
 
+
+    public let identifier = "CorePlugin"
+    public let jsName = "Core"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "echo", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "dismiss", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "finish", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "openBrowser", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "openSecondBrowser", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getDeeplink", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getMember", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "isInstalledApp", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "openExternalUrl", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getIsProductionEnvironment", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "checkNotificationPermissions", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getFinishData", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setTextZoom", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "readClipboard", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "addCalendar", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "makeHKFPSPayment", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "setScreenName", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "logEvent", returnType: CAPPluginReturnPromise),
+    ]
+
     static public var coreDelegate: CoreDelegate?
     static public var analyticsDelegate: AnalyticsDelegate?
 

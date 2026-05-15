@@ -4,7 +4,17 @@ import Photos
 import PhotosUI
 
 @objc(CAPCameraPlugin)
-public class CameraPlugin: CAPPlugin {
+public class CameraPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "CAPCameraPlugin"
+    public let jsName = "Camera"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "getPhoto", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "pickImages", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "checkPermissions", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "requestPermissions", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "pickLimitedLibraryPhotos", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getLimitedLibraryPhotos", returnType: CAPPluginReturnPromise)
+    ]
     private var call: CAPPluginCall?
     private var settings = CameraSettings()
     private let defaultSource = CameraSource.prompt
@@ -246,18 +256,18 @@ extension CameraPlugin: UIImagePickerControllerDelegate, UINavigationControllerD
 extension CameraPlugin: PHPickerViewControllerDelegate {
     public func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
-        
+
         guard !results.isEmpty else {
             self.call?.reject("User cancelled photos app")
             return
         }
-        
+
         self.fetchProcessedImages(from: results) { [weak self] processedImageArray in
             guard let processedImageArray else {
                 self?.call?.reject("Error loading image")
                 return
             }
-            
+
             if self?.multiple == true {
                 self?.returnImages(processedImageArray)
             } else if var processedImage = processedImageArray.first {
@@ -266,9 +276,9 @@ extension CameraPlugin: PHPickerViewControllerDelegate {
             }
         }
     }
-    
+
     private func fetchProcessedImages(from pickerResultArray: [PHPickerResult], accumulating: [ProcessedImage] = [], _ completionHandler: @escaping ([ProcessedImage]?) -> Void) {
-        func loadImage(from pickerResult: PHPickerResult,_ completionHandler: @escaping (UIImage?) -> Void) {
+        func loadImage(from pickerResult: PHPickerResult, _ completionHandler: @escaping (UIImage?) -> Void) {
             let itemProvider = pickerResult.itemProvider
             if itemProvider.canLoadObject(ofClass: UIImage.self) {
                 // extract the image
@@ -285,9 +295,9 @@ extension CameraPlugin: PHPickerViewControllerDelegate {
                 }
             }
         }
-        
+
         guard let currentPickerResult = pickerResultArray.first else { return completionHandler(accumulating) }
-        
+
         loadImage(from: currentPickerResult) { [weak self] loadedImage in
             guard let self, let loadedImage else { return completionHandler(nil) }
             var asset: PHAsset?
@@ -296,7 +306,7 @@ extension CameraPlugin: PHPickerViewControllerDelegate {
             }
             let newElement = self.processedImage(from: loadedImage, with: asset?.imageData)
             self.fetchProcessedImages(
-                from: Array(pickerResultArray.dropFirst()), 
+                from: Array(pickerResultArray.dropFirst()),
                 accumulating: accumulating + [newElement],
                 completionHandler
             )

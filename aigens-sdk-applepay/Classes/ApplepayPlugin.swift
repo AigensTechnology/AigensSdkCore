@@ -8,6 +8,16 @@ import PassKit
  */
 @objc(ApplepayPlugin)
 public class ApplepayPlugin: CAPPlugin {
+
+    public let identifier = "ApplepayPlugin"
+    public let jsName = "Applepay"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "echo", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "makePaymentRequest", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "completeLastTransaction", returnType: CAPPluginReturnPromise),
+    ]
+
+
     private let implementation = Applepay()
 
     var options: [String: Any]?

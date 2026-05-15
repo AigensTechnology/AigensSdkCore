@@ -27,11 +27,8 @@ extension PHAuthorizationStatus: CameraAuthorizationState {
             return "denied"
         case .authorized:
             return "granted"
-        #if swift(>=5.3)
-        // poor proxy for Xcode 12/iOS 14, should be removed once building with Xcode 12 is required
         case .limited:
             return "limited"
-        #endif
         case .notDetermined:
             fallthrough
         @unknown default:
@@ -52,28 +49,15 @@ internal extension PHAsset {
         options.version = .current
 
         var result: [String: Any] = [:]
-        if #available(iOS 13, *) {
-            _ = PHCachingImageManager().requestImageDataAndOrientation(for: self, options: options) { (data, _, _, _) in
-                if let data = data as NSData? {
-                    let options = [kCGImageSourceShouldCache as String: kCFBooleanFalse] as CFDictionary
-                    if let imgSrc = CGImageSourceCreateWithData(data, options),
-                    let metadata = CGImageSourceCopyPropertiesAtIndex(imgSrc, 0, options) as? [String: Any] {
-                        result = metadata
-                    }
-                }
-            }
-        } else {
-            _ = PHCachingImageManager().requestImageData(for: self, options: options) { (data, _, _, _) in
-                if let data = data as NSData? {
-                    let options = [kCGImageSourceShouldCache as String: kCFBooleanFalse] as CFDictionary
-                    if let imgSrc = CGImageSourceCreateWithData(data, options),
-                    let metadata = CGImageSourceCopyPropertiesAtIndex(imgSrc, 0, options) as? [String: Any] {
-                        result = metadata
-                    }
+        _ = PHCachingImageManager().requestImageDataAndOrientation(for: self, options: options) { (data, _, _, _) in
+            if let data = data as NSData? {
+                let options = [kCGImageSourceShouldCache as String: kCFBooleanFalse] as CFDictionary
+                if let imgSrc = CGImageSourceCreateWithData(data, options),
+                   let metadata = CGImageSourceCopyPropertiesAtIndex(imgSrc, 0, options) as? [String: Any] {
+                    result = metadata
                 }
             }
         }
-        
         return result
     }
 }
@@ -106,23 +90,11 @@ internal extension UIImage {
             targetWidth = (imageWidth * maxHeight) / imageHeight
             targetHeight = maxHeight
         }
-        if #available(iOS 13, *) {
-            // generate the new image and return
-            UIGraphicsBeginImageContextWithOptions(.init(width: targetWidth, height: targetHeight), false, 1.0) // size, opaque and scale
-            self.draw(in: .init(origin: .zero, size: .init(width: targetWidth, height: targetHeight)))
-            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            return resizedImage ?? self
-        } else {
-            // generate the new image and return
-            let format: UIGraphicsImageRendererFormat = UIGraphicsImageRendererFormat.default()
-            format.scale = 1.0
-            format.opaque = false
-            let renderer = UIGraphicsImageRenderer(size: CGSize(width: targetWidth, height: targetHeight), format: format)
-            return renderer.image { (_) in
-                self.draw(in: CGRect(origin: .zero, size: CGSize(width: targetWidth, height: targetHeight)))
-            }
-        }
-        
+        // generate the new image and return
+        UIGraphicsBeginImageContextWithOptions(.init(width: targetWidth, height: targetHeight), false, 1.0) // size, opaque and scale
+        self.draw(in: .init(origin: .zero, size: .init(width: targetWidth, height: targetHeight)))
+        let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resizedImage ?? self
     }
 }

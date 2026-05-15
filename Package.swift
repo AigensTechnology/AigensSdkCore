@@ -50,10 +50,6 @@ let package = Package(
                 "CapacitorShare",
             ],
             path: "AigensSdkCore/Classes",
-            exclude: [
-                // 排除 Objective-C 实现文件
-                "CorePlugin.m"
-            ],
             resources: [
                 // 相对于 Classes 目录，Assets 在上一级
                 .copy("../Assets"),
@@ -74,7 +70,6 @@ let package = Package(
                 "Cordova",
             ],
             path: "aigens-sdk-applepay/Classes",
-            exclude: ["ApplepayPlugin.m"],
             publicHeadersPath: ".",
             cSettings: [
                 .headerSearchPath(".")
@@ -89,7 +84,6 @@ let package = Package(
                 "Cordova",
             ],
             path: "aigens-sdk-wechatpay/Classes",
-            exclude: ["WechatHKPlugin.m"],
             publicHeadersPath: ".",
             cSettings: [
                 .headerSearchPath(".")
@@ -99,13 +93,13 @@ let package = Package(
         // Capacitor（本地二进制框架）
         .binaryTarget(
             name: "Capacitor",
-            url: "https://github.com/ionic-team/capacitor-swift-pm/releases/download/5.7.4/Capacitor.xcframework.zip",
-            checksum: "3fe57f27e8b578518d0e3bd3ef08046297ff71a0af9610f16c4a7e6bbb5dc033"
+            url: "https://github.com/ionic-team/capacitor-swift-pm/releases/download/6.2.1/Capacitor.xcframework.zip",
+            checksum: "dad7b961661855fecd45c38b1e317f64a046323cc05d204d054ada6d5b7f4378"
         ),
         .binaryTarget(
             name: "Cordova",
-            url: "https://github.com/ionic-team/capacitor-swift-pm/releases/download/5.7.4/Cordova.xcframework.zip",
-            checksum: "c5638dab59595073d6ca72a8f0faf844d4097a2c873efe07b2781bc92c6057c3"
+            url: "https://github.com/ionic-team/capacitor-swift-pm/releases/download/6.2.1/Cordova.xcframework.zip",
+            checksum: "fb10239d76bf36787063e9a0c60219397c3648c781b8cd9e1a9e2a3990cbe5ce"
         ),
         // CapacitorApp
         .target(
@@ -115,7 +109,6 @@ let package = Package(
                 "Cordova",
             ],
             path: "capacitor-plugins/CapacitorApp",
-            exclude: ["AppPlugin.m"],
             publicHeadersPath: ".",
             cSettings: [
                 .headerSearchPath(".")
@@ -130,7 +123,6 @@ let package = Package(
                 "Cordova",
             ],
             path: "capacitor-plugins/CapacitorCamera",
-            exclude: ["CameraPlugin.m"],
             publicHeadersPath: ".",
             cSettings: [
                 .headerSearchPath(".")
@@ -145,7 +137,6 @@ let package = Package(
                 "Cordova",
             ],
             path: "capacitor-plugins/CapacitorDevice",
-            exclude: ["DevicePlugin.m"],
             publicHeadersPath: ".",
             cSettings: [
                 .headerSearchPath(".")
@@ -160,7 +151,6 @@ let package = Package(
                 "Cordova",
             ],
             path: "capacitor-plugins/CapacitorGeolocation",
-            exclude: ["GeolocationPlugin.m"],
             publicHeadersPath: ".",
             cSettings: [
                 .headerSearchPath(".")
@@ -175,7 +165,6 @@ let package = Package(
                 "Cordova",
             ],
             path: "capacitor-plugins/CapacitorKeyboard",
-            // 不移除 .m 文件，因为这是纯 Objective-C target
             publicHeadersPath: ".",
             cSettings: [
                 .headerSearchPath(".")
@@ -190,7 +179,6 @@ let package = Package(
                 "Cordova",
             ],
             path: "capacitor-plugins/CapacitorNetwork",
-            exclude: ["NetworkPlugin.m"],
             publicHeadersPath: ".",
             cSettings: [
                 .headerSearchPath(".")
@@ -205,7 +193,6 @@ let package = Package(
                 "Cordova",
             ],
             path: "capacitor-plugins/CapacitorShare",
-            exclude: ["SharePlugin.m"],
             publicHeadersPath: ".",
             cSettings: [
                 .headerSearchPath(".")

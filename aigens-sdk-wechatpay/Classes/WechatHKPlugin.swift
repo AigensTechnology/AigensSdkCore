@@ -12,6 +12,16 @@ import Capacitor
  */
 @objc(WechatHKPlugin)
 public class WechatHKPlugin: CAPPlugin {
+
+
+    public let identifier = "WechatHKPlugin"
+    public let jsName = "WechatHK"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "echo", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "makePaymentRequest", returnType: CAPPluginReturnPromise),
+    ]
+
+
     private let implementation = WechatHK()
     
     static public var weChatPayDelegate: WeChatPayDelegate?
