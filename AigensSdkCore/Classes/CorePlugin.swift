@@ -22,7 +22,7 @@ var aigensDebug = false;
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(CorePlugin)
-public class CorePlugin: CAPPlugin {
+public class CorePlugin: CAPPlugin, CAPBridgedPlugin {
 
 
     public let identifier = "CorePlugin"

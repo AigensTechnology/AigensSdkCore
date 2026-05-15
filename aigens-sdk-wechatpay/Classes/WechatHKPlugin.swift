@@ -11,7 +11,7 @@ import Capacitor
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(WechatHKPlugin)
-public class WechatHKPlugin: CAPPlugin {
+public class WechatHKPlugin: CAPPlugin, CAPBridgedPlugin {
 
 
     public let identifier = "WechatHKPlugin"

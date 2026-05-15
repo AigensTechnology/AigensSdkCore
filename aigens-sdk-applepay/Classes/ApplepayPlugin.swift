@@ -7,7 +7,7 @@ import PassKit
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(ApplepayPlugin)
-public class ApplepayPlugin: CAPPlugin {
+public class ApplepayPlugin: CAPPlugin, CAPBridgedPlugin {
 
     public let identifier = "ApplepayPlugin"
     public let jsName = "Applepay"
