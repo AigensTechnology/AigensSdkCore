@@ -167,7 +167,7 @@ let package = Package(
             ]
         ),
         
-        // CapacitorKeyboard
+        // CapacitorKeyboard（纯 Objective-C 插件）
         .target(
             name: "CapacitorKeyboard",
             dependencies: [
@@ -175,7 +175,7 @@ let package = Package(
                 "Cordova",
             ],
             path: "capacitor-plugins/CapacitorKeyboard",
-            exclude: ["Keyboard.m", "KeyboardPlugin.m"],
+            // 不移除 .m 文件，因为这是纯 Objective-C target
             publicHeadersPath: ".",
             cSettings: [
                 .headerSearchPath(".")
