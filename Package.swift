@@ -39,6 +39,7 @@ let package = Package(
             dependencies: [
                 // .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 "Capacitor",
+                "Cordova",
                 // 引用本地的插件 target
                 "CapacitorApp",
                 "CapacitorCamera",
@@ -70,6 +71,7 @@ let package = Package(
             dependencies: [
                 // .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 "Capacitor",
+                "Cordova",
             ],
             path: "aigens-sdk-applepay/Classes",
             exclude: ["ApplepayPlugin.m"],
@@ -84,6 +86,7 @@ let package = Package(
             dependencies: [
                 // .product(name: "Capacitor", package: "capacitor-swift-pm"),
                 "Capacitor",
+                "Cordova",
             ],
             path: "aigens-sdk-wechatpay/Classes",
             exclude: ["WechatHKPlugin.m"],
@@ -96,13 +99,20 @@ let package = Package(
         // Capacitor（本地二进制框架）
         .binaryTarget(
             name: "Capacitor",
-            path: "capacitor-plugins/Capacitor/Capacitor.xcframework"
+            url: "https://github.com/ionic-team/capacitor-swift-pm/releases/download/5.7.4/Capacitor.xcframework.zip",
+            checksum: "3fe57f27e8b578518d0e3bd3ef08046297ff71a0af9610f16c4a7e6bbb5dc033"
+        ),
+        .binaryTarget(
+            name: "Cordova",
+            url: "https://github.com/ionic-team/capacitor-swift-pm/releases/download/5.7.4/Cordova.xcframework.zip",
+            checksum: "c5638dab59595073d6ca72a8f0faf844d4097a2c873efe07b2781bc92c6057c3"
         ),
         // CapacitorApp
         .target(
             name: "CapacitorApp",
             dependencies: [
                 "Capacitor",
+                "Cordova",
             ],
             path: "capacitor-plugins/CapacitorApp",
             exclude: ["AppPlugin.m"],
@@ -117,6 +127,7 @@ let package = Package(
             name: "CapacitorCamera",
             dependencies: [
                 "Capacitor",
+                "Cordova",
             ],
             path: "capacitor-plugins/CapacitorCamera",
             exclude: ["CameraPlugin.m"],
@@ -131,6 +142,7 @@ let package = Package(
             name: "CapacitorDevice",
             dependencies: [
                 "Capacitor",
+                "Cordova",
             ],
             path: "capacitor-plugins/CapacitorDevice",
             exclude: ["DevicePlugin.m"],
@@ -145,6 +157,7 @@ let package = Package(
             name: "CapacitorGeolocation",
             dependencies: [
                 "Capacitor",
+                "Cordova",
             ],
             path: "capacitor-plugins/CapacitorGeolocation",
             exclude: ["GeolocationPlugin.m"],
@@ -159,6 +172,7 @@ let package = Package(
             name: "CapacitorKeyboard",
             dependencies: [
                 "Capacitor",
+                "Cordova",
             ],
             path: "capacitor-plugins/CapacitorKeyboard",
             exclude: ["Keyboard.m", "KeyboardPlugin.m"],
@@ -173,6 +187,7 @@ let package = Package(
             name: "CapacitorNetwork",
             dependencies: [
                 "Capacitor",
+                "Cordova",
             ],
             path: "capacitor-plugins/CapacitorNetwork",
             exclude: ["NetworkPlugin.m"],
@@ -187,6 +202,7 @@ let package = Package(
             name: "CapacitorShare",
             dependencies: [
                 "Capacitor",
+                "Cordova",
             ],
             path: "capacitor-plugins/CapacitorShare",
             exclude: ["SharePlugin.m"],
