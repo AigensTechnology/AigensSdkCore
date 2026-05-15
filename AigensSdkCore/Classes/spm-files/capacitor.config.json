@@ -1,0 +1,15 @@
+{
+	"appId": "com.aigens.sdk",
+	"appName": "OrderPlaceSDK",
+	"webDir": "dist/",
+	"bundledWebRuntime": false,
+	"loggingBehavior": "debug",
+	"appendUserAgent": "AigensSDK",
+	"server": {
+		"allowNavigation": [
+			"*",
+			"*.order.place",
+			"*.aigens.com"
+		]
+	}
+}

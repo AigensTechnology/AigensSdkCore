@@ -51,8 +51,8 @@ let package = Package(
             ],
             path: "AigensSdkCore/Classes",
             resources: [
-                // 相对于 Classes 目录，Assets 在上一级
-                .copy("../Assets"),
+                // JSON 配置文件（已复制到 Classes 目录）
+                .process("spm-files/"),
                 // XIB 文件作为资源
                 .process("WebContainer.xib")
             ],

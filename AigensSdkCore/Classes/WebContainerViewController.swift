@@ -8,7 +8,6 @@ import UIKit;
 import Foundation
 import Capacitor
 
-
 @objc open class WebContainerViewController: CAPBridgeViewController {
 
     public static var closeCB: ((Any?) -> Void)? = nil;
@@ -52,8 +51,30 @@ import Capacitor
     var webContainerView: WebContainer {
             return containerView
     }
+    
+    func registerPlugins() {
+        let classCount = objc_getClassList(nil, 0)
+        let classes = UnsafeMutablePointer<AnyClass?>.allocate(capacity: Int(classCount))
+
+        let releasingClasses = AutoreleasingUnsafeMutablePointer<AnyClass>(classes)
+        let numClasses: Int32 = objc_getClassList(releasingClasses, classCount)
+
+        for classIndex in 0..<Int(numClasses) {
+            if let aClass: AnyClass = classes[classIndex] {
+                if class_conformsToProtocol(aClass, CAPBridgedPlugin.self),
+                   let pluginType = aClass as? CAPPlugin.Type {
+                    let pluginInstance = pluginType.init()
+                    self.bridge?.registerPluginInstance(pluginInstance)
+                }
+            }
+        }
+        classes.deallocate()
+    }
+    
     override open func viewDidLoad() {
 
+        registerPlugins()
+        
         aigensprint("WebContainerViewController viewDidLoad")
 
         self.becomeFirstResponder()
@@ -421,8 +442,6 @@ import Capacitor
 
         //print("WebContainerViewController custom instanceDescriptor")
 
-        //let configLoc = Bundle.main.url(forResource: "capacitor.config", withExtension: "json")
-
         //default config paths
         #if SWIFT_PACKAGE
         let sdkBundle = Bundle.module
@@ -434,11 +453,17 @@ import Capacitor
         var configLoc = Bundle.main.url(forResource: "capacitor.config", withExtension: "json")
 
         //if config is missing, it's a dynamic page, load config from sdk core
-        if(wwwLoc == nil || configLoc == nil){
+        if wwwLoc == nil || configLoc == nil {
+            // 在 SPM 中，资源在 Bundle.module 的根目录
+            // Assets 目录会被复制为资源，所以 capacitor.config.json 应该在 Bundle.module 中
             configLoc = sdkBundle.url(forResource: "capacitor.config", withExtension: "json")
+            
+            // 如果还是找不到，尝试从 Assets 子目录加载
+            if configLoc == nil {
+                configLoc = sdkBundle.url(forResource: "Assets/capacitor.config", withExtension: "json")
+            }
 
             //www folder will be dynamic, set to anything is ok
-            //wwwLoc = configLoc
             wwwLoc = FileManager.default.temporaryDirectory
         }
 
