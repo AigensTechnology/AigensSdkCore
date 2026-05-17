@@ -12,7 +12,7 @@
 
 ```yaml
 dependencies:
-  aigens_sdk_core: ^0.1.0
+  aigens_sdk_core: ^1.0.1
 ```
 
 然后运行：
@@ -52,7 +52,7 @@ dependencies:
     git:
       url: https://github.com/AigensTechnology/AigensSdkCore.git
       path: aigens_sdk_core  # Git 仓库中的子目录路径
-      ref: main  # 分支名、标签或提交 hash
+      ref: spm-swift  # 分支名、标签或提交 hash
       # ref: v0.1.0  # 使用特定版本标签
       # ref: abc1234  # 使用特定提交 hash
 ```
@@ -93,7 +93,7 @@ flutter pub get
 1. **编辑 `ios/Podfile`**，添加 Aigens SDK：
 
 ```ruby
-platform :ios, '12.0'
+platform :ios, '13.0'
 
 target 'Runner' do
   use_frameworks!
