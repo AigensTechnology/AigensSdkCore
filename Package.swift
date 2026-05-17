@@ -19,6 +19,11 @@ let package = Package(
         .library(
             name: "AigensSdkWechatpay",
             targets: ["AigensSdkWechatpay"]),
+        // Flutter 插件（供 Flutter 项目使用）
+        .library(
+            name: "aigens-sdk-core",
+            targets: ["aigens_sdk_core"]),
+        // Capacitor 插件（内部使用）
         .library(name: "Capacitor", targets: ["Capacitor"]),
         .library(name: "CapacitorApp", targets: ["CapacitorApp"]),
         .library(name: "CapacitorCamera", targets: ["CapacitorCamera"]),
@@ -197,6 +202,17 @@ let package = Package(
             cSettings: [
                 .headerSearchPath(".")
             ]
+        ),
+        
+        // Flutter 插件 Target
+        .target(
+            name: "aigens_sdk_core",
+            dependencies: [
+                "AigensSdkCore",
+                "AigensSdkApplepay",
+            ],
+            path: "aigens_sdk_core/ios/aigens_sdk_core/Sources/aigens_sdk_core",
+            resources: []
         ),
     ]
 )

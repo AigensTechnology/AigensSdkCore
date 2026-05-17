@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "aigenssdkcore",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AigensTechnology/AigensSdkCore.git",
+      "state" : {
+        "branch" : "spm-swift",
+        "revision" : "c5c0690b8bc0cff34110d6366c665b38688fa6bf"
+      }
+    }
+  ],
+  "version" : 2
+}

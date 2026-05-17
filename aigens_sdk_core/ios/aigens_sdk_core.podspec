@@ -14,10 +14,10 @@ Pod::Spec.new do |s|
     s.author           = { 'Peter Liu' => 'peter.liu@aigens.com' }
     s.source           = { :git => 'https://github.com/AigensTechnology/AigensSdkCore.git', :tag => s.version.to_s }
     
-    s.ios.deployment_target = '12.0'
+    s.ios.deployment_target = '13.0'
     s.swift_version = '5.0'
   
-    s.source_files = 'Classes/**/*'
+    s.source_files = 'aigens_sdk_core/Sources/aigens_sdk_core/**/*.{h,m,swift}'
     
     s.dependency 'AigensSdkCore', '0.1.3'
     s.dependency 'AigensSdkApplepay', '0.0.8'

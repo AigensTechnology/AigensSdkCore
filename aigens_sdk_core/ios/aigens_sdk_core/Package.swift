@@ -1,4 +1,4 @@
-// swift-tools-version: 5.7
+// swift-tools-version: 5.9
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "aigens_sdk_core",
     platforms: [
-        .iOS(.v12)
+        .iOS(.v13)
     ],
     products: [
         .library(
@@ -14,8 +14,7 @@ let package = Package(
             targets: ["aigens_sdk_core"]),
     ],
     dependencies: [
-        // Aigens SDK（包含 Core、Applepay、Wechatpay）
-        .package(url: "https://github.com/AigensTechnology/AigensSdkCore.git", from: "spm6.0.0"),
+        .package(url: "https://github.com/AigensTechnology/AigensSdkCore.git", branch: "spm-swift"),
     ],
     targets: [
         .target(
@@ -24,7 +23,7 @@ let package = Package(
                 .product(name: "AigensSdkCore", package: "AigensSdkCore"),
                 .product(name: "AigensSdkApplepay", package: "AigensSdkCore"),
             ],
-            path: "Classes",
+            path: "Sources/aigens_sdk_core",
             resources: []
         ),
     ]

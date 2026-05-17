@@ -116,6 +116,12 @@ class ClosedData {
 class AigensSdkCore {
   static const MethodChannel _channel = MethodChannel('aigens_sdk_core');
 
+  /// Register the plugin with the Flutter engine (required for plugin registrant)
+  static void registerWith() {
+    // Plugin registration is handled by the native platform code
+    // This method is called by Flutter's plugin registrant
+  }
+
   /// Open WebContainer with the specified URL
   ///
   /// Returns a [ClosedData] when the WebContainer is closed
