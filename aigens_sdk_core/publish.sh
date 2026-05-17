@@ -33,7 +33,7 @@ fi
 echo -e "${GREEN}✅ pubspec.yaml 存在${NC}"
 
 # 检查必要文件
-if [ ! -d "ios/Sources/aigens_sdk_core" ]; then
+if [ ! -d "ios/aigens_sdk_core/Sources/aigens_sdk_core" ]; then
     echo -e "${RED}❌ 错误: iOS 源代码目录不存在${NC}"
     exit 1
 fi
