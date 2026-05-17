@@ -1,77 +1,77 @@
-# Aigens SDK Core - Flutter 插件
+# Aigens SDK Core - Flutter Plugin
 
-## ⚡ 快速开始
+## ⚡ Quick Start
 
-### 步骤 1：添加依赖
+### Step 1: Add Dependency
 
-在你的 Flutter 项目的 `pubspec.yaml` 中添加：
+Add the following to your Flutter project's `pubspec.yaml`:
 
 ```yaml
 dependencies:
   aigens_sdk_core: ^0.2.0
 ```
 
-### 步骤 2：获取依赖
+### Step 2: Get Dependencies
 
 ```bash
 flutter pub get
 ```
 
-### 步骤 3：在 Xcode 中添加 SPM 包（仅首次）
+### Step 3: Add SPM Package in Xcode (First Time Only)
 
 ```bash
 open ios/Runner.xcworkspace
 ```
 
-然后在 Xcode 中：
+Then in Xcode:
 
 1. **File** → **Add Package Dependencies...**
-2. 输入 URL：
+2. Enter URL:
    ```
    https://github.com/AigensTechnology/AigensSdkCore.git
    ```
-3. 选择版本：
+3. Select version:
    - **Branch** → `spm-swift`
-4. 选择产品：
-   - ✅ `aigens-sdk-core`（Flutter 插件）
-5. 点击 **Finish**
+4. Select products:
+   - ✅ `aigens-sdk-core` (Flutter plugin)
+5. Click **Finish**
 
-### 步骤 4：运行项目
+### Step 4: Run the Project
 
 ```bash
 flutter run
 ```
 
-**完成！** 🎉 之后只需 `flutter pub get` 即可，不需要重复步骤 3。
+**Done!** 🎉 After the initial setup, you only need to run `flutter pub get` and don't need to repeat Step 3.
 
 ---
 
-## 📖 详细说明
+## 📖 Detailed Instructions
 
-### 为什么需要手动添加 SPM 包？
+### Why Manual SPM Package Addition is Required?
 
-Flutter 3.16+ 支持 SPM，但**只会自动处理 Flutter 生成的插件**。
-第三方 SPM 依赖仍需要手动添加到 Xcode 项目中。
+Flutter 3.16+ supports SPM, but **only automatically handles Flutter-generated plugins**.
+Third-party SPM dependencies still need to be manually added to the Xcode project.
 
-好消息是：
-- ✅ **只需添加一次**
-- ✅ 添加后永久有效
-- ✅ 之后 `flutter pub get` 即可正常使用
+The good news is:
+- ✅ **Only needs to be added once**
+- ✅ Permanent after addition
+- ✅ Works normally with `flutter pub get` afterwards
 
 ---
 
-## 🔧 常见问题
+## 🔧 Troubleshooting
 
-### Q: 如何验证 SPM 包已正确集成？
+### Q: How to Verify SPM Package is Correctly Integrated?
 
-在 Xcode 中：
-1. 选择项目
-2. 查看 **Package Dependencies** 标签
-3. 应该能看到 `AigensSdkCore`
+In Xcode:
+1. Select the project
+2. Check the **Package Dependencies** tab
+3. You should see `AigensSdkCore`
 
-### Q: 构建失败怎么办？
+### Q: What to Do If Build Fails?
 
-尝试清理缓存后重新构建：
+Try cleaning cache and rebuilding:
 
 ```bash
 flutter clean
@@ -81,12 +81,12 @@ flutter build ios
 
 ---
 
-## 📱 使用示例
+## 📱 Usage Example
 
 ```dart
 import 'package:aigens_sdk_core/aigens_sdk_core.dart';
 
-// 打开 WebContainer
+// Open WebContainer
 final closedData = await AigensSdkCore.openUrl(
   url: 'https://your-server.com',
   member: MemberData(
@@ -101,13 +101,13 @@ final closedData = await AigensSdkCore.openUrl(
   ),
 );
 
-// 关闭 WebContainer
+// Close WebContainer
 await AigensSdkCore.dismiss();
 ```
 
 ---
 
-## 📋 版本要求
+## 📋 Version Requirements
 
 - **Flutter**: >= 3.16.0
 - **Dart**: >= 3.0.0
@@ -116,11 +116,11 @@ await AigensSdkCore.dismiss();
 
 ---
 
-## 📞 技术支持
+## 📞 Technical Support
 
 - GitHub: https://github.com/AigensTechnology/AigensSdkCore
 - Issues: https://github.com/AigensTechnology/AigensSdkCore/issues
 
-## 📄 许可证
+## 📄 License
 
-详见 LICENSE 文件。
+See the LICENSE file for details.
