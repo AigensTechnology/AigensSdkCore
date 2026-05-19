@@ -23,7 +23,10 @@
 * fix android-release mode the issue
 
 ## 1.0.0
-* support SPM (Swift Package Manager) form ios
+* support SPM (Swift Package Manager) for ios
 
 ## 1.0.1
-* support SPM (Swift Package Manager) form ios
+* support SPM (Swift Package Manager) for ios
+
+## 1.0.2
+* support SPM (Swift Package Manager) for ios
