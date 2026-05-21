@@ -30,3 +30,6 @@
 
 ## 1.0.2
 * support SPM (Swift Package Manager) for ios
+
+## 1.0.3
+* delete aigens_sdk_core.podspec
