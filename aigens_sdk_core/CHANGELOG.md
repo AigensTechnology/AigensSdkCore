@@ -33,3 +33,6 @@
 
 ## 1.0.3
 * delete aigens_sdk_core.podspec
+
+## 1.0.4
+* delete aigens_sdk_core in Package.swift

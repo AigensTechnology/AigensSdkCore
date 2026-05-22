@@ -1,6 +1,6 @@
 name: aigens_sdk_core
 description: Flutter plugin for Aigens SDK - enables native iOS/Android apps to embed Aigens universal UX
-version: 1.0.3
+version: 1.0.4
 homepage: https://github.com/AigensTechnology/AigensSdkCore
 
 environment:

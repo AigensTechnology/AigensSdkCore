@@ -8,7 +8,7 @@ Add the following to your Flutter project's `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  aigens_sdk_core: ^1.0.3
+  aigens_sdk_core: ^1.0.4
 ```
 
 ### Step 2: Get Dependencies
