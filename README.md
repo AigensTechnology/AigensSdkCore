@@ -7,6 +7,9 @@ Aigens SDK enable native IOS/Android app to embed Aigens universal UX into the a
 * IOS - Swift 4.2+ , IOS 12+
 * Android - API Level 28+, Android 9+
 
+## Huawei Installation
+* [SDK](https://ohpm.openharmony.cn/#/cn/detail/aigens-sdk-huawei)
+
 ## IOS Installation
 
 AigensSdkCore is available through [CocoaPods](https://cocoapods.org). To install
@@ -413,3 +416,5 @@ Contact the corresponding project manager for additional support.
 ## License
 
 Aigens SDK is available for merchants with an active subscription.
+
+
