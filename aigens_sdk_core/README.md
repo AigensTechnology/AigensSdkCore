@@ -104,6 +104,16 @@ flutter pub get
         
     </application>
 
+    <queries>
+        <package android:name="com.tencent.mm" />
+        <package android:name="com.octopuscards.nfc_reader" /> 
+        <package android:name="hk.com.hsbc.paymefromhsbc" />
+        <package android:name="com.macaupass.rechargeEasy" />
+        <package android:name="hk.alipay.wallet" />
+        <package android:name="com.eg.android.AlipayGphone" />
+        <package android:name="com.bochk.app.aos" />
+    </queries>
+
 </manifest>
 ```
 
