@@ -19,7 +19,7 @@ import Capacitor
     private var universalLink = ""
     private var appScheme = ""
     var externalProtocols: [String] = [
-        "octopus://", "alipay://", "alipays://", "alipayhk://", "https://play.google.com", "https://itunes.apple.com", "tel:", "mailto:", "itms-apps://itunes.apple.com", "https://apps.apple.com", "payme://", "weixin://", "hsbcpaymepay://", "mpay://"
+        "octopus://", "alipay://", "alipays://", "alipayhk://", "https://play.google.com", "https://itunes.apple.com", "tel:", "mailto:", "itms-apps://itunes.apple.com", "https://apps.apple.com", "payme://", "weixin://", "hsbcpaymepay://", "mpay://", "ewabocpay://"
     ]
     var addPaddingProtocols: [String] = [
         "https://ap-gateway.mastercard.com",
