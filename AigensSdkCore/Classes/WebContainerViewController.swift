@@ -39,6 +39,8 @@ import Capacitor
         "https://prdpay.macaupass.com",
         "https://pay.macaupass.com",
     ]
+    
+    var addPaddingJs: String = ""
 
     var excludedUniversalLinks: [String] = [
         "aigenshkfps=true",
@@ -88,11 +90,11 @@ import Capacitor
         return result
     }
     private func addChannelAndTs() {
-        
+
         let member = self.options?["member"] as? Dictionary<String, Any>
         let withoutAddChannel = member?["withoutAddChannel"] as? Bool ?? false
         let disableAddTs = member?["disableAddTs"] as? Bool ?? false
-        
+
         if let urlString = self.options?["url"] as? String {
             if !urlString.contains("&channel=app") && !urlString.contains("?channel=app") && !withoutAddChannel {
                 let sign = urlString.contains("?") ? "&" : "?"
@@ -396,6 +398,8 @@ import Capacitor
         let member = self.options?["member"] as? Dictionary<String, Any>
         self.universalLink = member?["universalLink"] as? String ?? ""
         self.appScheme = member?["appScheme"] as? String ?? ""
+        
+        self.addPaddingJs = member?["addPaddingJs"] as? String ?? ""
 
 
         CorePlugin.member = member
@@ -602,6 +606,8 @@ extension WebContainerViewController: WKNavigationDelegate {
 //            webViewLoadingState = .subsequentLoad
 //        }
 
+        self.addPaddingJs = addPaddingJs.replacingOccurrences(of: "(UIDevice.xp_statusBarHeight())", with: "\(UIDevice.xp_statusBarHeight())")
+        
         if let navURL = webView.url, isPaddingUrl(navURL) {
             webView.evaluateJavaScript("""
             let bg = document.getElementsByTagName('body');
@@ -615,6 +621,8 @@ extension WebContainerViewController: WKNavigationDelegate {
                     app.style.top = "\(UIDevice.xp_statusBarHeight())px";
                 }
             }
+            
+            \(self.addPaddingJs)
 
             """)
         }
